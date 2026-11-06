@@ -951,7 +951,7 @@
       C.prototype._css = function () {
         return oc.call(this) + `.sp{position:relative;display:inline-block;line-height:0}.sp img,.mbs{mix-blend-mode:screen}.sp img{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0}.sp img:first-child{opacity:1}
         .sp.on img{animation:spfr .45s linear infinite}.sp.on img:nth-child(2){animation-delay:.15s}.sp.on img:nth-child(3){animation-delay:.3s}
-        @keyframes spfr{0%,33.3%{opacity:1}33.4%,100%{opacity:0}}.sp.on img:first-child{opacity:0}
+        @keyframes spfr{0%,33.3%{opacity:1}33.4%,100%{opacity:0}}.sp.on img:first-child{opacity:0}.sp.slow img{animation-duration:1.5s}.sp.slow img:nth-child(2){animation-delay:.5s}.sp.slow img:nth-child(3){animation-delay:1s}
         .ftk.pk{background:url(${U(54)}) 0 0/100% 100% no-repeat!important;border:0!important}.ftk.pk .fth,.ftk.pk .fhd{display:none}`;
       };
       C.prototype._fan = function (spin) { return seq([8, 9, 10], 34, 27, spin); };
@@ -975,8 +975,8 @@
       const ob = C.prototype._burn;
       C.prototype._burn = function (ctx) {
         const h = ob.call(this, ctx), g = this._v('burn_ign');
-        if (isNaN(g) || g <= 0) return h;
-        const ic = `<span class="sp" style="width:${(34 * K).toFixed(2)}cqw;height:${(15 * K).toFixed(2)}cqw">${img(g > 50 ? 67 : 66)}</span>`;
+        if (isNaN(g) || g <= 0) return h;   // grzałka tylko gdy zapalarka pracuje
+        const ic = `<span class="sp on slow" style="width:${(34 * K).toFixed(2)}cqw;height:${(15 * K).toFixed(2)}cqw">${img(65)}${img(66)}${img(67)}</span>`;   // pulsowanie 65-66-67-65
         return h.replace('<div class="c"></div>', `<div class="c">${ic}</div>`);
       };
       const T = window.TEKLA_IMG = window.TEKLA_IMG || {}, IM2 = window.__igneoImg = window.__igneoImg || {};
@@ -1266,7 +1266,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.20';
+    const CARD_VER = '1.21';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };

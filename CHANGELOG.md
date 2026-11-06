@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.21 – Grzałka pulsuje
+- Ikona grzałki zapalarki animowana jak na panelu: 65→66→67→65 (gdy `Palnik zapalarka` > 0).
+
 ## v1.20 – Pakiet oryginalnych grafik panela
 - Opcjonalny katalog `img/panel/NNN.png` (numery jak w tablicy bitmap panela; generator: `python3 tools/pakiet_grafik.py FW2213TK.bin`). Z pakietem: animowany wentylator (8–10), podajniki 1/2 (36–38 / 40–42), zasobnik 48/49 z suwakiem 50 i korpusem 54, zawór mieszacza 105 ze strzałkami 106/107, grzałka zapalarki 65–67, kocioł 11–13 (`boiler_image`), palnik 17, bojler 14. Bez pakietu działają wektory. Grafiki są własnością Estymy – katalog jest w `.gitignore`.
 - Grzałka zapalarki wymaga firmware ≥ 1.4.17.

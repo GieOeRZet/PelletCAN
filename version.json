@@ -26,8 +26,9 @@
     ]
   },
   "card": {
-    "version": "1.20",
+    "version": "1.21",
     "changelog": [
+      "Grzałka zapalarki: animacja pulsowania 65→66→67→65 (zamiast dwóch stanów).",
       "Pakiet oryginalnych grafik panela (opcjonalny, katalog img/panel/ – generowany z własnego FW2213TK.bin: tools/pakiet_grafik.py): animowany wentylator i podajniki 1/2, zasobnik z pelletem i suwak w oknie Paliwo, zawór mieszacza ze strzałkami, grzałka zapalarki, obrazy kotła/palnika/bojlera 1:1. Bez pakietu – dotychczasowe wektory. Opcja boiler_image: 11/12/13. Grzałka wymaga firmware ≥ 1.4.17.",
       "Statystyki: Średnia moc z 50 h, Średni tlen (30/50/70/90 %) i Energia całkowita [kWh] zamiast „-” (0 = brak sondy/licznika → „-”). Wymaga firmware ≥ 1.4.16.",
       "Statystyki: Zużycie paliwa 24 h i Paliwo wystarczy na [dni] (wymaga firmware ≥ 1.4.15). Nowy tryb demo (demo: true) – dane przykładowe bez ESP, strona docs/demo.html i zrzuty w README.",
