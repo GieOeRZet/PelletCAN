@@ -1,0 +1,421 @@
+id_panelu;index;status_w_katalogu;nazwa_w_katalogu
+11;0x2002;POTW;Tryb zadawania temperatury kotła
+12;0x2005;POTW;Włącz / wyłącz kocioł
+13;0x2001;POTW;Temperatura kotła
+14;0x3333;NIEZ;?
+15;0x2004;POTW;Temperatura zadana kotła (wynikowa)
+16;0x2003;POTW;Temperatura zadana kotła (ręczna)
+17;0x2002;POTW;Tryb zadawania temperatury kotła
+18;0x2207;POTW;Kociol – minimalna temperatura pomp [°C]
+20;0x299E;NIEZ;?
+21;0x2208;POTW;Histereza załączenia kotła [°C]
+19;0x2291;POTW;Histereza wyłączenia kotła [°C]
+22;0x3750;BRAK;
+23;0x3708;POTW;Kociol – wybieg pompy [min]
+24;0x3628;NIEZ;?
+25;0x2209;POTW;Harmonogram kotła – poniedziałek (maska 24 bit)
+26;0x220A;POTW;Harmonogram kotła – wtorek (maska 24 bit)
+27;0x220B;POTW;Harmonogram kotła – środa (maska 24 bit)
+28;0x220C;POTW;Harmonogram kotła – czwartek (maska 24 bit)
+29;0x220D;POTW;Harmonogram kotła – piątek (maska 24 bit)
+30;0x220E;POTW;Harmonogram kotła – sobota (maska 24 bit)
+31;0x220F;POTW;Harmonogram kotła – niedziela (maska 24 bit)
+35;0x2277;NIEZ;?
+36;0x216A;NIEZ;?
+38;0x216B;NIEZ;?
+33;0x216C;POTW;Kociol – minimalna temperatura powrotu [°C]
+34;0x2298;POTW;WentWyc – suwak (wydajność 0–100 %)
+39;0x228C;NIEZ;?
+40;0x216D;POTW;Mieszacz powrotu – tryb testowy (A/CLOSE/OPEN)
+41;0x216E;POTW;Kociol – czas mieszacza [s]
+42;0x216F;ODNA;Znacznik trybu testowego (dawniej błędnie: antylegionella)
+43;0x4000;POTW;Temperatura powrotu (pomiar)
+37;0x3122;NIEZ;?
+44;0x3121;NIEZ;?
+46;0x211A;BRAK;
+47;0x3129;BRAK;
+49;0x312A;BRAK;
+50;0x200A;NIEZ;?
+51;0x200B;NIEZ;?
+52;0x200C;NIEZ;?
+53;0x200D;NIEZ;?
+54;0x200E;NIEZ;?
+55;0x200F;NIEZ;?
+45;0x400A;NIEZ;?
+48;0x3123;NIEZ;?
+56;0x3124;NIEZ;?
+143;0x3701;NIEZ;?
+57;0x3703;NIEZ;?
+62;0x2007;POTW;Stan palnika
+63;0x2250;ODNA;Jasność płomienia (ekran Palnik: jasność=)
+64;0x2119;NIEZ;?
+70;0x4009;BRAK;
+71;0x2253;NIEZ;?
+73;0x2254;POTW;Dmuchawa – obroty [%]
+65;0x3002;BRAK;
+66;0x2251;NIEZ;?
+67;0x2266;NIEZ;?
+68;0x2267;ODNA;Podawanie ręczne – licznik
+69;0x226D;POTW;Czas podawania paliwa – bieżący [s×10]
+74;0x2252;NIEZ;?
+75;0x2261;POTW;Krzywa dmuchawy – obroty dmuchawy [%] przy mocy kotła 20 %
+76;0x2262;POTW;Krzywa dmuchawy – obroty dmuchawy [%] przy mocy kotła 40 %
+77;0x2263;POTW;Krzywa dmuchawy – obroty dmuchawy [%] przy mocy kotła 60 %
+78;0x2264;POTW;Krzywa dmuchawy – obroty dmuchawy [%] przy mocy kotła 80 %
+79;0x2265;POTW;Krzywa dmuchawy – obroty dmuchawy [%] przy mocy kotła 100 %
+80;0x2268;ODNA;Wartość 20 (kandydat: moc min?)
+81;0x226E;NIEZ;?
+82;0x226F;NIEZ;?
+83;0x2275;ODNA;Wartość 50 (kandydat: moc?)
+87;0x227A;ODNA;Wartość 60 (kandydat: moc?)
+88;0x2256;POTW;Wstępna dawka paliwa [s]
+85;0x370E;NIEZ;?
+86;0x2257;POTW;Podawanie max [s]
+115;0x3709;NIEZ;?
+116;0x2258;POTW;Liczba czyszczeń rusztu
+117;0x2269;BRAK;
+58;0x2276;NIEZ;?
+59;0x4005;POTW;Moc palnika [%]
+60;0x3706;NIEZ;?
+61;0x371F;BRAK;
+84;0x372E;BRAK;
+93;0x2273;POTW;Korekta powietrza [%]
+94;0x2292;POTW;Wartość opałowa [kWh/kg]
+95;0x299F;NIEZ;?
+96;0x4008;BRAK;
+97;0x3000;NIEZ;?
+99;0x3005;NIEZ;?
+98;0x3704;POTW;Moc dmuchawy rozżarzanie [%]
+100;0x3006;NIEZ;?
+101;0x3007;NIEZ;?
+102;0x300C;POTW;Moc dmuchawy wygaszanie [%]
+103;0x3705;NIEZ;?
+146;0x3001;NIEZ;?
+145;0x3748;BRAK;
+147;0x370B;POTW;Pod. palnika [% pod. zasobnika]
+162;0x3727;NIEZ;?
+163;0x3710;NIEZ;?
+164;0x3711;NIEZ;?
+106;0x371D;BRAK;
+107;0x2120;NIEZ;?
+108;0x371A;BRAK;
+109;0x371E;BRAK;
+110;0x371C;BRAK;
+105;0x372D;BRAK;
+111;0x3605;POTW;Sterowanie Lambda (0/1)
+112;0x214E;POTW;Tlen dla mocy 30 % [%]
+113;0x2152;POTW;Tlen dla mocy 100 % [%]
+114;0x215A;BRAK;
+92;0x215B;BRAK;
+89;0x2272;ODNA;Ilość paliwa test [kg/h]
+90;0x2270;POTW;Moc min [%]
+91;0x2271;POTW;Moc max [%]
+118;0x225A;BRAK;
+119;0x2289;POTW;Moc dmuchawy rozpalanie [%]
+120;0x2290;POTW;Czas rozżarzania [min]
+121;0x299A;POTW;Rozżarzanie paliwo [%]
+122;0x3003;POTW;Czas ruchu rusztu [s]
+123;0x3010;NIEZ;?
+124;0x3012;NIEZ;?
+125;0x370D;ODNA;Podawanie ręczne – czas
+165;0x370F;NIEZ;?
+166;0x3715;POTW;Czas pauzy [min]
+167;0x3716;POTW;Moc w pauzie [%]
+135;0x3717;POTW;Dmuchawa w pauzie [%]
+136;0x2153;POTW;Bezwładność palnika [min]
+161;0x2151;NIEZ;?
+144;0x3700;POTW;Okres podajnika zasobnika [s]
+137;0x299D;NIEZ;?
+138;0x226A;POTW;Próg foto
+139;0x226B;POTW;Czas wygaszania [min]
+140;0x226C;ODNA;Temperatura palnika
+141;0x299C;NIEZ;?
+142;0x2999;POTW;Odstęp czyszczenia [h]
+158;0x3702;NIEZ;?
+159;0x3008;NIEZ;?
+160;0x3009;NIEZ;?
+104;0x300A;NIEZ;?
+151;0x300B;NIEZ;?
+152;0x370C;NIEZ;?
+153;0x300E;POTW;Minimalne obroty dmuchawy [*100]
+154;0x3713;NIEZ;?
+129;0x3714;NIEZ;?
+130;0x228E;BRAK;
+148;0x228F;BRAK;
+149;0x218A;BRAK;
+150;0x218B;BRAK;
+221;0x218C;BRAK;
+216;0x2210;POTW;CWU – zagrzej teraz
+217;0x2110;POTW;CWU – temperatura (pomiar)
+218;0x2010;POTW;CWU – temperatura komfort (zadana)
+219;0x2012;POTW;CWU – temperatura eko (zadana)
+220;0x201A;POTW;CWU – temperatura zadana (wynikowa)
+225;0x2014;POTW;Tryb CWU
+222;0x201C;NIEZ;?
+224;0x2212;POTW;CWU – histereza [°C]
+226;0x2216;POTW;CWU – zwiększenie temperatury źródła
+223;0x2218;POTW;CWU – delta załączenia pompy
+227;0x2214;POTW;CWU – źródło ciepła
+228;0x2297;NIEZ;?
+229;0x2111;NIEZ;?
+230;0x374B;BRAK;
+231;0x374C;BRAK;
+232;0x300D;POTW;CWU – priorytet
+233;0x2154;POTW;Harmonogram CWU – poniedziałek (maska 24 bit)
+234;0x2155;POTW;Harmonogram CWU – wtorek (maska 24 bit)
+235;0x2156;POTW;Harmonogram CWU – środa (maska 24 bit)
+236;0x2157;POTW;Harmonogram CWU – czwartek (maska 24 bit)
+237;0x2158;POTW;Harmonogram CWU – piątek (maska 24 bit)
+238;0x2159;POTW;Harmonogram CWU – sobota (maska 24 bit)
+239;0x2160;POTW;Harmonogram CWU – niedziela (maska 24 bit)
+240;0x2278;POTW;Pompa CWU – stan pracy
+252;0x3749;BRAK;
+241;0x3011;NIEZ;?
+242;0x2112;NIEZ;?
+243;0x2113;NIEZ;?
+244;0x2114;NIEZ;?
+245;0x2115;NIEZ;?
+247;0x2280;NIEZ;?
+246;0x2282;NIEZ;?
+248;0x2281;NIEZ;?
+249;0x3171;NIEZ;?
+250;0x3172;NIEZ;?
+251;0x3173;NIEZ;?
+155;0x3174;NIEZ;?
+156;0x2211;NIEZ;?
+157;0x299B;NIEZ;?
+253;0x3170;NIEZ;?
+254;0x3120;NIEZ;?
+255;0x2109;NIEZ;?
+256;0x2102;NIEZ;?
+257;0x2103;NIEZ;?
+258;0x2104;NIEZ;?
+259;0x2101;NIEZ;?
+260;0x2116;NIEZ;?
+261;0x3116;NIEZ;?
+262;0x3117;NIEZ;?
+263;0x3118;NIEZ;?
+264;0x3119;NIEZ;?
+265;0x311A;NIEZ;?
+266;0x311B;NIEZ;?
+267;0x311C;NIEZ;?
+1;0x215F;POTW;Temperatura zewnętrzna
+2;0x3721;NIEZ;?
+3;0x3747;BRAK;
+4;0x3724;NIEZ;?
+5;0x3725;NIEZ;?
+7;0x3726;NIEZ;?
+8;0x3729;BRAK;
+6;0x372A;BRAK;
+9;0x2164;NIEZ;?
+10;0x372B;BRAK;
+126;0x372C;BRAK;
+127;0x2259;POTW;Podajnik – tryb testowy
+128;0x2279;POTW;Ruszt – tryb testowy (A/CLOSE/OPEN)
+133;0x228D;BRAK;
+134;0x2283;POTW;Dmuchawa – tryb testowy
+131;0x2288;NIEZ;?
+132;0x2285;NIEZ;?
+32;0x2284;POTW;Zapalarka – tryb testowy
+321;0x2286;POTW;Pompa kotłowa – tryb testowy
+322;0x2293;POTW;WentWyc – tryb testowy
+323;0x2295;POTW;Podajnik palnika – tryb testowy
+324;0x2296;POTW;Test wyjsc – Pompa CWU
+345;0x374A;BRAK;
+346;0x351E;POTW;Magazyn paliwa, transporter – tryb testowy
+347;0x351F;POTW;Magazyn paliwa, podajnik – tryb testowy
+348;0x3522;NIEZ;?
+349;0x3523;NIEZ;?
+350;0x3524;NIEZ;?
+351;0x3520;NIEZ;?
+352;0x3526;NIEZ;?
+355;0x3521;NIEZ;?
+356;0x3527;NIEZ;?
+353;0x3528;NIEZ;?
+354;0x3529;NIEZ;?
+357;0x352A;NIEZ;?
+333;0x352B;NIEZ;?
+334;0x3511;NIEZ;?
+335;0x3512;NIEZ;?
+336;0x3513;NIEZ;?
+337;0x3514;NIEZ;?
+338;0x3515;NIEZ;?
+339;0x3516;NIEZ;?
+340;0x3517;NIEZ;?
+341;0x3518;NIEZ;?
+342;0x351B;NIEZ;?
+343;0x351C;NIEZ;?
+344;0x3519;NIEZ;?
+274;0x351A;NIEZ;?
+275;0x3500;NIEZ;?
+269;0x3502;BRAK;
+270;0x3505;NIEZ;?
+271;0x2105;NIEZ;?
+273;0x2106;NIEZ;?
+272;0x2107;NIEZ;?
+276;0x2108;NIEZ;?
+277;0x3501;NIEZ;?
+279;0x2123;NIEZ;?
+278;0x3506;NIEZ;?
+289;0x3606;NIEZ;?
+280;0x370A;NIEZ;?
+281;0x3508;NIEZ;?
+282;0x3509;NIEZ;?
+283;0x350A;NIEZ;?
+284;0x350B;NIEZ;?
+285;0x350C;NIEZ;?
+286;0x350D;NIEZ;?
+287;0x3707;NIEZ;?
+288;0x3629;NIEZ;?
+290;0x362B;BRAK;
+291;0x3525;NIEZ;?
+292;0x3718;NIEZ;?
+293;0x3719;NIEZ;?
+294;0x3720;NIEZ;?
+295;0x372F;BRAK;
+296;0x3730;BRAK;
+297;0x3731;BRAK;
+298;0x3732;BRAK;
+299;0x3733;BRAK;
+300;0x3734;BRAK;
+301;0x3735;BRAK;
+302;0x3736;BRAK;
+303;0x3737;BRAK;
+304;0x3738;BRAK;
+305;0x3739;BRAK;
+306;0x373A;BRAK;
+307;0x373B;BRAK;
+308;0x3722;NIEZ;?
+309;0x3723;NIEZ;?
+310;0x3728;NIEZ;?
+311;0x373C;BRAK;
+312;0x373D;BRAK;
+313;0x3746;BRAK;
+314;0x3744;BRAK;
+315;0x3745;BRAK;
+320;0x373E;BRAK;
+316;0x3741;BRAK;
+317;0x3742;BRAK;
+318;0x3743;BRAK;
+319;0x373F;BRAK;
+327;0x3740;BRAK;
+328;0x3601;ODNA;Zbiornik – ilość paliwa [kg]
+329;0x3600;ODNA;Zbiornik – pojemność [kg]
+330;0x3603;NIEZ;?
+332;0x3602;NIEZ;?
+331;0x3607;NIEZ;?
+363;0x3604;POTW;Kociol – rezerwa paliwa stop [kg]
+364;0x3627;NIEZ;?
+365;0x3626;NIEZ;?
+366;0x3625;NIEZ;?
+367;0x3624;NIEZ;?
+368;0x3623;NIEZ;?
+369;0x3620;NIEZ;?
+370;0x3621;NIEZ;?
+371;0x3622;NIEZ;?
+372;0x3630;NIEZ;?
+373;0x3631;NIEZ;?
+374;0x3632;NIEZ;?
+375;0x3633;NIEZ;?
+376;0x3634;NIEZ;?
+377;0x3635;NIEZ;?
+378;0x3636;NIEZ;?
+379;0x3637;NIEZ;?
+380;0x3638;NIEZ;?
+381;0x3639;NIEZ;?
+382;0x363A;NIEZ;?
+383;0x363B;NIEZ;?
+384;0x363C;NIEZ;?
+385;0x363D;NIEZ;?
+386;0x363E;NIEZ;?
+387;0x363F;NIEZ;?
+388;0x3640;NIEZ;?
+389;0x3648;NIEZ;?
+390;0x3650;NIEZ;?
+391;0x3658;NIEZ;?
+392;0x3659;NIEZ;?
+393;0x3666;BRAK;
+394;0x3667;BRAK;
+395;0x3668;BRAK;
+396;0x3669;BRAK;
+397;0x365A;NIEZ;?
+398;0x365B;NIEZ;?
+399;0x365C;NIEZ;?
+400;0x365D;NIEZ;?
+401;0x365E;NIEZ;?
+402;0x365F;NIEZ;?
+403;0x3660;NIEZ;?
+404;0x3661;NIEZ;?
+405;0x3662;NIEZ;?
+408;0x3663;NIEZ;?
+409;0x3664;NIEZ;?
+406;0x3665;NIEZ;?
+407;0x366A;BRAK;
+410;0x366B;BRAK;
+411;0x3608;ODNA;Statystyki: licznik rozpaleń
+415;0x3609;ODNA;Statystyki: średni czas rozpalania [s]
+412;0x3507;ODNA;Statystyki: całkowite zużycie paliwa [kg]
+413;0x3610;NIEZ;?
+414;0x3611;ODNA;Statystyki: czas pracy podajnika 1 [h]
+416;0x3612;ODNA;Statystyki: czas pracy podajnika 2 [h]
+417;0x3613;NIEZ;?
+418;0x3614;NIEZ;?
+419;0x3615;NIEZ;?
+420;0x3616;NIEZ;?
+421;0x3617;NIEZ;?
+422;0x3618;ODNA;Statystyki: liczba czyszczeń wymiennika
+423;0x3619;ODNA;Statystyki: liczba przegrzań kotła
+424;0x362A;ODNA;Statystyki: liczba zaników zasilania
+360;0x362C;BRAK;
+361;0x404C;POTW;Alarmy: następna pozycja bufora
+362;0x404D;ODNA;Alarmy: liczba alarmów
+215;0x404E;BRAK;
+168;0x2065;ODNA;Tryb CO 2
+169;0x22FD;NIEZ;?
+170;0x2032;POTW;CO – temperatura komfort (zadana)
+171;0x2048;POTW;CO – temperatura eko (zadana)
+172;0x2166;NIEZ;?
+191;0x2064;POTW;Tryb CO 1
+192;0x2126;POTW;Harmonogram CO 1 – poniedziałek (maska 24 bit)
+193;0x212A;POTW;Harmonogram CO 1 – wtorek (maska 24 bit)
+194;0x212E;POTW;Harmonogram CO 1 – środa (maska 24 bit)
+195;0x2132;POTW;Harmonogram CO 1 – czwartek (maska 24 bit)
+196;0x2136;POTW;Harmonogram CO 1 – piątek (maska 24 bit)
+197;0x213A;POTW;Harmonogram CO 1 – sobota (maska 24 bit)
+201;0x213E;POTW;Harmonogram CO 1 – niedziela (maska 24 bit)
+202;0x2299;POTW;Pompa CO1 – stan pracy
+198;0x22B9;POTW;Mieszacz CO1 – tryb testowy (A/CLOSE/OPEN)
+199;0x2016;NIEZ;?
+178;0x4001;POTW;CO 1 – temperatura (pomiar)
+176;0x22A5;POTW;CO1 – czujnik CO (0/1)
+200;0x22A1;POTW;CO1 – czujnik pokojowy
+174;0x22AD;POTW;CO 1 – temperatura zadana (wynikowa)
+188;0x22B1;POTW;CO1 – zwiekszenie temperatury zrodla [°C]
+175;0x2146;POTW;CO 1 – temperatura zadana ręczna [°C]
+325;0x2142;POTW;CO 1 – tryb pracy (ręczny/pogodowy)
+326;0x229D;POTW;Pompa CO1 – tryb testowy
+190;0x214A;NIEZ;?
+177;0x22BD;POTW;CO 1 – histereza [°C]
+180;0x22C1;POTW;CO 1 – kalibracja czujnika [°C]
+181;0x22C5;POTW;CO 1 – krzywa pogodowa, temperatura zewnętrzna −20 °C [°C za
+182;0x400C;BRAK;
+183;0x22C9;POTW;CO 1 – krzywa pogodowa, temperatura zewnętrzna 0 °C [°C zasi
+173;0x22CD;POTW;CO 1 – krzywa pogodowa, temperatura zewnętrzna +10 °C [°C za
+179;0x22D1;POTW;CO1 – zrodlo (0 Kociol / 1 Bufor)
+184;0x22D5;POTW;CO1 – temperatura maksymalna [°C]
+186;0x22D9;POTW;CO1 – wspolczynnik korekcji t. CO
+185;0x22E5;POTW;CO1 – obnizenie temperatury CO [°C]
+187;0x22E9;POTW;CO1 – MIN temperatura CO pomp [°C]
+189;0x22B5;POTW;CO1 – czas mieszacza [s]
+203;0x22F1;POTW;CO1 – stala pompa (0/1)
+204;0x22F5;NIEZ;?
+205;0x22F9;POTW;CO1 – obnizenie Tco dla ochrony powrotu (0/1)
+206;0x2301;POTW;Wejście: zgoda regulatora (IN3)
+207;0x230D;NIEZ;?
+208;0x2309;NIEZ;?
+209;0x2311;NIEZ;?
+210;0x2319;BRAK;
+211;0x231D;BRAK;
+212;0x2315;BRAK;
+213;0x2321;BRAK;
+214;0x2325;BRAK;
