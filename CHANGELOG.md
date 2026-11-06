@@ -2,6 +2,10 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.18 – Statystyki: prognoza paliwa, tryb demo
+- Statystyki: **Zużycie paliwa 24 h [kg]** i **Paliwo wystarczy na [dni]** (z ESP, „-” gdy brak danych). Wymaga firmware ≥ 1.4.15.
+- **Tryb demo**: `demo: true` w konfiguracji karty pokazuje dane przykładowe bez ESP i HA (zrzuty do README, test wyglądu). Strona `docs/demo.html`.
+
 ## v1.17 – Kocioł NASTAWY: Wybieg pompy i Rezerwa paliwa stop
 - Menu → Kocioł → NASTAWY (od poziomu 1): **Wybieg pompy** (0–120 min) i **Rezerwa paliwa stop** (0–100 kg) odczytywane i zapisywane. Menu Kocioł NASTAWY ma teraz wszystkie pozycje. Wymaga firmware ≥ 1.4.13.
 

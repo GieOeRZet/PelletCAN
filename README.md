@@ -14,6 +14,12 @@ Projekt stworzony przez Romana Gorza (pomysł, kierunek, testy na własnej insta
 |---|---|---|
 | ![Ekran główny](docs/img/01-ekran-glowny.png) | ![Palnik](docs/img/04-palnik.png) | ![Menu](docs/img/05-menu.png) |
 
+Tryb demo (`demo: true`, bez ESP): [strona demo](docs/demo.html)
+
+| Ekran główny | Palnik | Paliwo |
+|---|---|---|
+| ![Demo główny](docs/img/demo-main.png) | ![Demo palnik](docs/img/demo-burn.png) | ![Demo paliwo](docs/img/demo-fuel.png) |
+
 ## Spis treści
 1. [Co jest w środku](#co-jest-w-środku)
 2. [Wymagania i połączenie](#wymagania-i-połączenie)
@@ -84,6 +90,7 @@ Adresy wpisujesz w `substitutions` pliku `esphome/PelletCAN.yaml`:
 Na dole pliku jest blok `wifi: manual_ip`, który tych wartości używa. **Chcesz DHCP?** Usuń albo zakomentuj cały blok `wifi:` – wtedy HA znajdzie urządzenie po nazwie `tekla-estyma`. Adresy to sieć lokalna, więc nie trafiają do `secrets.yaml`.
 
 ## Diagnostyka magistrali
+Raport diagnostyczny jednym przyciskiem (do wklejenia w Issue), skan różnicowy Snap A/B i prognoza paliwa: [docs/DIAGNOSTYKA.md](docs/DIAGNOSTYKA.md). Katalog rejestrów: [strona katalogu](https://gieoerzet.github.io/PelletCAN/katalog.html).
 Szukanie brakujących rejestrów i ramek bez logów ESPHome (encje „CAN diag”, „CAN ID ramek”, skan węzła 86): [docs/DIAGNOSTYKA.md](docs/DIAGNOSTYKA.md).
 
 ## Awaryjny punkt dostępu Wi-Fi
@@ -106,6 +113,7 @@ Karta **sama znajduje encje** urządzenia po nazwie (domyślny prefiks `tekla`).
 | `lite` | `false` | tryb lite – patrz [niżej](#tryb-lite); tylko w YAML, nie ma go w edytorze |
 | `entity_prefix` | `tekla` | fragment nazwy urządzenia używany do wykrywania encji |
 | `esphome_node` | `tekla_estyma` | nazwa węzła ESPHome (usługi `esphome.<węzeł>_...`) |
+| `demo` | `false` | `true` = dane przykładowe bez ESP/HA (zrzuty, test wyglądu; [docs/demo.html](docs/demo.html)) |
 | `mirror` | z ESP | `true` blokuje zapisy w tej karcie (tylko podgląd) |
 | `entities` | – | ręczne wskazanie encji dla wybranych pozycji (nadpisuje wykrywanie) |
 

@@ -177,7 +177,7 @@
 {
 "t": "x",
 "old": "  stats: 'statystyki_kotla', mirror: 'tryb_mirror',",
-"new": "  stats: 'statystyki_kotla', mirror: 'tryb_mirror', ret_temp: 'temperatura_powrotu', boiler_pump_min: 'kociol_minimalna_temp_pomp', boiler_pump_run: 'kociol_wybieg_pompy', boiler_fuel_reserve: 'kociol_rezerwa_paliwa_stop', boiler_ret_min: 'kociol_minimalna_temp_powrotu', boiler_mixer_time: 'kociol_czas_mieszacza', co_room: 'co1_czujnik_pokojowy_0_brak_1_ctp1_2_ctp2_3_videroom_4_termostat_5_can', co_source: 'co1_zrodlo_0_kociol_1_bufor', co_co_sensor: 'co1_czujnik_co_0_1', co_const_pump: 'co1_stala_pompa_0_1', co_ret_protect: 'co1_obnizenie_tco_ochrona_powrotu_0_1', co_src_inc: 'co1_zwiekszenie_temp_zrodla', co_tmax: 'co1_temperatura_maksymalna', co_corr: 'co1_wspolczynnik_korekcji_t_co', co_out_comf: 'co1_max_tzew_pomp_komfort', co_out_eco: 'co1_max_tzew_pomp_ekon', co_lower: 'co1_obnizenie_temperatury_co', co_pump_min: 'co1_min_temperatura_co_pomp', co_mixer_time: 'co1_czas_mieszacza', mix_co1: 'mieszacz_co1_stan', mix_ret: 'mieszacz_powrotu_stan', boiler_hyst_on: 'histereza_zalaczenia_kotla', boiler_hyst_off: 'histereza_wylaczenia_kotla', co_hyst: 'co1_histereza', co_calib: 'co1_kalibracja_czujnika', co_mode_s: 'co1_tryb_pracy_0_reczny_1_pogodowy', co_cur_m20: 'co1_krzywa_pogodowa_20_c', co_cur_0: 'co1_krzywa_pogodowa_0_c', co_cur_10: 'co1_krzywa_pogodowa_10_c', cwu_hyst: 'cwu_histereza', cwu_src: 'cwu_zrodlo', cwu_src_inc: 'cwu_zwiekszenie_temp_zrodla', cwu_delta: 'cwu_delta_zalaczenia_pompy', cwu_boost: 'cwu_zagrzej_teraz_0_1', cwu_prio: 'cwu_priorytet_0_1',"
+"new": "  stats: 'statystyki_kotla', fuel_use: 'paliwo_zuzycie_24h', fuel_days: 'paliwo_prognoza', fuel_low: 'paliwo_rezerwa', mirror: 'tryb_mirror', ret_temp: 'temperatura_powrotu', boiler_pump_min: 'kociol_minimalna_temp_pomp', boiler_pump_run: 'kociol_wybieg_pompy', boiler_fuel_reserve: 'kociol_rezerwa_paliwa_stop', boiler_ret_min: 'kociol_minimalna_temp_powrotu', boiler_mixer_time: 'kociol_czas_mieszacza', co_room: 'co1_czujnik_pokojowy_0_brak_1_ctp1_2_ctp2_3_videroom_4_termostat_5_can', co_source: 'co1_zrodlo_0_kociol_1_bufor', co_co_sensor: 'co1_czujnik_co_0_1', co_const_pump: 'co1_stala_pompa_0_1', co_ret_protect: 'co1_obnizenie_tco_ochrona_powrotu_0_1', co_src_inc: 'co1_zwiekszenie_temp_zrodla', co_tmax: 'co1_temperatura_maksymalna', co_corr: 'co1_wspolczynnik_korekcji_t_co', co_out_comf: 'co1_max_tzew_pomp_komfort', co_out_eco: 'co1_max_tzew_pomp_ekon', co_lower: 'co1_obnizenie_temperatury_co', co_pump_min: 'co1_min_temperatura_co_pomp', co_mixer_time: 'co1_czas_mieszacza', mix_co1: 'mieszacz_co1_stan', mix_ret: 'mieszacz_powrotu_stan', boiler_hyst_on: 'histereza_zalaczenia_kotla', boiler_hyst_off: 'histereza_wylaczenia_kotla', co_hyst: 'co1_histereza', co_calib: 'co1_kalibracja_czujnika', co_mode_s: 'co1_tryb_pracy_0_reczny_1_pogodowy', co_cur_m20: 'co1_krzywa_pogodowa_20_c', co_cur_0: 'co1_krzywa_pogodowa_0_c', co_cur_10: 'co1_krzywa_pogodowa_10_c', cwu_hyst: 'cwu_histereza', cwu_src: 'cwu_zrodlo', cwu_src_inc: 'cwu_zwiekszenie_temp_zrodla', cwu_delta: 'cwu_delta_zalaczenia_pompy', cwu_boost: 'cwu_zagrzej_teraz_0_1', cwu_prio: 'cwu_priorytet_0_1',"
 },
 {
 "t": "x",
@@ -229,6 +229,21 @@
 "t": "x",
 "old": "customElements.define('tekla-panel-card', TeklaPanelCard);",
 "new": "if (!customElements.get('tekla-panel-card')) customElements.define('tekla-panel-card', TeklaPanelCard);"
+},
+{
+"t": "x",
+"old": "['stats', 'Statystyki kotła (jeden sensor tekstowy: 8 liczb)', S]]],",
+"new": "['stats', 'Statystyki kotła (jeden sensor tekstowy: 8 liczb)', S], ['fuel_use', 'Paliwo – zużycie 24 h [kg/dobę]', S], ['fuel_days', 'Paliwo – prognoza [dni]', S], ['fuel_low', 'Paliwo – rezerwa (alarm)', B]]],"
+},
+{
+"t": "x",
+"old": "['Liczba zaników zasilania', n(7)]].map",
+"new": "['Liczba zaników zasilania', n(7)], ['Zużycie paliwa 24 h [kg]', fx(this._v('fuel_use'))], ['Paliwo wystarczy na [dni]', fx(this._v('fuel_days'))]].map"
+},
+{
+"t": "x",
+"old": "        const sv = this._t('stats', '').trim().split(/\\s+/)",
+"new": "        const fx = v => (v == null || isNaN(v) ? '-' : Number(v).toFixed(1)), sv = this._t('stats', '').trim().split(/\\s+/)"
 },
 {
 "t": "x",
@@ -892,6 +907,40 @@
     };
     const og2 = C.prototype._go;
     C.prototype._go = function (s, b) { if (this._lite && LITE_GO.includes(s)) return; return og2.call(this, s, b); };
+    // ---- tryb demo (YAML: demo: true) = dane przykladowe bez ESP/HA, do zrzutow ekranu i testow wygladu ----
+    const DEMO = {
+      boiler_temp: 68.4, boiler_set: 70, boiler_manual: 70, outside: 3.5, ret_temp: 55.2, on: 'on', power_switch: 'on',
+      burner: 'Praca', burner_code: 5, power: 62, burn_kw: 14.8, burn_kgh: 3.1, burn_bright: 74, burn_temp: 412,
+      air_corr: 0, power_min: 30, power_max: 100, fuel_heat: 4.8, fuel_test: 21.5, fan_pct: 48, blower_run: 'on', feeder_run: 'off', feeder: 'Stop',
+      burn_time: '5 h 12 min', fuel: 183, fuel_cap: 250, fuel_pct: 73, feed_time: 7,
+      co_temp: 41.5, co_set: 45, co_manual: 45, co_pump: 'on', co_comfort: 45, co_eco: 38, co_mode: 3,
+      cwu_temp: 47.2, cwu_set: 50, cwu_comfort: 50, cwu_eco: 40, cwu_pump: 'off', cwu_mode: 3,
+      stats: '214 118 2310 0 4120 37 2 5', fuel_use: 62.4, fuel_days: 2.9, fuel_low: 'off',
+      fan_mod_1: 30, fan_mod_2: 40, fan_mod_3: 50, fan_mod_4: 60, fan_mod_5: 70,
+      alarm: 'off', last_alarm: '-', can_ok: 'on', mirror: 'off', blower_mode: 'Automat', feeder_mode: 'Automat',
+      sch_boil: '000000 000000 000000 000000 000000 000000 000000', sch_co: '03FC3C 03FC3C 03FC3C 03FC3C 03FC3C 03FC3C 03FC3C', sch_cwu: 'FFFFFF FFFFFF FFFFFF FFFFFF FFFFFF FFFFFF FFFFFF'
+    };
+    window.__teklaDemo = DEMO;
+    const os0 = C.prototype._s;
+    C.prototype._s = function (k) {
+      if (this._cfg && this._cfg.demo) { const v = DEMO[k]; return v === undefined ? undefined : { state: String(v), attributes: {} }; }
+      return os0.call(this, k);
+    };
+    const sc2 = C.prototype.setConfig;
+    C.prototype.setConfig = function (c) {
+      const r = sc2.call(this, c);
+      if (c && c.demo) {
+        for (const k in keysAll()) if (!this.E[k]) this.E[k] = 'demo.' + k;
+        if (!this._hass) this._hass = { states: {}, services: {}, callService() {}, language: 'pl' };
+        this._render && this._built && this._render(true);
+      }
+      return r;
+    };
+    const ol2 = C.prototype._lvl;
+    C.prototype._lvl = function () { return this._cfg && this._cfg.demo ? 1 : ol2.call(this); };
+    const osv = C.prototype._svc;
+    C.prototype._svc = function (n, d) { if (this._cfg && this._cfg.demo) return; return osv.call(this, n, d); };
+
     if (!customElements.get('tekla-panel-card_lite')) {   // zgodnosc wsteczna: stara karta lite = ta sama karta z lite: true
       customElements.define('tekla-panel-card_lite', class extends C { setConfig(c) { super.setConfig(Object.assign({}, c, { lite: true })); } });
     }
@@ -1135,7 +1184,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.17';
+    const CARD_VER = '1.18';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };

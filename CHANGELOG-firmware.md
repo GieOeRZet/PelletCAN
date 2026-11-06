@@ -2,6 +2,12 @@
 
 Najnowsze na górze. Karta ma osobny plik: [CHANGELOG.md](CHANGELOG.md).
 
+## v1.4.15
+- **Raport diagnostyczny**: przycisk „Raport diagnostyczny (utworz)” → tekst „Raport diagnostyczny” (wersja, czas pracy, Wi-Fi dBm, CAN, liczniki SDO ok/abort, poziom, mirror, tank, zużycie) do wklejenia w Issue.
+- **Skan różnicowy w ESP**: „Snap A (punkt odniesienia)” zapisuje 593 rejestry katalogu (~72 s), zmień ustawienie na panelu, „Snap B (pokaz zmiany)” – „Zmiany rejestrow (Snap)” podaje listę `XXXX:stara>nowa`. „Snap STOP” przerywa.
+- **Prognoza paliwa**: co godzinę odczyt licznika zużycia (0x3507), sensory „Paliwo zuzycie 24h” [kg/dobę], „Paliwo prognoza” [dni] i „Paliwo rezerwa” (binary_sensor, włącza się gdy zasobnik ≤ Rezerwa paliwa stop). Powiadomienie: automatyzacja HA na stan „Paliwo rezerwa” = on (przykład w docs/DIAGNOSTYKA.md).
+- Wymaga karty ≥ 1.18 do wyświetlania w Statystykach.
+
 ## v1.4.14
 - **Czysty log**: wyłączone (domyślnie) wpisy diagnostyczne – NMT/heartbeat innych węzłów, `IDENT`, zmiany `PDO 0x456/0x356`, `FEED PDO 0x2D7`, raport `SKAN SIECI` – za nowym ustawieniem `diag_log: "false"` (`"true"` przywraca). `sniff` domyślnie `"false"`.
 - Encje **CAN diag** i **CAN ID ramek** są `internal` (niewidoczne w HA).

@@ -1,7 +1,7 @@
 # PelletCAN – TODO (pełna lista, stan 2026-11-06 13:35)
 
 Gdy Roman pyta „co do zrobienia?” – pokazać CAŁĄ tę listę (wszystkie sekcje), po aktualizacji o to, co zrobione.
-Repo: GieOeRZet/PelletCAN (fw 1.4.14, karta 1.17). Zasady: krótko po polsku, „-” dla braków, bez template sensorów w HA, każda zmiana = bump wersji + changelogi, pełna karta (lite w osobnym repo, nie ruszamy).
+Repo: GieOeRZet/PelletCAN (fw 1.4.15, karta 1.18). Zasady: krótko po polsku, „-” dla braków, bez template sensorów w HA, każda zmiana = bump wersji + changelogi, pełna karta (lite w osobnym repo, nie ruszamy).
 
 ## A. Po stronie Romana
 - [ ] Release HACS karty 1.17 (i firmware 1.4.14) na GitHubie.
@@ -60,4 +60,5 @@ Repo: GieOeRZet/PelletCAN (fw 1.4.14, karta 1.17). Zasady: krótko po polsku, �
 10. **Dokumentacja krok po kroku** (instalacja, CAN/okablowanie, zdjęcia, FAQ) – README + docs.
 
 ## G. Zrobione (skrót)
-Wybieg pompy 0x3708 i Rezerwa paliwa stop 0x3604 (fw 1.4.14, karta 1.17); czysty log (diag_log/sniff false); folder rejestry/ z katalogiem (617 wierszy), skanerem i instrukcją; tools/oznacz_uzycie.py; analiza FW panela (mapa indeks↔ID); skan 6.11: 446 odpowiedzi, 0 nowych poza katalogiem.
+6.11: fw 1.4.15 + karta 1.18 – Raport diagnostyczny (przycisk), Snap A/B w ESP, prognoza paliwa (zużycie 24 h, dni, rezerwa) + wiersze w Statystykach, tryb demo karty (docs/demo.html, zrzuty), CI (ci.yml: wersje/changelogi, JS, kompilacja ESPHome), strona katalogu rejestrów (pages.yml + tools/gen_katalog_html.py), szablon Issue. DO SPRAWDZENIA po pushu: wynik kompilacji w Actions; włączyć Settings → Pages → GitHub Actions; wgrać fw 1.4.15 i sprawdzić Snap/raport/prognozę na żywo. Dalej: wersja LITE publiczna vs pełna dla wspierających (buycoffee).
+Wybieg pompy 0x3708 i Rezerwa paliwa stop 0x3604 (fw 1.4.15, karta 1.18); czysty log (diag_log/sniff false); folder rejestry/ z katalogiem (617 wierszy), skanerem i instrukcją; tools/oznacz_uzycie.py; analiza FW panela (mapa indeks↔ID); skan 6.11: 446 odpowiedzi, 0 nowych poza katalogiem.

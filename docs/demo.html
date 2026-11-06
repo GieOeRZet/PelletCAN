@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PelletCAN – demo karty</title>
+<style>
+body{margin:0;padding:16px;background:#111;color:#ddd;font-family:Roboto,Arial,sans-serif}
+h1{font-size:18px;font-weight:400;margin:0 0 12px}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;max-width:1200px}
+.c{background:#1c1c1c;border-radius:12px;overflow:hidden}
+</style></head><body>
+<h1>PelletCAN – karta Tekla/Estyma Igneo Touch (tryb demo, dane przykładowe)</h1>
+<div class="g" id="g"></div>
+<script>
+// ?screen=stats pokazuje jeden ekran; bez parametru – kilka ekranów obok siebie
+const q = new URLSearchParams(location.search).get('screen');
+window.__demoScreens = q ? [q] : ['main', 'burn', 'stats', 'fuel'];
+</script>
+<script type="module">
+await import(location.pathname.includes('/docs/') ? '../dist/pelletcan-card.js' : './dist/pelletcan-card.js');
+</script>
+<script type="module">
+const wait = async () => { for (let i = 0; i < 100 && !customElements.get('tekla-panel-card'); i++) await new Promise(r => setTimeout(r, 100)); };
+await wait();
+const g = document.getElementById('g');
+for (const s of window.__demoScreens) {
+  const d = document.createElement('div'); d.className = 'c'; g.appendChild(d);
+  const el = document.createElement('tekla-panel-card');
+  el.setConfig({ demo: true, screen: s === 'stats' ? 'main' : s });
+  d.appendChild(el);
+  el.hass = { states: {}, services: {}, callService() {}, language: 'pl' };
+  if (s === 'stats') { el._scr = 'stats'; el._backTo = 'main'; el._render(true); }
+}
+</script>
+</body></html>

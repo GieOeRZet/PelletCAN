@@ -1,0 +1,30 @@
+# Strona (GitHub Pages): katalog rejestrow generowany z CSV + demo karty. Wlacz: Settings -> Pages -> Source: GitHub Actions.
+name: Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ['rejestry/katalog-rejestrow.csv', 'docs/**', 'dist/**', 'tools/gen_katalog_html.py']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency: { group: pages, cancel-in-progress: true }
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: { name: github-pages, url: "${{ steps.d.outputs.page_url }}" }
+    steps:
+      - uses: actions/checkout@v5
+      - name: Zloz strone
+        run: |
+          mkdir _site && cp -r docs/. _site/ && cp -r dist _site/dist
+          python3 tools/gen_katalog_html.py _site/katalog.html
+      - uses: actions/upload-pages-artifact@v4
+        with: { path: _site }
+      - id: d
+        uses: actions/deploy-pages@v4

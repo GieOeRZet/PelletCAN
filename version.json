@@ -1,7 +1,8 @@
 {
   "firmware": {
-    "version": "1.4.14",
+    "version": "1.4.15",
     "changelog": [
+      "Nowe: przycisk „Raport diagnostyczny (utwórz)” (tekst do wklejenia w Issue), Snap A / Snap B – ESP sam publikuje listę zmienionych rejestrów („Zmiany rejestrow (Snap)”), prognoza paliwa (Paliwo zuzycie 24h, Paliwo prognoza [dni], Paliwo rezerwa). Wymień PelletCAN_packages/PelletCAN.yaml. Karta ≥ 1.18 pokazuje zużycie i prognozę w Statystykach.",
       "Czysty log: diagnostyka (NMT, IDENT, PDO, SKAN SIECI) wyłączona domyślnie (diag_log), migawki wykomentowane, CAN diag/CAN ID ramek niewidoczne w HA; zostaje skaner sdo_scan/sdo_read/sdo_write, który pokazuje też rejestry znane. Nowy folder rejestry/ z pełnym katalogiem i instrukcją. Wymień PelletCAN.yaml (nowe diag_log). Karta bez zmian.",
       "Kocioł NASTAWY: Wybieg pompy (0x3708) i Rezerwa paliwa stop (0x3604) – odczyt i zapis (set_param 64–65). Wymaga karty ≥ 1.17.",
       "Piny i układ CAN w substitutions (pin_spi_clk/mosi/miso, pin_can_cs, can_spi_rate, pin_rf_switch, pin_rf_antenna) – łatwe dostrojenie pod inny ESP / moduł MCP2515 w PelletCAN.yaml. Nowy: Czujnik pokojowy CO1 (0x22A1, set_param 63). Wymaga karty ≥ 1.16 (czujnik pokojowy).",
@@ -23,8 +24,9 @@
     ]
   },
   "card": {
-    "version": "1.17",
+    "version": "1.18",
     "changelog": [
+      "Statystyki: Zużycie paliwa 24 h i Paliwo wystarczy na [dni] (wymaga firmware ≥ 1.4.15). Nowy tryb demo (demo: true) – dane przykładowe bez ESP, strona docs/demo.html i zrzuty w README.",
       "Kocioł NASTAWY: Wybieg pompy i Rezerwa paliwa stop edytowalne (poziom 1). Wymaga firmware ≥ 1.4.13.",
       "Ogrzewanie 1 NASTAWY: Czujnik pokojowy (brak, CTP1, CTP2, videROOM, termostat, CAN). Wymaga firmware ≥ 1.4.12.",
       "Ogrzewanie 1 NASTAWY: Źródło i Czujnik CO. Wymaga firmware ≥ 1.4.11.",

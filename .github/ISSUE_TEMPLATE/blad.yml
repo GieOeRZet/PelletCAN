@@ -1,0 +1,20 @@
+name: Zgłoszenie błędu
+description: Coś nie działa (karta lub firmware)
+labels: [bug]
+body:
+  - type: textarea
+    id: opis
+    attributes: {label: Co nie działa, description: "Co robisz, czego oczekujesz, co się dzieje"}
+    validations: {required: true}
+  - type: textarea
+    id: raport
+    attributes:
+      label: Raport diagnostyczny
+      description: "Przycisk „Raport diagnostyczny (utworz)” w HA, potem skopiuj stan encji „Raport diagnostyczny” (fw ≥ 1.4.15)."
+      render: text
+  - type: input
+    id: karta
+    attributes: {label: Wersja karty}
+  - type: textarea
+    id: log
+    attributes: {label: Log ESPHome (opcjonalnie, bez haseł), render: text}

@@ -45,7 +45,7 @@ substitutions:
   pin_autolock_min: "5"    # blokada poziomu po tylu minutach bezczynnosci (0 = bez blokady)
   burner_eff_kw: "0.90"    # sprawnosc kotla do mocy [kW] (potwierdzone z panelem)
   burner_eff_fuel: "0.85"  # EMPIRYCZNY wspolczynnik do spalania [kg/h] (dopasowanie do panelu)
-  fw_version: "1.4.14"
+  fw_version: "1.4.15"
   # ---- PINY I UKLAD CAN (domyslnie: XIAO ESP32-C6 + Seeed CAN Bus Breakout z MCP2515) ----
   # Inny ESP lub inny modul CAN (MCP2515): zmien te wartosci w PelletCAN.yaml (nie edytuj rdzenia).
   # Zapis jak w ESPHome: GPIO17, albo nazwa pinu plytki (np. D7) - wg dokumentacji Twojej plytki.
@@ -523,6 +523,20 @@ globals:
   - id: cat_mode
     type: bool
     initial_value: "false"
+  - id: snap_is_a
+    type: bool
+    initial_value: "false"
+  - id: sdo_rx
+    type: uint32_t
+    initial_value: "0"
+  - id: sdo_ab
+    type: uint32_t
+    initial_value: "0"
+  - id: fuel_hist
+    type: std::vector<int32_t>
+  - id: fuel_t
+    type: uint32_t
+    initial_value: "0"
   - id: snap_old
     type: std::vector<std::pair<uint16_t, uint32_t>>
   - id: snap_new
@@ -823,6 +837,7 @@ canbus:
               const uint16_t idx = x[1] | (x[2] << 8);
               const uint8_t sub = x[3];
               if (cs == 0x80) {
+                id(sdo_ab)++;
                 uint32_t code = x[4] | (x[5] << 8) | (x[6] << 16) | ((uint32_t) x[7] << 24);
                 if (id(scan_on)) ESP_LOGD("igneo", "abort 0x%04X.%d (0x%08X)", idx, sub, (unsigned) code);
                 else {
@@ -844,6 +859,7 @@ canbus:
                 }
                 return;
               }
+              id(sdo_rx)++;
               if (cs == 0x60) {
                 ESP_LOGI("igneo", "Zapis potwierdzony 0x%04X.%d", idx, sub);
                 return;
@@ -1234,6 +1250,7 @@ canbus:
                   id(tank_kg).publish_state(k);
                   float c = id(tank_cap).state;
                   if (c > 0 && !isnan(c)) id(tank_pct).publish_state(roundf(k * 100.0f / c));
+                  id(fuel_calc).execute();
                   break;
                 }
                 case 0x2267: id(feed_manual_off).publish_state((float) (raw & 0xFFFF)); break;
@@ -1246,6 +1263,15 @@ canbus:
                   std::string so; char st[16];
                   for (size_t k = 0; k < 8; k++) { if (id(stats)[k] < 0) snprintf(st, sizeof(st), "--"); else snprintf(st, sizeof(st), "%d", (int) id(stats)[k]); if (k) so += ' '; so += st; }
                   id(stat_txt).publish_state(so);
+                  if (si == 4 && raw > 0) {  // v1.4.15: licznik spalonego paliwa [kg] -> probka co ok. 1 h, zuzycie 24 h i prognoza
+                    auto &fh = id(fuel_hist);
+                    const uint32_t nowt = millis();
+                    if (fh.empty() || nowt - id(fuel_t) >= 3300000UL) {
+                      fh.push_back((int32_t) raw); id(fuel_t) = nowt;
+                      if (fh.size() > 25) fh.erase(fh.begin());
+                    }
+                    id(fuel_calc).execute();
+                  }
                   break;
                 }
                 // === TU DOPISUJ NOWE REJESTRY (np. harmonogramy): ===
@@ -1257,6 +1283,13 @@ canbus:
               }
 
 interval:
+  # v1.4.15: co godzine odczyt licznika spalonego paliwa 0x3507 (probka do zuzycia 24 h i prognozy)
+  - interval: 60min
+    then:
+      - lambda: |-
+          if (id(igneo_can)->is_failed() || id(scan_on)) return;
+          std::vector<uint8_t> d = {0x40, 0x07, 0x35, 0x01, 0, 0, 0, 0};
+          id(igneo_can)->send_data(0x604, false, d);
   # v1.4.1: po 4 s ciszy w skanie tozsamosci - jedna linia podsumowania do "CAN diag"
   - interval: 1s
     then:
@@ -1454,6 +1487,7 @@ interval:
               auto &o = id(snap_old);
               auto &n = id(snap_new);
               int diffs = 0, fresh = 0;
+              std::string dl;
               for (auto &pn : n) {
                 bool found = false;
                 for (auto &po : o) {
@@ -1465,6 +1499,7 @@ interval:
                     ESP_LOGW("igneo", "ROZNICA%s 0x%04X: %u -> %u (0x%08X -> 0x%08X)", kn ? " (znany)" : "", pn.first,
                              (unsigned) (po.second & 0xFFFF), (unsigned) (pn.second & 0xFFFF), (unsigned) po.second, (unsigned) pn.second);
                     diffs++;
+                    if (dl.size() < 220) { char t[32]; snprintf(t, sizeof(t), "%04X:%u>%u ", pn.first, (unsigned) (po.second & 0xFFFF), (unsigned) (pn.second & 0xFFFF)); dl += t; }
                     po.second = pn.second;
                   }
                   break;
@@ -1472,6 +1507,12 @@ interval:
                 if (!found) { if (o.size() < 1500) o.push_back(pn); fresh++; }
               }
               ESP_LOGW("igneo", "Migawka gotowa: %d rejestrow, %d nowych, %d zmian", (int) n.size(), fresh, diffs);
+              {
+                char hb[40];
+                if (id(snap_is_a)) { snprintf(hb, sizeof(hb), "Snap A zapisany: %d rejestrow", (int) n.size()); id(snap_txt).publish_state(hb); }
+                else if (diffs == 0) id(snap_txt).publish_state("Snap B: brak zmian");
+                else { char hh[16]; snprintf(hh, sizeof(hh), "Snap B (%d): ", diffs); id(snap_txt).publish_state(std::string(hh) + dl); }
+              }
               n.clear();
               id(snap_on) = false;
             }
@@ -1529,6 +1570,25 @@ interval:
           id(igneo_can)->send_data(0x600 + id(scan_node), false, d);
 
 sensor:
+  - platform: wifi_signal
+    id: wifi_sig
+    internal: true
+    update_interval: 60s
+  # v1.4.15: zuzycie i prognoza paliwa (z licznika kotla 0x3507, probka co ok. 1 h; wynik po min. 2 h pracy)
+  - platform: template
+    id: fuel_use_24h
+    name: "Paliwo zuzycie 24h"
+    unit_of_measurement: "kg/dobe"
+    accuracy_decimals: 1
+    icon: "mdi:fire-circle"
+    update_interval: never
+  - platform: template
+    id: fuel_days
+    name: "Paliwo prognoza"
+    unit_of_measurement: "dni"
+    accuracy_decimals: 1
+    icon: "mdi:calendar-clock"
+    update_interval: never
   - platform: template
     id: boiler_temp
     name: "Kociol temperatura"
@@ -2174,6 +2234,10 @@ sensor:
 
 binary_sensor:
   - platform: template
+    id: fuel_low
+    name: "Paliwo rezerwa"
+    icon: "mdi:fuel-cell"
+  - platform: template
     name: "Tryb mirror"
     id: mirror_mode
     lambda: 'return std::string("${mirror}") == "true";'
@@ -2229,6 +2293,16 @@ binary_sensor:
     icon: "mdi:thermostat"
 
 text_sensor:
+  - platform: template
+    id: diag_rep
+    name: "Raport diagnostyczny"
+    icon: "mdi:clipboard-pulse-outline"
+    entity_category: diagnostic
+  - platform: template
+    id: snap_txt
+    name: "Zmiany rejestrow (Snap)"
+    icon: "mdi:compare"
+    entity_category: diagnostic
   - platform: template
     name: "Wersja firmware"
     id: fw_ver
@@ -2492,6 +2566,24 @@ switch:
           want_on: false
 
 script:
+  # v1.4.15: zuzycie paliwa 24 h, prognoza [dni] i rezerwa
+  - id: fuel_calc
+    mode: single
+    then:
+      - lambda: |-
+          const float k = id(tank_kg).state;
+          float res = id(boil_fuel_reserve).state;
+          if (isnan(res)) res = 0;
+          if (!isnan(k)) id(fuel_low).publish_state(res > 0 && k <= res);
+          auto &fh = id(fuel_hist);
+          if (fh.size() < 3) return;   // min. 2 h danych
+          const float used = (float) (fh.back() - fh.front());
+          const float span = (float) (fh.size() - 1);   // godziny
+          if (used < 0) return;
+          const float rate = used * 24.0f / span;
+          id(fuel_use_24h).publish_state(rate);
+          if (!isnan(k) && rate > 0.2f) id(fuel_days).publish_state(fmaxf(0.0f, (k - res) / rate));
+          else id(fuel_days).publish_state(NAN);
   # v2.25: kolejkuje odczyt calej historii alarmow z kotla (kody, czasy poczatku i konca; 20 slotow)
   - id: alarm_hist_q
     mode: single
@@ -2793,30 +2885,59 @@ button:
           id: set_feeder
           fm: 2
     # v1.4.14: WYKOMENTOWANE (migawki) - zostaje tylko skaner sdo_scan / sdo_read / sdo_write
-#  - platform: template
-#    name: "Migawka katalogowa (tylko istniejace rejestry)"
-#    icon: "mdi:camera-burst"
-#    entity_category: diagnostic
-#    on_press:
-#      - lambda: |-
-#          if (id(scan_on)) { ESP_LOGW("igneo", "Skan/migawka juz trwa"); return; }
-#          id(snap_new).clear();
-#          id(cat_mode) = true;
-#          id(scan_cur) = 0;
-#          id(scan_end) = 592;
-#          id(scan_sub) = 1;
-#          id(snap_on) = true;
-#          id(scan_on) = true;
-#          ESP_LOGW("igneo", "Migawka katalogowa start (593 rejestrow)");
-#  - platform: template
-#    name: "Migawka STOP"
-#    icon: "mdi:stop"
-#    entity_category: diagnostic
-#    on_press:
-#      - lambda: |-
-#          id(scan_on) = false;
-#          id(snap_on) = false;
-#          ESP_LOGW("igneo", "Skan/migawka przerwane (przycisk web)");
+  # v1.4.15: skan roznicowy w ESP: Snap A = punkt odniesienia, zmien wartosc na panelu, Snap B = lista zmienionych rejestrow
+  # w encji "Zmiany rejestrow (Snap)" i w logu (ok. 72 s kazda migawka; B porownuje z poprzednia migawka).
+  - platform: template
+    name: "Snap A (punkt odniesienia)"
+    icon: "mdi:camera"
+    entity_category: diagnostic
+    on_press:
+      - lambda: |-
+          if (id(scan_on)) { ESP_LOGW("igneo", "Skan/migawka juz trwa"); return; }
+          id(snap_old).clear(); id(snap_new).clear();
+          id(snap_is_a) = true;
+          id(snap_txt).publish_state("Snap A w toku (ok. 72 s)...");
+          id(cat_mode) = true; id(scan_cur) = 0; id(scan_end) = 592; id(scan_sub) = 1;
+          id(snap_on) = true; id(scan_on) = true;
+          ESP_LOGW("igneo", "Snap A start (593 rejestry)");
+  - platform: template
+    name: "Snap B (pokaz zmiany)"
+    icon: "mdi:camera-burst"
+    entity_category: diagnostic
+    on_press:
+      - lambda: |-
+          if (id(scan_on)) { ESP_LOGW("igneo", "Skan/migawka juz trwa"); return; }
+          if (id(snap_old).empty()) { id(snap_txt).publish_state("Najpierw Snap A"); return; }
+          id(snap_new).clear();
+          id(snap_is_a) = false;
+          id(snap_txt).publish_state("Snap B w toku (ok. 72 s)...");
+          id(cat_mode) = true; id(scan_cur) = 0; id(scan_end) = 592; id(scan_sub) = 1;
+          id(snap_on) = true; id(scan_on) = true;
+          ESP_LOGW("igneo", "Snap B start (593 rejestry)");
+  - platform: template
+    name: "Snap STOP"
+    icon: "mdi:stop"
+    entity_category: diagnostic
+    on_press:
+      - lambda: |-
+          id(scan_on) = false; id(snap_on) = false; id(cat_mode) = false;
+          id(snap_txt).publish_state("Snap przerwany");
+  # v1.4.15: raport diagnostyczny jednym przyciskiem (wynik w encji "Raport diagnostyczny" i w logu) - wklej do Issue na GitHubie.
+  - platform: template
+    name: "Raport diagnostyczny (utworz)"
+    icon: "mdi:clipboard-text-outline"
+    entity_category: diagnostic
+    on_press:
+      - lambda: |-
+          char r[255];
+          const int rssi = isnan(id(wifi_sig).state) ? 0 : (int) id(wifi_sig).state;
+          snprintf(r, sizeof(r), "PelletCAN fw=%s up=%umin wifi=%ddBm can=%s sdo_ok=%u sdo_abort=%u lvl=%d mirror=%s write=%s diag=%s tank=%s fuel24=%s",
+                   "${fw_version}", (unsigned) (millis() / 60000UL), rssi, id(igneo_can)->is_failed() ? "BLAD" : "OK",
+                   (unsigned) id(sdo_rx), (unsigned) id(sdo_ab), (int) id(access_level), "${mirror}", "${write_enabled}", "${diag_log}",
+                   isnan(id(tank_kg).state) ? "-" : std::to_string((int) id(tank_kg).state).c_str(),
+                   isnan(id(fuel_use_24h).state) ? "-" : std::to_string((int) id(fuel_use_24h).state).c_str());
+          id(diag_rep).publish_state(r);
+          ESP_LOGW("igneo", "RAPORT: %s", r);
 
   - platform: template
     name: "Dmuchawa: Automat"

@@ -1,0 +1,45 @@
+# Kontrola przy kazdym pushu / PR: spojnosc wersji i changelogow, skladnia karty, kompilacja ESPHome, katalog rejestrow.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  wersje-i-karta:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with: { node-version: 22 }
+      - name: Wersje i changelogi (version.json, fw_version, CARD_VER, CHANGELOG*.md)
+        run: python3 tools/check_versions.py
+      - name: Skladnia JS karty
+        run: |
+          node --check dist/pelletcan-card.js
+          node --check dist/tekla-panel-card.js
+      - name: Katalog rejestrow generuje sie z CSV
+        run: python3 tools/gen_katalog_html.py /tmp/katalog.html
+
+  esphome:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: { python-version: "3.13" }
+      - name: Zainstaluj ESPHome
+        run: pip install esphome
+      - name: Przygotuj kopie z lokalnym rdzeniem i przykladowymi sekretami
+        run: |
+          mkdir ci && cp esphome/PelletCAN_packages.yaml ci/
+          python3 - <<'PY'
+          import re
+          s = open('esphome/PelletCAN.yaml', encoding='utf-8').read()
+          s, n = re.subn(r'packages:\n(?:[ \t]+.*\n|\s*\n)*?(?=\S)', 'packages:\n  tekla: !include PelletCAN_packages.yaml\n\n', s, count=1)
+          assert n == 1, 'nie znaleziono bloku packages'
+          open('ci/PelletCAN.yaml', 'w', encoding='utf-8').write(s)
+          PY
+          cp esphome/secrets.example.yaml ci/secrets.yaml
+          sed -i 's#^esp_api_key_tekla_CAN:.*#esp_api_key_tekla_CAN: "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY="#' ci/secrets.yaml
+      - name: Kompilacja (esp-idf, XIAO ESP32-C6)
+        run: esphome compile ci/PelletCAN.yaml
