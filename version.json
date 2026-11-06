@@ -1,7 +1,8 @@
 {
   "firmware": {
-    "version": "1.4.17",
+    "version": "1.4.18",
     "changelog": [
+      "Nowe odczyty i zapis (set_param 66–75): CWU temperatura maksymalna (0x201C), CWU antylegionella (0x2297), krzywa wentylatora spalin 1–5 (0x2268/226E/226F/2275/227A), alarm dźwiękowy (0x3506) i godziny ciszy od/do (0x3508/0x3509). Wymaga karty ≥ 1.23. Zapisy do sprawdzenia na kotle.",
       "Nowy odczyt zapalarki (grzałki palnika) 0x2253 – encja „Palnik zapalarka” [%] (ikona grzałki na ekranie Palnik). Wymaga karty ≥ 1.20.",
       "Statystyki: odczyt Średniej mocy palnika z 50 h (0x3610), Średniego tlenu przy 30/50/70/90 % (0x3613–0x3616) i Energii całkowitej [kWh] (0x3628) – rejestry z firmware panelu. Wymaga karty ≥ 1.19.",
       "Nowe: przycisk „Raport diagnostyczny (utwórz)” (tekst do wklejenia w Issue), Snap A / Snap B – ESP sam publikuje listę zmienionych rejestrów („Zmiany rejestrow (Snap)”), prognoza paliwa (Paliwo zuzycie 24h, Paliwo prognoza [dni], Paliwo rezerwa). Wymień PelletCAN_packages/PelletCAN.yaml. Karta ≥ 1.18 pokazuje zużycie i prognozę w Statystykach.",
@@ -26,8 +27,9 @@
     ]
   },
   "card": {
-    "version": "1.22",
+    "version": "1.23",
     "changelog": [
+      "Nastawy z firmware panela: CWU Temp. maksymalna i Antylegionella (menu Ciepła woda), krzywa wentylatora spalin 1–5 (Palnik → NASTAWY, klucz 1), Alarm dźwiękowy + Cisza od/do (Konfiguracja). Poprawka: pętla zdarzenia grafik w 1.22 (przepełnienie stosu przy obecnym pakiecie grafik). Wymaga firmware ≥ 1.4.18.",
       "Pakiet grafik panela: domyślnie tylko zbiornik paliwa w oknie Paliwo (pliki 48, 49, 50, 54 w img/panel/). Cały pakiet (wentylator, podajniki, zawór, grzałka, kocioł) włącza opcja grafiki: pelne.",
       "Grzałka zapalarki: animacja pulsowania 65→66→67→65 (zamiast dwóch stanów).",
       "Pakiet oryginalnych grafik panela (opcjonalny, katalog img/panel/ – generowany z własnego FW2213TK.bin: tools/pakiet_grafik.py): animowany wentylator i podajniki 1/2, zasobnik z pelletem i suwak w oknie Paliwo, zawór mieszacza ze strzałkami, grzałka zapalarki, obrazy kotła/palnika/bojlera 1:1. Bez pakietu – dotychczasowe wektory. Opcja boiler_image: 11/12/13. Grzałka wymaga firmware ≥ 1.4.17.",

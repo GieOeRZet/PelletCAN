@@ -2,6 +2,9 @@
 
 Najnowsze na górze. Karta ma osobny plik: [CHANGELOG.md](CHANGELOG.md).
 
+## v1.4.18
+- Nowe odczyty i zapis (`set_param` 66–75), rejestry z firmware panela FW2213TK: **CWU temperatura maksymalna** `0x201C` (40–80 °C), **CWU antylegionella** `0x2297` (0/1), **krzywa wentylatora spalin 1–5** `0x2268/0x226E/0x226F/0x2275/0x227A` (0–100 %), **alarm dźwiękowy** `0x3506` (0/1) i **cisza od/do** `0x3508/0x3509` (0–24 h). Encje: „CWU temperatura maksymalna”, „CWU antylegionella”, „Wentylator spalin krzywa 1–5”, „Alarm dzwiekowy”, „Alarm cisza od/do”. Wymaga karty ≥ 1.23. Zapisy do potwierdzenia na kotle.
+
 ## v1.4.17
 - Odczyt **zapalarki** `0x2253` (u16, 0–100 %) → encja „Palnik zapalarka” (cyklicznie z pozostałymi rejestrami palnika). Wymaga karty ≥ 1.20 (ikona grzałki).
 

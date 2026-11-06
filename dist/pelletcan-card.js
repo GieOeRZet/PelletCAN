@@ -177,7 +177,7 @@
 {
 "t": "x",
 "old": "  stats: 'statystyki_kotla', mirror: 'tryb_mirror',",
-"new": "  stats: 'statystyki_kotla', burn_ign: 'palnik_zapalarka', fuel_use: 'paliwo_zuzycie_24h', fuel_days: 'paliwo_prognoza', fuel_low: 'paliwo_rezerwa', mirror: 'tryb_mirror', ret_temp: 'temperatura_powrotu', boiler_pump_min: 'kociol_minimalna_temp_pomp', boiler_pump_run: 'kociol_wybieg_pompy', boiler_fuel_reserve: 'kociol_rezerwa_paliwa_stop', boiler_ret_min: 'kociol_minimalna_temp_powrotu', boiler_mixer_time: 'kociol_czas_mieszacza', co_room: 'co1_czujnik_pokojowy_0_brak_1_ctp1_2_ctp2_3_videroom_4_termostat_5_can', co_source: 'co1_zrodlo_0_kociol_1_bufor', co_co_sensor: 'co1_czujnik_co_0_1', co_const_pump: 'co1_stala_pompa_0_1', co_ret_protect: 'co1_obnizenie_tco_ochrona_powrotu_0_1', co_src_inc: 'co1_zwiekszenie_temp_zrodla', co_tmax: 'co1_temperatura_maksymalna', co_corr: 'co1_wspolczynnik_korekcji_t_co', co_out_comf: 'co1_max_tzew_pomp_komfort', co_out_eco: 'co1_max_tzew_pomp_ekon', co_lower: 'co1_obnizenie_temperatury_co', co_pump_min: 'co1_min_temperatura_co_pomp', co_mixer_time: 'co1_czas_mieszacza', mix_co1: 'mieszacz_co1_stan', mix_ret: 'mieszacz_powrotu_stan', boiler_hyst_on: 'histereza_zalaczenia_kotla', boiler_hyst_off: 'histereza_wylaczenia_kotla', co_hyst: 'co1_histereza', co_calib: 'co1_kalibracja_czujnika', co_mode_s: 'co1_tryb_pracy_0_reczny_1_pogodowy', co_cur_m20: 'co1_krzywa_pogodowa_20_c', co_cur_0: 'co1_krzywa_pogodowa_0_c', co_cur_10: 'co1_krzywa_pogodowa_10_c', cwu_hyst: 'cwu_histereza', cwu_src: 'cwu_zrodlo', cwu_src_inc: 'cwu_zwiekszenie_temp_zrodla', cwu_delta: 'cwu_delta_zalaczenia_pompy', cwu_boost: 'cwu_zagrzej_teraz_0_1', cwu_prio: 'cwu_priorytet_0_1',"
+"new": "  stats: 'statystyki_kotla', burn_ign: 'palnik_zapalarka', fuel_use: 'paliwo_zuzycie_24h', fuel_days: 'paliwo_prognoza', fuel_low: 'paliwo_rezerwa', mirror: 'tryb_mirror', ret_temp: 'temperatura_powrotu', boiler_pump_min: 'kociol_minimalna_temp_pomp', boiler_pump_run: 'kociol_wybieg_pompy', cwu_tmax: 'cwu_temperatura_maksymalna', exh_c1: 'wentylator_spalin_krzywa_1', exh_c2: 'wentylator_spalin_krzywa_2', exh_c3: 'wentylator_spalin_krzywa_3', exh_c4: 'wentylator_spalin_krzywa_4', exh_c5: 'wentylator_spalin_krzywa_5', alarm_snd: 'alarm_dzwiekowy', alarm_sil_from: 'alarm_cisza_od', alarm_sil_to: 'alarm_cisza_do', boiler_fuel_reserve: 'kociol_rezerwa_paliwa_stop', boiler_ret_min: 'kociol_minimalna_temp_powrotu', boiler_mixer_time: 'kociol_czas_mieszacza', co_room: 'co1_czujnik_pokojowy_0_brak_1_ctp1_2_ctp2_3_videroom_4_termostat_5_can', co_source: 'co1_zrodlo_0_kociol_1_bufor', co_co_sensor: 'co1_czujnik_co_0_1', co_const_pump: 'co1_stala_pompa_0_1', co_ret_protect: 'co1_obnizenie_tco_ochrona_powrotu_0_1', co_src_inc: 'co1_zwiekszenie_temp_zrodla', co_tmax: 'co1_temperatura_maksymalna', co_corr: 'co1_wspolczynnik_korekcji_t_co', co_out_comf: 'co1_max_tzew_pomp_komfort', co_out_eco: 'co1_max_tzew_pomp_ekon', co_lower: 'co1_obnizenie_temperatury_co', co_pump_min: 'co1_min_temperatura_co_pomp', co_mixer_time: 'co1_czas_mieszacza', mix_co1: 'mieszacz_co1_stan', mix_ret: 'mieszacz_powrotu_stan', boiler_hyst_on: 'histereza_zalaczenia_kotla', boiler_hyst_off: 'histereza_wylaczenia_kotla', co_hyst: 'co1_histereza', co_calib: 'co1_kalibracja_czujnika', co_mode_s: 'co1_tryb_pracy_0_reczny_1_pogodowy', co_cur_m20: 'co1_krzywa_pogodowa_20_c', co_cur_0: 'co1_krzywa_pogodowa_0_c', co_cur_10: 'co1_krzywa_pogodowa_10_c', cwu_hyst: 'cwu_histereza', cwu_src: 'cwu_zrodlo', cwu_src_inc: 'cwu_zwiekszenie_temp_zrodla', cwu_delta: 'cwu_delta_zalaczenia_pompy', cwu_boost: 'cwu_zagrzej_teraz_0_1', cwu_prio: 'cwu_priorytet_0_1',"
 },
 {
 "t": "x",
@@ -331,6 +331,15 @@
       { t: 'Czujnik pokojowy', r: 'co_room', opts: ['brak', 'CTP1', 'CTP2', 'videROOM', 'termostat', 'CAN'], sk: 63 },
       { t: 'Wybieg pompy [min]', r: 'boiler_pump_run', lo: 0, hi: 120, st: 1, dc: 0, sk: 64 },
       { t: 'Rezerwa paliwa stop [kg]', r: 'boiler_fuel_reserve', lo: 0, hi: 100, st: 1, dc: 0, sk: 65 },
+      { t: 'Temp. maksymalna [°C]', r: 'cwu_tmax', lo: 40, hi: 80, st: 1, dc: 0, sk: 66 },   // 38
+      { t: 'Wentylator spalin – krzywa 1 [%]', r: 'exh_c1', lo: 0, hi: 100, st: 1, dc: 0, sk: 68 },   // 39..43
+      { t: 'Wentylator spalin – krzywa 2 [%]', r: 'exh_c2', lo: 0, hi: 100, st: 1, dc: 0, sk: 69 },
+      { t: 'Wentylator spalin – krzywa 3 [%]', r: 'exh_c3', lo: 0, hi: 100, st: 1, dc: 0, sk: 70 },
+      { t: 'Wentylator spalin – krzywa 4 [%]', r: 'exh_c4', lo: 0, hi: 100, st: 1, dc: 0, sk: 71 },
+      { t: 'Wentylator spalin – krzywa 5 [%]', r: 'exh_c5', lo: 0, hi: 100, st: 1, dc: 0, sk: 72 },
+      { t: 'Alarm dźwiękowy', r: 'alarm_snd', opts: ['Wyłączony', 'Włączony'], sk: 73, tog: true },   // 44
+      { t: 'Cisza od [h]', r: 'alarm_sil_from', lo: 0, hi: 24, st: 1, dc: 0, sk: 74 },   // 45
+      { t: 'Cisza do [h]', r: 'alarm_sil_to', lo: 0, hi: 24, st: 1, dc: 0, sk: 75 },   // 46
     ];
     C.prototype._po = function (k) {
       const c = PR[k], v = this._v(c.r);
@@ -479,9 +488,9 @@
       { k: 41, t: 'Pod. palnika [%]', r: 'p_burner_feed', lo: 50, hi: 300, st: 1, dc: 0, lv: 2 },
       { k: 42, t: 'Okres podajnika zasobnika [s]', r: 'p_feeder_period', lo: 5, hi: 180, st: 1, dc: 0, lv: 2 },
       { k: 43, t: 'Minimalne obroty dmuchawy [x100]', r: 'p_min_rpm', lo: 0, hi: 5, st: 1, dc: 0, lv: 2 },
-      { k: 44, t: 'Antylegionella', r: 'legion', tog: true, lv: 0 },
+      { k: 67, t: 'Antylegionella', r: 'legion', tog: true, lv: 0 },
     ];
-    W.PR2 = PR2;
+    W.PR2 = PR2; W.PR = PR;
     const L1 = [1, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 'wsp', 13, 14, 15, 16], L2 = [17, 18, 19, 20, 21];
     const q = (v, c) => Number(Math.max(c.lo, Math.min(c.hi, Math.round(v / c.st) * c.st)).toFixed(c.dc));
     const KEYDIV = n => `<div class="svsep"><ha-icon icon="mdi:wrench" style="--mdc-icon-size:5cqw"></ha-icon><sup>${n}</sup></div>`;
@@ -562,7 +571,7 @@
       const l = this._lvl(), r = [
         mrow('kociol', 'Kocioł', 'mdi:water-boiler'), mrow('burner_s', 'Palnik', 'mdi:fire'), mrow('co_s', 'Ogrzewanie obwód 1', 'mdi:radiator'),
         mrow('cwu_s', 'Ciepła woda użytkowa', 'mdi:faucet'), mrow('alarm', 'Historia alarmów', 'mdi:clipboard-alert-outline')];
-      if (l >= 1) r.push(mrow(null, 'Język', 'mdi:translate', (this._langLbl || 'PL')), mrow(null, 'Alarm dźwiękowy', 'mdi:volume-high', '<span class="tgq on"><i></i></span>'),
+      if (l >= 1) r.push(mrow(null, 'Język', 'mdi:translate', (this._langLbl || 'PL')), mrow(null, 'Alarm dźwiękowy', 'mdi:volume-high', this._po(44)),
         mrow('conf', 'Konfiguracja', 'mdi:cog'), mrow('test', 'Test wyjść', 'mdi:toggle-switch-outline'), mrow('stats', 'Statystyki', 'mdi:chart-box-outline'), mrow('net', 'Sieć', 'mdi:lan'));
       r.push(mrow('info', 'Informacje o programie', 'mdi:information'));
       r.push(`<div class="row go mi" data-go="level" data-back="menu"><span class="l"><ha-icon icon="mdi:account-lock"></ha-icon>Poziom menu (PIN)</span></div>`);
@@ -612,7 +621,7 @@
       const r = [P('Korekta powietrza [%]', this._p(this._v('air_corr'), 0), 3), P('Moc min [%]', this._p(this._v('power_min'), 0), 0),
         P('Moc max [%]', this._p(this._v('power_max'), 0), 1), P('Wartość opałowa [kWh/kg]', this._p(this._v('fuel_heat'), 1), 2),
         P('Ilość paliwa test [kg/h]', this._p(this._v('fuel_test'), 1), 4)];
-      const item = i => i === 'wsp' ? e('Wentylator wspomagający', '-') : this._q2row(i);
+      const item = i => i === 'wsp' ? [39, 40, 41, 42, 43].map(k => this._prow(PR[k].t, this._po(k), k)).join('') : this._q2row(i);
       if (l >= 1) {
         r.push(KEYDIV(1), '<div class="row go" data-go="fanmod" data-back="burner_s"><span class="l">Moc dmuchawy modulacja [%]</span><span class="v ch">&rsaquo;</span></div>');
         L1.forEach(i => r.push(item(i)));
@@ -624,7 +633,7 @@
       const l = this._lvl(), e = (a, b) => this._row(a, b);
       const r = [e('Temperatura komfortowa [°C]', this._p(this._v('cwu_comfort'), 0)), e('Temperatura ekonomiczna [°C]', this._p(this._v('cwu_eco'), 0)),
         this._prow('Zagrzej teraz', this._po(14), 14), this._prow('Histereza [°C]', this._po(15), 15), this._q2row(22), this._prow('Priorytet CWU', this._po(16), 16)];
-      if (l >= 1) r.push(KEYDIV(1), this._prow('Źródło', this._po(17), 17), this._prow('Zwiększenie temperatury źródła [°C]', this._po(18), 18), this._prow('Delta załączenia pompy [°C]', this._po(19), 19), `<div class="row na"><span class="l">Temp. maksymalna [°C]</span><span class="v">-</span></div>`);
+      if (l >= 1) r.push(KEYDIV(1), this._prow('Źródło', this._po(17), 17), this._prow('Zwiększenie temperatury źródła [°C]', this._po(18), 18), this._prow('Delta załączenia pompy [°C]', this._po(19), 19), this._prow('Temp. maksymalna [°C]', this._po(38), 38));
       return this._page('NASTAWY', this._backTo, r.join('')) + (this._pr ? this._prDlg() : '') + (this._q2 ? this._q2Dlg() : '');
     };
     const NA = t => `<div class="row na"><span class="l">${t}</span><span class="v">-</span></div>`;
@@ -678,7 +687,7 @@
     C.prototype.__v81 = true;
     const o = C.prototype._cwuS;
     C.prototype._cwuS = function () {
-      return o.call(this).replace(/<div class="row" data-act="q2tog" data-i="22">.*?<\/div>/, this._row('Antylegionella', '-'));
+      return o.call(this);
     };
 
     })();
@@ -986,7 +995,7 @@
       let BC = null;
       const bi = c => { if (c !== undefined) BC = c; if (!FULL(BC && { _cfg: BC })) return; T.burner = U(17); IM2.tank = U(14); T.boiler = U([11, 12, 13].includes(+(BC && BC.boiler_image)) ? +BC.boiler_image : 13); };
       bi(null);
-      window.addEventListener('tekla-img', () => { if (T.boiler !== U([11, 12, 13].includes(+(BC && BC.boiler_image)) ? +BC.boiler_image : 13) || T.burner !== U(17)) { bi(); window.dispatchEvent(new Event('tekla-img')); } });
+      window.addEventListener('tekla-img', () => { if (!FULL(BC && { _cfg: BC })) return; if (T.boiler !== U([11, 12, 13].includes(+(BC && BC.boiler_image)) ? +BC.boiler_image : 13) || T.burner !== U(17)) { bi(); window.dispatchEvent(new Event('tekla-img')); } });
       const sc3 = C.prototype.setConfig;
       C.prototype.setConfig = function (c) { bi(c); return sc3.call(this, c); };
       window.dispatchEvent(new Event('tekla-img'));
@@ -994,7 +1003,7 @@
 
     // ---- tryb demo (YAML: demo: true) = dane przykladowe bez ESP/HA, do zrzutow ekranu i testow wygladu ----
     const DEMO = {
-      boiler_temp: 68.4, boiler_set: 70, boiler_manual: 70, outside: 3.5, ret_temp: 55.2, on: 'on', power_switch: 'on',
+      cwu_tmax: 60, legion: 1, exh_c1: 20, exh_c2: 30, exh_c3: 40, exh_c4: 50, exh_c5: 60, alarm_snd: 1, alarm_sil_from: 22, alarm_sil_to: 6, boiler_temp: 68.4, boiler_set: 70, boiler_manual: 70, outside: 3.5, ret_temp: 55.2, on: 'on', power_switch: 'on',
       burner: 'Praca', burner_code: 5, power: 62, burn_kw: 14.8, burn_kgh: 3.1, burn_bright: 74, burn_temp: 412,
       air_corr: 0, power_min: 30, power_max: 100, fuel_heat: 4.8, fuel_test: 21.5, fan_pct: 48, blower_run: 'on', feeder_run: 'on', burn_ign: 60, mix_co1: 1, feeder: 'Stop',
       burn_time: '5 h 12 min', fuel: 183, fuel_cap: 250, fuel_pct: 73, feed_time: 7,
@@ -1034,7 +1043,7 @@
     window.customCards = window.customCards || [];   // wybor karty w edytorze dashboardu
     if (!window.customCards.some(c => c.type === 'pelletcan-card')) window.customCards.push({ type: 'pelletcan-card', name: 'PelletCAN-card', description: 'Panel kotła pelletowego (replika panelu Igneo Touch) dla PelletCAN', preview: false });
     // ---- edytor wizualny: sekcje wg ekranow i menu karty ----
-    const PR2L = {}; ((W && W.PR2) || []).forEach(c => { PR2L[c.r] = c.t; });
+    const PR2L = {}; ((W && W.PR) || []).concat((W && W.PR2) || []).forEach(c => { PR2L[c.r] = c.t; });
     const LBL = {}; D.ENT_GROUPS.forEach(g => g[1].forEach(f => { LBL[f[0]] = f[1]; }));
     const lab = r => LBL[r] || PR2L[r] || (r === 'fw_ver' ? 'Wersja firmware (ekran INFO)' : r);
     const GR = [
@@ -1044,7 +1053,9 @@
       ['Ekran Woda użytkowa (CWU)', ['cwu_temp', 'cwu_set', 'cwu_comfort', 'cwu_eco', 'sch_cwu', 'cwu_mode', 'cwu_mode_sel', 'cwu_pump'], 0],
       ['Menu → Palnik → NASTAWY (użytkownik)', ['air_corr', 'power_min', 'power_max', 'fuel_heat', 'fuel_test'], 0],
       ['Menu → Ciepła woda → NASTAWY', ['cwu_hyst', 'cwu_boost', 'cwu_prio', 'legion'], 0],
-      ['Menu → Ciepła woda → NASTAWY (klucz 1)', ['cwu_src', 'cwu_src_inc', 'cwu_delta'], 1],
+      ['Menu → Ciepła woda → NASTAWY (klucz 1)', ['cwu_src', 'cwu_src_inc', 'cwu_delta', 'cwu_tmax'], 1],
+      ['Menu → Konfiguracja → Alarm dźwiękowy (klucz 1)', ['alarm_snd', 'alarm_sil_from', 'alarm_sil_to'], 1],
+      ['Menu → Palnik → NASTAWY → Wentylator spalin (klucz 1)', ['exh_c1', 'exh_c2', 'exh_c3', 'exh_c4', 'exh_c5'], 1],
       ['Menu → Historia alarmów', ['alarm', 'last_alarm', 'alarm_start', 'alarm_end', 'confirm'], 0],
       ['Menu → Kocioł → NASTAWY (użytkownik)', ['boiler_hyst_on', 'boiler_hyst_off'], 0],
       ['Menu → Kocioł → NASTAWY (klucz 1)', ['boiler_pump_min', 'boiler_pump_run', 'boiler_ret_min', 'boiler_mixer_time', 'boiler_fuel_reserve'], 1],
@@ -1269,7 +1280,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.22';
+    const CARD_VER = '1.23';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };
@@ -1310,12 +1321,14 @@
         const m = this._mirror(), fw = this._fwVer();
         return this._page('KONFIGURACJA', 'menu', [
           row('Język', 'mdi:translate', this._langLbl || 'PL'),
-          row('Alarm dźwiękowy', 'mdi:volume-high', '<span class="tgq on"><i></i></span>'),
+          `<div class="row mi" data-act="pedit" data-k="44"><span class="l"><ha-icon icon="mdi:volume-high"></ha-icon>Alarm dźwiękowy</span><span class="v">${this._po(44)}</span></div>`,
+          `<div class="row mi" data-act="pedit" data-k="45"><span class="l"><ha-icon icon="mdi:volume-off"></ha-icon>Cisza od [h]</span><span class="v">${this._po(45)}</span></div>`,
+          `<div class="row mi" data-act="pedit" data-k="46"><span class="l"><ha-icon icon="mdi:volume-off"></ha-icon>Cisza do [h]</span><span class="v">${this._po(46)}</span></div>`,
           row('Tryb pracy karty', 'mdi:monitor-eye', m ? 'Lustro (tylko podgląd)' : 'Sterowanie'),
           row('Węzeł ESPHome', 'mdi:chip', esc(this._node())),
           row('Poziom menu', 'mdi:account-lock', String(this._lvl())),
           row('Wersja firmware', 'mdi:memory', esc(fw || '-')),
-          row('Wersja karty', 'mdi:card-text-outline', CARD_VER)].join(''));
+          row('Wersja karty', 'mdi:card-text-outline', CARD_VER)].join('')) + (this._pr ? this._prDlg() : '');
       }
       if (s !== 'info') return ob.call(this, s);
       wire(this);

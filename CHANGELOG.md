@@ -2,6 +2,10 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.23 – Nastawy z firmware panela
+- Menu Ciepła woda: **Temp. maksymalna** i **Antylegionella** (odczyt i zapis). Palnik → NASTAWY (klucz 1): **Wentylator spalin – krzywa 1–5**. Konfiguracja: **Alarm dźwiękowy**, **Cisza od / do** (dotąd atrapa). Wymaga firmware ≥ 1.4.18.
+- Poprawka błędu z 1.22: przy obecnym pakiecie grafik zdarzenie `tekla-img` zapętlało się (przepełnienie stosu w konsoli).
+
 ## v1.22 – Pakiet grafik: domyślnie tylko zbiornik paliwa
 - Z pakietu `img/panel/` karta domyślnie bierze tylko **zbiornik paliwa** w oknie Paliwo (pliki 48, 49, 50, 54). Wystarczy skopiować te 4 pliki; wentylator, podajniki, zawór, grzałka i obrazy kotła/palnika/bojlera pozostają wektorami.
 - Opcja `grafiki: pelne` włącza cały pakiet jak w 1.20–1.21.
