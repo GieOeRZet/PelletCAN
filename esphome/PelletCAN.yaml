@@ -101,7 +101,8 @@ substitutions:
   # 9. DIAGNOSTYKA
   # ===================================================================
   can_debug: "false"         # loguje WSZYSTKIE ramki CAN (tylko do diagnozy)
-  sniff: "true"              # podsluch SDO innych wezlow (szukanie rejestrow)
+  sniff: "false"             # podsluch SDO innych wezlow (szukanie rejestrow); "true" = log zapisow panelu
+  diag_log: "false"          # dodatkowe wpisy diagnostyczne (NMT, IDENT, PDO, SKAN SIECI); "false" = czysty log
   can_auto_restart: "false"  # automatyczny restart, gdy CAN nie wystartuje
   can_node_id: "90"          # numer wezla CAN ESP (dziesietnie; 86 i 87 sa zajete przez urzadzenia kotla)
   can_identity: "true"       # odpowiedzi SDO 0x1000/0x1008/0x100A/0x1018 (nazwa PelletCAN + wersja softu w zakladce Siec panelu)

@@ -27,11 +27,12 @@ Projekt stworzony przez Romana Gorza (pomysł, kierunek, testy na własnej insta
 10. [Grafiki](#grafiki)
 11. [Rozwiązywanie problemów](#rozwiązywanie-problemów)
 12. [Struktura repozytorium](#struktura-repozytorium)
+13. [Skaner rejestrów i szukanie nowych](#skaner-rejestrów-i-szukanie-nowych)
 
 ## Co jest w środku
 - **Firmware ESPHome** – plik użytkownika `esphome/PelletCAN.yaml` (ustawienia) + rdzeń `esphome/PelletCAN_packages.yaml` (logika, pobierany z GitHuba przy kompilacji) – odczyt temperatur, trybów, alarmów, harmonogramów i ustawień palnika, zapis nastaw, moc palnika w kW i spalanie liczone w ESP, poziomy dostępu z PIN-em, historia 20 alarmów z kotła.
 - **Karta** (`dist/pelletcan-card.js`) – jeden plik wejściowy. Ma ekrany jak panel (główny, Ogrzewanie, Woda, Palnik, Menu z podmenu), edycję nastaw i harmonogramów, historię alarmów.
-- **Katalog rejestrów CANopen** (`docs/rejestry/`) – opis i CSV znanych rejestrów węzła 4 i 86.
+- **Katalog rejestrów CANopen i skaner** ([`rejestry/`](rejestry/README.md)) – pełny katalog rejestrów węzła 4 i 86 (zakresy, kodowanie, R/W, co jest już wykorzystane) oraz instrukcja szukania nowych rejestrów.
 
 Karta nie wymaga szablonów (template sensors) ani helperów w HA. Elementy bez encji pokazują „-”.
 
@@ -193,9 +194,15 @@ Karta używa `img/kociol.*`, `img/palnik.*`, `img/bojler.*` (png, webp, jpg, jpe
 | `dist/tekla-panel-card.js` | rdzeń karty, pobierany przez `pelletcan-card.js` |
 | `dist/pelletcan-lang.js` | tłumaczenia interfejsu (generowany z `docs/lang/pelletcan-lang.txt` przez `tools/gen_lang.py`) |
 | `dist/img/` | grafiki kotła, palnika i bojlera (można podmienić) |
-| `docs/rejestry/` | katalog rejestrów CANopen (opis + CSV) |
+| `rejestry/` | katalog rejestrów CANopen (`katalog-rejestrow.csv`), kody alarmów, **instrukcja skanera rejestrów** (`README.md`) |
+| `tools/oznacz_uzycie.py` | przelicza w katalogu, które rejestry są wykorzystane w firmware |
 | `docs/img/` | zrzuty ekranu do tego README |
 | `CHANGELOG.md`, `CHANGELOG-firmware.md` | historia zmian karty i firmware |
+
+## Skaner rejestrów i szukanie nowych
+Firmware ma wbudowane akcje HA do czytania i zapisu dowolnego rejestru kotła: `sdo_scan` (zakres, wyniki w encji „SDO ostatni odczyt”), `sdo_scan_stop`, `sdo_read`, `sdo_write`. Reszta (migawki, encje diagnostyczne) jest wyłączona, więc log ESPHome pokazuje tylko to, co się dzieje na magistrali. Typowa procedura: zmieniasz jedną nastawę na panelu na niecodzienną wartość, skanujesz strefy rejestrów i szukasz tej wartości (flaga+bajt: `256 + wartość`). Pełna instrukcja – zakresy, kodowanie, pułapki, dodawanie rejestru do firmware i karty, lista otwartych pozycji – w **[rejestry/README.md](rejestry/README.md)**; katalog wszystkich znanych rejestrów (z oznaczeniem, które są już użyte): [rejestry/katalog-rejestrow.csv](rejestry/katalog-rejestrow.csv).
+
+Ustawienia diagnostyczne w `PelletCAN.yaml`: `diag_log` (dodatkowe wpisy NMT/IDENT/PDO), `sniff` (podsłuch zapisów panelu), `can_debug` (wszystkie ramki) – domyślnie `"false"`.
 
 ## Ostatnie zmiany
 - **v1.0 (karta i firmware)** – pierwsze oficjalne wydanie PelletCAN. Wszystko, co powstało w wersjach roboczych, jest stanem v1.0 – szczegóły w [CHANGELOG.md](CHANGELOG.md) (karta) i [CHANGELOG-firmware.md](CHANGELOG-firmware.md) (firmware).

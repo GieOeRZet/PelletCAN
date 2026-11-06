@@ -2,6 +2,13 @@
 
 Najnowsze na górze. Karta ma osobny plik: [CHANGELOG.md](CHANGELOG.md).
 
+## v1.4.14
+- **Czysty log**: wyłączone (domyślnie) wpisy diagnostyczne – NMT/heartbeat innych węzłów, `IDENT`, zmiany `PDO 0x456/0x356`, `FEED PDO 0x2D7`, raport `SKAN SIECI` – za nowym ustawieniem `diag_log: "false"` (`"true"` przywraca). `sniff` domyślnie `"false"`.
+- Encje **CAN diag** i **CAN ID ramek** są `internal` (niewidoczne w HA).
+- **Migawki wykomentowane**: akcje `sdo_snapshot_cat`, `sdo_snapshot_range` oraz przyciski „Migawka katalogowa”, „Migawka STOP”. Zostają narzędzia skanera: `sdo_scan`, `sdo_scan_stop`, `sdo_read`, `sdo_write` (+ `sdo_poll_add/clear`).
+- **Skan pokazuje także rejestry znane firmware** (do tej pory trafiały tylko do własnych encji) – wynik zawsze w „SDO ostatni odczyt”.
+- Dokumentacja: nowy folder [`rejestry/`](rejestry/README.md) – pełny katalog rejestrów (`katalog-rejestrow.csv`, ze zakresami, kodowaniem, R/W i oznaczeniem wykorzystania) i instrukcja skanera; `tools/oznacz_uzycie.py`; przepisany `docs/DIAGNOSTYKA.md`.
+
 ## v1.4.13
 - **Kocioł NASTAWY**: `set_param` 64 = Wybieg pompy (0x3708, 0–120 min, flaga+bajt; znaleziony skanem po zmianie 0→13 na panelu: 256→269), 65 = Rezerwa paliwa stop (0x3604, 0–100 kg, liczba; 0→17). Encje „Kociol wybieg pompy”, „Kociol rezerwa paliwa stop”. Menu Kocioł NASTAWY kompletne.
 

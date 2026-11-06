@@ -1,7 +1,8 @@
 {
   "firmware": {
-    "version": "1.4.13",
+    "version": "1.4.14",
     "changelog": [
+      "Czysty log: diagnostyka (NMT, IDENT, PDO, SKAN SIECI) wyłączona domyślnie (diag_log), migawki wykomentowane, CAN diag/CAN ID ramek niewidoczne w HA; zostaje skaner sdo_scan/sdo_read/sdo_write, który pokazuje też rejestry znane. Nowy folder rejestry/ z pełnym katalogiem i instrukcją. Wymień PelletCAN.yaml (nowe diag_log). Karta bez zmian.",
       "Kocioł NASTAWY: Wybieg pompy (0x3708) i Rezerwa paliwa stop (0x3604) – odczyt i zapis (set_param 64–65). Wymaga karty ≥ 1.17.",
       "Piny i układ CAN w substitutions (pin_spi_clk/mosi/miso, pin_can_cs, can_spi_rate, pin_rf_switch, pin_rf_antenna) – łatwe dostrojenie pod inny ESP / moduł MCP2515 w PelletCAN.yaml. Nowy: Czujnik pokojowy CO1 (0x22A1, set_param 63). Wymaga karty ≥ 1.16 (czujnik pokojowy).",
       "Ogrzewanie 1 NASTAWY: Źródło (0x22D1: 0 Kocioł / 1 Bufor) i Czujnik CO (0x22A5) – set_param 61–62. Wymaga karty ≥ 1.15.",

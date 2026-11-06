@@ -6,13 +6,9 @@
 # XIAO ESP32-C6 + Seeed CAN Bus Breakout (MCP2515, kwarc 16 MHz)
 # CANopen SDO, wezel kotla 0x04, 125 kbit/s
 #
-# JAK DODAWAC NOWE REJESTRY (np. harmonogramy):
-#  1. Odpal akcje "sdo_snapshot_cat" (lub przycisk "Migawka katalogowa") - czyta 593 znanych rejestrow
-#     (ok. 72 s); wynik w encji "SDO ostatni odczyt" i w historii HA.
-#  2. Zmien wartosc w videRoom/videNET/panelu i zobacz, ktory rejestr sie zmienil
-#     (akcja "sdo_poll_add" dodaje rejestr do cyklicznego odczytu, wynik
-#     w encji "SDO ostatni odczyt" i w logach).
-#  3. Gdy wiesz co to jest - dopisz "case 0x....:" w switch i encje nizej.
+# JAK SZUKAC I DODAWAC NOWE REJESTRY: instrukcja skanera w rejestry/README.md (repo GitHub).
+#  Skrot: zmien jedna nastawe na panelu, odpal akcje "sdo_scan" (indeksy dziesietnie), wynik w encji
+#  "SDO ostatni odczyt"; gdy wiesz co to jest - dopisz "case 0x....:" w parserze, set_param (ix/lo/hi/lv) i encje.
 # Zapis: akcja "sdo_write" dziala dopiero po ustawieniu write_enabled: "true".
 # =====================================================================
 substitutions:
@@ -49,7 +45,7 @@ substitutions:
   pin_autolock_min: "5"    # blokada poziomu po tylu minutach bezczynnosci (0 = bez blokady)
   burner_eff_kw: "0.90"    # sprawnosc kotla do mocy [kW] (potwierdzone z panelem)
   burner_eff_fuel: "0.85"  # EMPIRYCZNY wspolczynnik do spalania [kg/h] (dopasowanie do panelu)
-  fw_version: "1.4.13"
+  fw_version: "1.4.14"
   # ---- PINY I UKLAD CAN (domyslnie: XIAO ESP32-C6 + Seeed CAN Bus Breakout z MCP2515) ----
   # Inny ESP lub inny modul CAN (MCP2515): zmien te wartosci w PelletCAN.yaml (nie edytuj rdzenia).
   # Zapis jak w ESPHome: GPIO17, albo nazwa pinu plytki (np. D7) - wg dokumentacji Twojej plytki.
@@ -100,7 +96,9 @@ substitutions:
   # Loguje WSZYSTKIE odebrane ramki CAN (do diagnozy; po uruchomieniu daj "false").
   can_debug: "false"
   # Podsluch SDO innych wezlow (nowe ramki / zmiany / zapisy). Zostaw "true" do szukania rejestrow.
-  sniff: "true"
+  sniff: "false"
+  # v1.4.14: "true" = dodatkowe wpisy diagnostyczne (NMT, IDENT, PDO, SKAN SIECI) w logu i w "SDO ostatni odczyt". Domyslnie "false" = czysty log.
+  diag_log: "false"
   # Automatyczny restart gdy CAN nie wystartuje ("true"/"false"). Do diagnozy zostaw "false".
   can_auto_restart: "false"
   # v1.4: ESP wystepuje na magistrali jako wlasny wezel CAN (numer dziesietnie; 86 = CAN IO BIG, 87 = inne urzadzenie kotla - ZAJETE):
@@ -301,37 +299,38 @@ api:
             id(snap_on) = false;
             id(cat_mode) = false;
             id(scan_node) = 4;
+    # v1.4.14: WYKOMENTOWANE (migawki) - zostaje tylko skaner sdo_scan / sdo_read / sdo_write
     # Migawka KATALOGOWA: czyta tylko rejestry z katalogu (593 istniejacych, ok. 72 s) zamiast calych zakresow.
-    - action: sdo_snapshot_cat
-      then:
-        - lambda: |-
-            if (id(scan_on)) { ESP_LOGW("igneo", "Skan/migawka juz trwa (sdo_scan_stop przerywa)"); return; }
-            id(snap_new).clear();
-            id(scan_node) = 4;
-            id(cat_mode) = true;
-            id(scan_cur) = 0;
-            id(scan_end) = 592;
-            id(scan_sub) = 1;
-            id(snap_on) = true;
-            id(scan_on) = true;
-            ESP_LOGW("igneo", "Migawka katalogowa start (593 rejestrow)");
+#    - action: sdo_snapshot_cat
+#      then:
+#        - lambda: |-
+#            if (id(scan_on)) { ESP_LOGW("igneo", "Skan/migawka juz trwa (sdo_scan_stop przerywa)"); return; }
+#            id(snap_new).clear();
+#            id(scan_node) = 4;
+#            id(cat_mode) = true;
+#            id(scan_cur) = 0;
+#            id(scan_end) = 592;
+#            id(scan_sub) = 1;
+#            id(snap_on) = true;
+#            id(scan_on) = true;
+#            ESP_LOGW("igneo", "Migawka katalogowa start (593 rejestrow)");
     # Migawka ZAKRESU indeksow (np. 0x0000-0x0FFF = 0..4095; ~8 s na 64 rejestry): wyniki w "SDO ostatni odczyt" i historii HA.
-    - action: sdo_snapshot_range
-      variables:
-        from_index: int
-        to_index: int
-      then:
-        - lambda: |-
-            if (id(scan_on)) { ESP_LOGW("igneo", "Skan/migawka juz trwa (sdo_scan_stop przerywa)"); return; }
-            id(snap_new).clear();
-            id(scan_node) = 4;
-            id(cat_mode) = false;
-            id(scan_cur) = from_index;
-            id(scan_end) = to_index;
-            id(scan_sub) = 1;
-            id(snap_on) = true;
-            id(scan_on) = true;
-            ESP_LOGW("igneo", "Migawka zakresu 0x%04X-0x%04X start", from_index, to_index);
+#    - action: sdo_snapshot_range
+#      variables:
+#        from_index: int
+#        to_index: int
+#      then:
+#        - lambda: |-
+#            if (id(scan_on)) { ESP_LOGW("igneo", "Skan/migawka juz trwa (sdo_scan_stop przerywa)"); return; }
+#            id(snap_new).clear();
+#            id(scan_node) = 4;
+#            id(cat_mode) = false;
+#            id(scan_cur) = from_index;
+#            id(scan_end) = to_index;
+#            id(scan_sub) = 1;
+#            id(snap_on) = true;
+#            id(scan_on) = true;
+#            ESP_LOGW("igneo", "Migawka zakresu 0x%04X-0x%04X start", from_index, to_index);
     # Dodaj rejestr do cyklicznego odczytu (do restartu).
     - action: sdo_poll_add
       variables:
@@ -578,8 +577,10 @@ canbus:
                 if (nmt_seen.size() < 80 && nmt_seen.insert(kn).second) {
                   char nb[96];
                   snprintf(nb, sizeof(nb), "NMT id=0x%03X dlc=%d dane=%s", (unsigned) can_id, (int) x.size(), b);
-                  ESP_LOGW("igneo", "%s", nb);
-                  id(sdo_last).publish_state(nb);
+                  if (std::string("${diag_log}") == "true") {
+                    ESP_LOGW("igneo", "%s", nb);
+                    id(sdo_last).publish_state(nb);
+                  }
                   id(can_diag).publish_state(nb);
                 }
               }
@@ -587,7 +588,7 @@ canbus:
               // Loguje tylko NOWE ramki SDO lub takie, w ktorych zmienily sie dane. PDO (0x1xx-0x4xx) pomija.
               // Kazdy ZAPIS (cs 0x20..0x2F) loguje zawsze.
               // Podawanie reczne: panel nadaje PDO 0x2D7 (bajt0 = 1 gdy przycisk trzymany). Logujemy KAZDA ramke, zeby poznac okres.
-              if (can_id == 0x2D7) ESP_LOGW("igneo", "FEED PDO 0x2D7 t=%u dane=%s", (unsigned) millis(), b);
+              if (can_id == 0x2D7 && std::string("${diag_log}") == "true") ESP_LOGW("igneo", "FEED PDO 0x2D7 t=%u dane=%s", (unsigned) millis(), b);
               if (std::string("${sniff}") != "true") return;
               // PDO (dane procesowe 0x180..0x4FF): logujemy tylko ZMIANE konkretnego bajtu.
               // Bajty, ktore zmieniaja sie same (liczniki, temperatury) sa wyciszane po 6 zmianach na minute.
@@ -646,8 +647,10 @@ canbus:
                 if (ident_seen.size() < 80 && ident_seen.insert(kk).second) {
                   char ib[96];
                   snprintf(ib, sizeof(ib), "IDENT %s id=0x%03X idx=0x%04X sub=%u dane=%s", req ? "zapytanie" : "odpowiedz", (unsigned) can_id, (unsigned) sidx, (unsigned) ssub, b);
-                  ESP_LOGW("igneo", "%s", ib);
-                  id(sdo_last).publish_state(ib);
+                  if (std::string("${diag_log}") == "true") {
+                    ESP_LOGW("igneo", "%s", ib);
+                    id(sdo_last).publish_state(ib);
+                  }
                 }
               }
               if (req && sidx == 0x1018) return;  // skan wezlow (identyfikator urzadzenia) - po zalogowaniu
@@ -702,8 +705,10 @@ canbus:
                 if (ch) {
                   char b[40]; size_t p = 0;
                   for (size_t i = 0; i < x.size() && i < 8; i++) p += snprintf(b + p, sizeof(b) - p, "%02X ", x[i]);
-                  ESP_LOGW("igneo", "PDO 0x456 zmiana: %s", b);
-                  { std::string pd = std::string("PDO 0x456: ") + b; id(sdo_last).publish_state(pd); }
+                  if (std::string("${diag_log}") == "true") {
+                    ESP_LOGW("igneo", "PDO 0x456 zmiana: %s", b);
+                    std::string pd = std::string("PDO 0x456: ") + b; id(sdo_last).publish_state(pd);
+                  }
                 }
               }
       # Dmuchawa pracuje: PDO modulu CAN IO BIG (wezel 86) = 0x300 + 0x56 = 0x356, bajt 0, bit 0.
@@ -723,7 +728,7 @@ canbus:
                 if (ch) {
                   char b[40]; size_t p = 0;
                   for (size_t i = 0; i < x.size() && i < 8; i++) p += snprintf(b + p, sizeof(b) - p, "%02X ", x[i]);
-                  ESP_LOGW("igneo", "PDO 0x356 zmiana: %s", b);
+                  if (std::string("${diag_log}") == "true") ESP_LOGW("igneo", "PDO 0x356 zmiana: %s", b);
                 }
               }
       # v1.3: tozsamosc ESP jako wezel ${can_node_id} - odpowiedzi SDO (upload) na 0x1000 / 0x1001 / 0x1008 (nazwa, segmentowo) / 0x100A (wersja) / 0x1018.
@@ -874,7 +879,7 @@ canbus:
                 id(power_type) = (int) (raw & 0xFF);
                 ESP_LOGW("igneo", "Typ rejestru 0x2005 = 0x%02X", (unsigned) (raw & 0xFF));
               }
-              if (idx >= 0x2209 && idx <= 0x220F) {
+              if (idx >= 0x2209 && idx <= 0x220F && std::string("${diag_log}") == "true") {
                 char b2[128];
                 snprintf(b2, sizeof(b2), "%s cs=%02X [%02X %02X %02X %02X]", buf, cs, x[4], x[5], x[6], x[7]);
                 id(sdo_last).publish_state(b2);
@@ -1065,7 +1070,7 @@ canbus:
                 return;
               }
 
-              if (id(scan_on) && id(snap_on)) id(sdo_last).publish_state(buf);  // v2.20: migawka widzi tez rejestry z case
+              if (id(scan_on)) id(sdo_last).publish_state(buf);  // v1.4.14: skan pokazuje tez rejestry znane (z case)
               switch (idx) {
                 case 0x2001: id(boiler_temp).publish_state(t); break;
                 case 0x2003: id(boiler_set_manual).publish_state(t); break;
@@ -1265,7 +1270,7 @@ interval:
           char sb[255];
           snprintf(sb, sizeof(sb), "SKAN SIECI: panel pytal %d wezlow (%d..%d), ESP(%d) pytany %dx, %s", cnt, lo, hi, (int) ${can_node_id}, id(net_esp), id(net_txt).c_str());
           id(can_diag).publish_state(sb);
-          id(sdo_last).publish_state(sb);
+          if (std::string("${diag_log}") == "true") id(sdo_last).publish_state(sb);
           id(net_q_lo) = 0; id(net_q_hi) = 0; id(net_t) = 0; id(net_t0) = 0; id(net_esp) = 0; id(net_txt).clear();
   # v1.3: heartbeat NMT wezla ${can_node_id} (opcjonalny, can_heartbeat: "true")
   - interval: 1s
@@ -2402,13 +2407,13 @@ text_sensor:
     id: can_diag
     name: "CAN diag"
     icon: "mdi:lan-connect"
-    entity_category: diagnostic
+    internal: true   # v1.4.14: niewidoczne w HA
   # v1.3: unikalne ID ramek CAN widziane na magistrali (hex, do 60 ID).
   - platform: template
     id: can_ids
     name: "CAN ID ramek"
     icon: "mdi:format-list-bulleted"
-    entity_category: diagnostic
+    internal: true   # v1.4.14: niewidoczne w HA
 
 
 select:
@@ -2787,30 +2792,31 @@ button:
       - script.execute:
           id: set_feeder
           fm: 2
-  - platform: template
-    name: "Migawka katalogowa (tylko istniejace rejestry)"
-    icon: "mdi:camera-burst"
-    entity_category: diagnostic
-    on_press:
-      - lambda: |-
-          if (id(scan_on)) { ESP_LOGW("igneo", "Skan/migawka juz trwa"); return; }
-          id(snap_new).clear();
-          id(cat_mode) = true;
-          id(scan_cur) = 0;
-          id(scan_end) = 592;
-          id(scan_sub) = 1;
-          id(snap_on) = true;
-          id(scan_on) = true;
-          ESP_LOGW("igneo", "Migawka katalogowa start (593 rejestrow)");
-  - platform: template
-    name: "Migawka STOP"
-    icon: "mdi:stop"
-    entity_category: diagnostic
-    on_press:
-      - lambda: |-
-          id(scan_on) = false;
-          id(snap_on) = false;
-          ESP_LOGW("igneo", "Skan/migawka przerwane (przycisk web)");
+    # v1.4.14: WYKOMENTOWANE (migawki) - zostaje tylko skaner sdo_scan / sdo_read / sdo_write
+#  - platform: template
+#    name: "Migawka katalogowa (tylko istniejace rejestry)"
+#    icon: "mdi:camera-burst"
+#    entity_category: diagnostic
+#    on_press:
+#      - lambda: |-
+#          if (id(scan_on)) { ESP_LOGW("igneo", "Skan/migawka juz trwa"); return; }
+#          id(snap_new).clear();
+#          id(cat_mode) = true;
+#          id(scan_cur) = 0;
+#          id(scan_end) = 592;
+#          id(scan_sub) = 1;
+#          id(snap_on) = true;
+#          id(scan_on) = true;
+#          ESP_LOGW("igneo", "Migawka katalogowa start (593 rejestrow)");
+#  - platform: template
+#    name: "Migawka STOP"
+#    icon: "mdi:stop"
+#    entity_category: diagnostic
+#    on_press:
+#      - lambda: |-
+#          id(scan_on) = false;
+#          id(snap_on) = false;
+#          ESP_LOGW("igneo", "Skan/migawka przerwane (przycisk web)");
 
   - platform: template
     name: "Dmuchawa: Automat"
