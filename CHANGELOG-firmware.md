@@ -2,6 +2,9 @@
 
 Najnowsze na górze. Karta ma osobny plik: [CHANGELOG.md](CHANGELOG.md).
 
+## v1.4.20
+- Antylegionella (`set_param` 67, `0x2297`): zapis dozwolony na poziomie 0 (bez PIN-u), zgodnie z kartą. W 1.4.18–1.4.19 firmware odrzucał go bez klucza 1, więc kliknięcie w kartę nic nie robiło.
+
 ## v1.4.19
 - Nastawy dodane w 1.4.18 (`0x201C`, `0x2297`, krzywa wentylatora spalin, alarm dźwiękowy) odświeżają się co 60 s (wcześniej tylko przy starcie, PIN-ie i zapisie) – zmiany z panelu widać na karcie.
 

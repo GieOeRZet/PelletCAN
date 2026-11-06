@@ -45,7 +45,7 @@ substitutions:
   pin_autolock_min: "5"    # blokada poziomu po tylu minutach bezczynnosci (0 = bez blokady)
   burner_eff_kw: "0.90"    # sprawnosc kotla do mocy [kW] (potwierdzone z panelem)
   burner_eff_fuel: "0.85"  # EMPIRYCZNY wspolczynnik do spalania [kg/h] (dopasowanie do panelu)
-  fw_version: "1.4.19"
+  fw_version: "1.4.20"
   # ---- PINY I UKLAD CAN (domyslnie: XIAO ESP32-C6 + Seeed CAN Bus Breakout z MCP2515) ----
   # Inny ESP lub inny modul CAN (MCP2515): zmien te wartosci w PelletCAN.yaml (nie edytuj rdzenia).
   # Zapis jak w ESPHome: GPIO17, albo nazwa pinu plytki (np. D7) - wg dokumentacji Twojej plytki.
@@ -210,7 +210,7 @@ api:
             static const uint16_t ix[] = {0x2270, 0x2271, 0x2292, 0x2273, 0x2272, 0x2261, 0x2262, 0x2263, 0x2264, 0x2265, 0x2208, 0x2291, 0x22BD, 0x22C1, 0x2142, 0x2146, 0x22C5, 0x22C9, 0x22CD, 0x2212, 0x2210, 0x300D, 0x2256, 0x2257, 0x226A, 0x2289, 0x3704, 0x300C, 0x2290, 0x299A, 0x226B, 0x3605, 0x214E, 0x2152, 0x2258, 0x2999, 0x3715, 0x3716, 0x3717, 0x2153, 0x3003, 0x370B, 0x3700, 0x300E, 0x2214, 0x2216, 0x2218, 0x3601, 0x2207, 0x216C, 0x216E, 0x22B1, 0x22D5, 0x22D9, 0x22DD, 0x22E1, 0x22E5, 0x22E9, 0x22B5, 0x22F1, 0x22F9, 0x22D1, 0x22A5, 0x22A1, 0x3708, 0x3604, 0x201C, 0x2297, 0x2268, 0x226E, 0x226F, 0x2275, 0x227A, 0x3506, 0x3508, 0x3509};
             static const float lo[] = {30, 30, 2.0f, -10, 5, 0, 0, 0, 0, 0, 0, 0, 0, -3, 0, 20, 20, 20, 20, 0, 0, 0, 0, 1, 5, 0, 0, 0, 0, 20, 1, 0, 5, 5, 0, 1, 0, 5, 10, 1, 0, 50, 5, 0, 0, 5, 2, 0, 20, 35, 60, 0, 30, 0, 0, 0, 0, 20, 60, 0, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             static const float hi[] = {100, 100, 10.0f, 40, 100, 100, 100, 100, 100, 100, 20, 20, 5, 3, 1, 80, 80, 80, 80, 20, 1, 1, 200, 15, 100, 100, 100, 100, 20, 100, 15, 1, 15, 15, 10, 12, 60, 30, 50, 60, 60, 300, 180, 5, 1, 20, 20, 1500, 70, 75, 360, 30, 80, 20, 30, 30, 40, 60, 360, 1, 1, 1, 1, 5, 120, 100, 80, 1, 100, 100, 100, 100, 100, 1, 24, 24};
-            static const uint8_t lv[] = {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+            static const uint8_t lv[] = {0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1};
             if (key < 0 || key > 75 || value < lo[key] || value > hi[key]) { ESP_LOGW("igneo", "Ustawienie: zly klucz lub poza zakresem"); return; }
             id(access_t) = millis();
             if (lv[key] > id(access_level)) { ESP_LOGW("igneo", "Ustawienie wymaga wyzszego poziomu dostepu (PIN)"); return; }
