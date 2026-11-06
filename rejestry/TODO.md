@@ -12,21 +12,21 @@ Repo: GieOeRZet/PelletCAN (fw 1.4.15, karta 1.18). Zasady: krótko po polsku, �
 
 ## B. Rejestry – do znalezienia (metoda: snap → zmiana na panelu → skan różnicowy)
 - [ ] Snap 197 rejestrów znanych panelowi, a niewykorzystanych: `rejestry/snap-197-baseline-2026-11-06.csv` (skan: `esphome.tekla_estyma_sdo_scan`, **sub=1**, indeksy dziesiętnie; nieistniejące rejestry nie dają wpisu).
-- [ ] Temp. maksymalna CWU (40–89).
-- [ ] Antylegionella – dzień / godzina (0x216F to tylko flaga 256/257).
-- [ ] Krzywa wentylatora wspomagającego (kandydaci 0x2268/0x226E/0x226F/0x2275/0x227A = 20/30/40/50/60).
-- [ ] Alarm dźwiękowy (prawdopodobnie lokalny w panelu).
+- [x] Temp. maksymalna CWU = 0x201C (u8 40–80, raw 316=60) – do podpięcia w firmware/karcie.
+- [x] Antylegionella: panel ma tylko flagę 0x2297 (brak dnia/godziny w parametrach) – do podpięcia.
+- [x] Krzywa wentylatora spalin = 0x2268/226E/226F/2275/227A (potwierdzone nazwą „exh. fan char. 1–5”) – do podpięcia.
+- [x] Alarm dźwiękowy = 0x3506 (+ godziny ciszy 0x3508/0x3509) – do podpięcia.
 - [ ] Wymiennik w teście wyjść (węzeł 86: 0x6200/0x6411?; skan node 86, 25088–25632).
 - [ ] PDO 0x356 b2.0 = podajnik palnika pracuje (do potwierdzenia).
 - [ ] Mieszacze CO2–CO4: kocioł odrzuca zapis z ESP (u Romana jest 1 obieg CO + CWU – niski priorytet).
-- [ ] Nazwy/znaczenie 197 nieznanych (z tabeli panela: grupy 0x3500–0x352B, 0x3116–0x3174, 0x3630–0x366x itd.).
+- [x] Nazwy 197 nieznanych: `snap-197-nazwy-FW2213TK.csv` (z kodu panela). Do zrobienia: podpiąć użyteczne (statystyki 0x3610/0x3613–16/0x3628, serwis 0x3718, cyrkulacja CWU 0x374B/C, wentylator, ciche godziny). Było: (z tabeli panela: grupy 0x3500–0x352B, 0x3116–0x3174, 0x3630–0x366x itd.).
 - 91 indeksów z tablicy panela NIE odpowiada na kotle Romana (m.in. 0x372F–0x374C, 0x228D–0x228F, 0x218A–0x218C) – inne konfiguracje.
 
 ## C. Firmware panela IgneoTouch (FW2213TK.bin) – inżynieria wsteczna
 - [x] Tablica par (indeks CANopen, ID panela): 420 par @0x37576 → `rejestry/panel-fw-mapa-indeks-id.csv`.
 - [ ] Znaleźć tabelę ID → tekst / min / max / poziom (potrzebny dezasembler Thumb2 kodu menu).
 - [ ] Teksty menu (UTF-16, PL/EN/CZ/RO/LT/EE/ES) zmapować na ID → nazwy dla 197 rejestrów.
-- [ ] Bitmapy: 188 w tablicy @0x54450 (rekord 20 B), format niezgodny z RGB565/A8 – wymaga kodeku TouchGFX (opcjonalne; ikony do karty lepiej zrobić jako SVG/MDI).
+- [x] Bitmapy zdekodowane (RGB565+A8, baza 0x08010000) – tylko lokalnie, własność Estymy, nie do repo.
 - [ ] Sieć na panelu: nazwa „PelletCAN” zamiast UNKNOWN i SW = wersja ESP (SDO 0x1008 / 0x100A / 0x1000 / 0x1018 jako węzeł 87).
 
 ## D. Karta i firmware – funkcje
