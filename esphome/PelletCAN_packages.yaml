@@ -45,7 +45,7 @@ substitutions:
   pin_autolock_min: "5"    # blokada poziomu po tylu minutach bezczynnosci (0 = bez blokady)
   burner_eff_kw: "0.90"    # sprawnosc kotla do mocy [kW] (potwierdzone z panelem)
   burner_eff_fuel: "0.85"  # EMPIRYCZNY wspolczynnik do spalania [kg/h] (dopasowanie do panelu)
-  fw_version: "1.4.18"
+  fw_version: "1.4.19"
   # ---- PINY I UKLAD CAN (domyslnie: XIAO ESP32-C6 + Seeed CAN Bus Breakout z MCP2515) ----
   # Inny ESP lub inny modul CAN (MCP2515): zmien te wartosci w PelletCAN.yaml (nie edytuj rdzenia).
   # Zapis jak w ESPHome: GPIO17, albo nazwa pinu plytki (np. D7) - wg dokumentacji Twojej plytki.
@@ -1422,6 +1422,13 @@ interval:
             for (auto r : l2) id(par_q).push_back(r);
             id(ah_boot) = true;
             id(alarm_hist_q).execute();   // v2.25: cala historia alarmow z kotla (60 odczytow, ok. 12 s)
+          }
+          // v1.4.19: nowe nastawy z panela (CWU max, antylegionella, krzywa wentylatora spalin, alarm dzwiekowy) odswiezamy co 60 s - zmiany z panelu widac na karcie
+          static uint32_t t_new = 0;
+          if (id(par_boot) && millis() - t_new > 60000UL && id(par_q).empty()) {
+            t_new = millis();
+            static const uint16_t nw[] = {0x201C,0x2297,0x2268,0x226E,0x226F,0x2275,0x227A,0x3506,0x3508,0x3509};
+            for (auto r : nw) id(par_q).push_back(r);
           }
           auto &q = id(par_q);
           if (q.empty()) return;
