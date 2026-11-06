@@ -186,6 +186,31 @@
 },
 {
 "t": "x",
+"old": "['Średnia moc palnika z 50 godzin [%]', '-']",
+"new": "['Średnia moc palnika z 50 godzin [%]', n(8)]"
+},
+{
+"t": "x",
+"old": "['Średni tlen dla mocy 30% [%]', '-']",
+"new": "['Średni tlen dla mocy 30% [%]', nz(9)]"
+},
+{
+"t": "x",
+"old": "['Średni tlen dla mocy 50% [%]', '-']",
+"new": "['Średni tlen dla mocy 50% [%]', nz(10)]"
+},
+{
+"t": "x",
+"old": "['Średni tlen dla mocy 70% [%]', '-']",
+"new": "['Średni tlen dla mocy 70% [%]', nz(11)]"
+},
+{
+"t": "x",
+"old": "['Średni tlen dla mocy 90% [%]', '-']",
+"new": "['Średni tlen dla mocy 90% [%]', nz(12)]"
+},
+{
+"t": "x",
 "old": "['stats', 'Statystyki'], ['boiler', 'Kocioł – ustawienia']",
 "new": "['stats', 'Statystyki'], ['kociol', 'Kocioł'], ['boiler', 'Kocioł – ustawienia']"
 },
@@ -238,12 +263,12 @@
 {
 "t": "x",
 "old": "['Liczba zaników zasilania', n(7)]].map",
-"new": "['Liczba zaników zasilania', n(7)], ['Zużycie paliwa 24 h [kg]', fx(this._v('fuel_use'))], ['Paliwo wystarczy na [dni]', fx(this._v('fuel_days'))]].map"
+"new": "['Liczba zaników zasilania', n(7)], ['Energia całkowita [kWh]', nz(13)], ['Zużycie paliwa 24 h [kg]', fx(this._v('fuel_use'))], ['Paliwo wystarczy na [dni]', fx(this._v('fuel_days'))]].map"
 },
 {
 "t": "x",
 "old": "        const sv = this._t('stats', '').trim().split(/\\s+/)",
-"new": "        const fx = v => (v == null || isNaN(v) ? '-' : Number(v).toFixed(1)), sv = this._t('stats', '').trim().split(/\\s+/)"
+"new": "        const nz = i => (/^[1-9]\\d*$/.test(sv[i] || '') ? sv[i] : '-'), fx = v => (v == null || isNaN(v) ? '-' : Number(v).toFixed(1)), sv = this._t('stats', '').trim().split(/\\s+/)"
 },
 {
 "t": "x",
@@ -915,7 +940,7 @@
       burn_time: '5 h 12 min', fuel: 183, fuel_cap: 250, fuel_pct: 73, feed_time: 7,
       co_temp: 41.5, co_set: 45, co_manual: 45, co_pump: 'on', co_comfort: 45, co_eco: 38, co_mode: 3,
       cwu_temp: 47.2, cwu_set: 50, cwu_comfort: 50, cwu_eco: 40, cwu_pump: 'off', cwu_mode: 3,
-      stats: '214 118 2310 0 4120 37 2 5', fuel_use: 62.4, fuel_days: 2.9, fuel_low: 'off',
+      stats: '214 118 2310 0 4120 37 2 5 43 0 0 0 0 5821', fuel_use: 62.4, fuel_days: 2.9, fuel_low: 'off',
       fan_mod_1: 30, fan_mod_2: 40, fan_mod_3: 50, fan_mod_4: 60, fan_mod_5: 70,
       alarm: 'off', last_alarm: '-', can_ok: 'on', mirror: 'off', blower_mode: 'Automat', feeder_mode: 'Automat',
       sch_boil: '000000 000000 000000 000000 000000 000000 000000', sch_co: '03FC3C 03FC3C 03FC3C 03FC3C 03FC3C 03FC3C 03FC3C', sch_cwu: 'FFFFFF FFFFFF FFFFFF FFFFFF FFFFFF FFFFFF FFFFFF'
@@ -1184,7 +1209,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.18';
+    const CARD_VER = '1.19';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };

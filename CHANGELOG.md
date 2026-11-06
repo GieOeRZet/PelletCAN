@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.19 – Statystyki: średnia moc, tlen, energia
+- Statystyki pokazują **Średnią moc z 50 h**, **Średni tlen** (30/50/70/90 %) i **Energię całkowitą [kWh]**; wartość 0 (brak sondy lambda / licznika energii) = „-”. Wymaga firmware ≥ 1.4.16.
+
 ## v1.18 – Statystyki: prognoza paliwa, tryb demo
 - Statystyki: **Zużycie paliwa 24 h [kg]** i **Paliwo wystarczy na [dni]** (z ESP, „-” gdy brak danych). Wymaga firmware ≥ 1.4.15.
 - **Tryb demo**: `demo: true` w konfiguracji karty pokazuje dane przykładowe bez ESP i HA (zrzuty do README, test wyglądu). Strona `docs/demo.html`.

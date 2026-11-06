@@ -45,7 +45,7 @@ substitutions:
   pin_autolock_min: "5"    # blokada poziomu po tylu minutach bezczynnosci (0 = bez blokady)
   burner_eff_kw: "0.90"    # sprawnosc kotla do mocy [kW] (potwierdzone z panelem)
   burner_eff_fuel: "0.85"  # EMPIRYCZNY wspolczynnik do spalania [kg/h] (dopasowanie do panelu)
-  fw_version: "1.4.15"
+  fw_version: "1.4.16"
   # ---- PINY I UKLAD CAN (domyslnie: XIAO ESP32-C6 + Seeed CAN Bus Breakout z MCP2515) ----
   # Inny ESP lub inny modul CAN (MCP2515): zmien te wartosci w PelletCAN.yaml (nie edytuj rdzenia).
   # Zapis jak w ESPHome: GPIO17, albo nazwa pinu plytki (np. D7) - wg dokumentacji Twojej plytki.
@@ -162,7 +162,7 @@ api:
       then:
         - lambda: |-
             id(sch_k) = 0;
-            id(sch_burst) = 29;
+            id(sch_burst) = 35;
     # Zapis harmonogramu: kind 0 = CWU, 1 = CO (obwod 1), 2 = kociol; day 0..6 (Pn..Nd); bits = 24 bity (bit i = godzina i, 1 = komfort).
     - action: set_schedule
       variables:
@@ -1256,12 +1256,15 @@ canbus:
                 case 0x2267: id(feed_manual_off).publish_state((float) (raw & 0xFFFF)); break;
                 case 0x370D: id(feed_manual_run).publish_state((float) (raw & 0xFFFF)); break;
                 case 0x404D: break;  // liczba alarmow - na razie tylko w logu
-                case 0x3608: case 0x3609: case 0x3611: case 0x3612: case 0x3507: case 0x3618: case 0x3619: case 0x362A: {
-                  const int si = idx == 0x3608 ? 0 : idx == 0x3609 ? 1 : idx == 0x3611 ? 2 : idx == 0x3612 ? 3 : idx == 0x3507 ? 4 : idx == 0x3618 ? 5 : idx == 0x3619 ? 6 : 7;
-                  if (id(stats).size() != 8) id(stats).assign(8, -1);
-                  id(stats)[si] = (int32_t) raw;
+                case 0x3608: case 0x3609: case 0x3611: case 0x3612: case 0x3507: case 0x3618: case 0x3619: case 0x362A:
+                case 0x3610: case 0x3613: case 0x3614: case 0x3615: case 0x3616: case 0x3628: {
+                  const int si = idx == 0x3608 ? 0 : idx == 0x3609 ? 1 : idx == 0x3611 ? 2 : idx == 0x3612 ? 3 : idx == 0x3507 ? 4 : idx == 0x3618 ? 5 : idx == 0x3619 ? 6 : idx == 0x362A ? 7
+                    : idx == 0x3610 ? 8 : idx == 0x3628 ? 13 : 9 + (int) (idx - 0x3613);
+                  if (id(stats).size() != 14) id(stats).assign(14, -1);
+                  // v1.4.15: 0x3610 (srednia moc z 50 h) i 0x3613-16 (tlen) to flaga+bajt (raw-256); 0x3628 energia [kWh] = liczba
+                  id(stats)[si] = (si >= 8 && si <= 12 && raw >= 256) ? (int32_t) (raw - 256) : (int32_t) raw;
                   std::string so; char st[16];
-                  for (size_t k = 0; k < 8; k++) { if (id(stats)[k] < 0) snprintf(st, sizeof(st), "--"); else snprintf(st, sizeof(st), "%d", (int) id(stats)[k]); if (k) so += ' '; so += st; }
+                  for (size_t k = 0; k < 14; k++) { if (id(stats)[k] < 0) snprintf(st, sizeof(st), "--"); else snprintf(st, sizeof(st), "%d", (int) id(stats)[k]); if (k) so += ' '; so += st; }
                   id(stat_txt).publish_state(so);
                   if (si == 4 && raw > 0) {  // v1.4.15: licznik spalonego paliwa [kg] -> probka co ok. 1 h, zuzycie 24 h i prognoza
                     auto &fh = id(fuel_hist);
@@ -1419,13 +1422,14 @@ interval:
     then:
       - lambda: |-
           if (id(igneo_can)->is_failed() || id(scan_on)) return;
-          if (!id(sch_boot) && millis() > 30000) { id(sch_boot) = true; id(sch_k) = 0; id(sch_burst) = 29; }
+          if (!id(sch_boot) && millis() > 30000) { id(sch_boot) = true; id(sch_k) = 0; id(sch_burst) = 35; }
           if (id(sch_burst) <= 0) return;
           static const uint16_t sch[] = {0x2154,0x2155,0x2156,0x2157,0x2158,0x2159,0x2160,
             0x2126,0x212A,0x212E,0x2132,0x2136,0x213A,0x213E,
             0x2209,0x220A,0x220B,0x220C,0x220D,0x220E,0x220F,
-            0x3608,0x3609,0x3611,0x3612,0x3507,0x3618,0x3619,0x362A};
-          const uint16_t ix = sch[id(sch_k) % 29];
+            0x3608,0x3609,0x3611,0x3612,0x3507,0x3618,0x3619,0x362A,
+            0x3610,0x3613,0x3614,0x3615,0x3616,0x3628};
+          const uint16_t ix = sch[id(sch_k) % 35];
           id(sch_k)++;
           id(sch_burst)--;
           std::vector<uint8_t> d = {0x40, (uint8_t) (ix & 0xFF), (uint8_t) (ix >> 8), 0x01, 0, 0, 0, 0};

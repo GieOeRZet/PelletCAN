@@ -2,6 +2,9 @@
 
 Najnowsze na górze. Karta ma osobny plik: [CHANGELOG.md](CHANGELOG.md).
 
+## v1.4.16
+- **Statystyki**: nowe odczyty `0x3610` (średnia moc z 50 h, flaga+bajt), `0x3613–0x3616` (średni tlen 30/50/70/90 %, flaga+bajt), `0x3628` (energia całkowita kWh) – nazwy i typy z firmware panela FW2213TK. Encja „Statystyki kotla” ma teraz 14 liczb. Wymaga karty ≥ 1.19.
+
 ## v1.4.15
 - **Raport diagnostyczny**: przycisk „Raport diagnostyczny (utworz)” → tekst „Raport diagnostyczny” (wersja, czas pracy, Wi-Fi dBm, CAN, liczniki SDO ok/abort, poziom, mirror, tank, zużycie) do wklejenia w Issue.
 - **Skan różnicowy w ESP**: „Snap A (punkt odniesienia)” zapisuje 593 rejestry katalogu (~72 s), zmień ustawienie na panelu, „Snap B (pokaz zmiany)” – „Zmiany rejestrow (Snap)” podaje listę `XXXX:stara>nowa`. „Snap STOP” przerywa.
