@@ -1,0 +1,63 @@
+# PelletCAN – TODO (pełna lista, stan 2026-11-06 13:35)
+
+Gdy Roman pyta „co do zrobienia?” – pokazać CAŁĄ tę listę (wszystkie sekcje), po aktualizacji o to, co zrobione.
+Repo: GieOeRZet/PelletCAN (fw 1.4.14, karta 1.17). Zasady: krótko po polsku, „-” dla braków, bez template sensorów w HA, każda zmiana = bump wersji + changelogi, pełna karta (lite w osobnym repo, nie ruszamy).
+
+## A. Po stronie Romana
+- [ ] Release HACS karty 1.17 (i firmware 1.4.14) na GitHubie.
+- [ ] W swoim yaml: `sniff: "false"` (i `diag_log: "false"`).
+- [ ] Rotacja sekretów: stare hasła Wi-Fi / API / OTA, wcześniej wklejony PAT; wymienić też token webhooka MCP wklejony w czacie 6.11. W repo jawne `ap_pass: "11223344"` (świadoma decyzja – tylko opisane w README).
+- [ ] Repo przeniesione: używać https://github.com/GieOeRZet/PelletCAN.git (git remote set-url).
+- [x] Wybieg pompy = 0, Rezerwa paliwa stop = 0 przywrócone (potwierdzone w HA 6.11).
+
+## B. Rejestry – do znalezienia (metoda: snap → zmiana na panelu → skan różnicowy)
+- [ ] Snap 197 rejestrów znanych panelowi, a niewykorzystanych: `rejestry/snap-197-baseline-2026-11-06.csv` (skan: `esphome.tekla_estyma_sdo_scan`, **sub=1**, indeksy dziesiętnie; nieistniejące rejestry nie dają wpisu).
+- [ ] Temp. maksymalna CWU (40–89).
+- [ ] Antylegionella – dzień / godzina (0x216F to tylko flaga 256/257).
+- [ ] Krzywa wentylatora wspomagającego (kandydaci 0x2268/0x226E/0x226F/0x2275/0x227A = 20/30/40/50/60).
+- [ ] Alarm dźwiękowy (prawdopodobnie lokalny w panelu).
+- [ ] Wymiennik w teście wyjść (węzeł 86: 0x6200/0x6411?; skan node 86, 25088–25632).
+- [ ] PDO 0x356 b2.0 = podajnik palnika pracuje (do potwierdzenia).
+- [ ] Mieszacze CO2–CO4: kocioł odrzuca zapis z ESP (u Romana jest 1 obieg CO + CWU – niski priorytet).
+- [ ] Nazwy/znaczenie 197 nieznanych (z tabeli panela: grupy 0x3500–0x352B, 0x3116–0x3174, 0x3630–0x366x itd.).
+- 91 indeksów z tablicy panela NIE odpowiada na kotle Romana (m.in. 0x372F–0x374C, 0x228D–0x228F, 0x218A–0x218C) – inne konfiguracje.
+
+## C. Firmware panela IgneoTouch (FW2213TK.bin) – inżynieria wsteczna
+- [x] Tablica par (indeks CANopen, ID panela): 420 par @0x37576 → `rejestry/panel-fw-mapa-indeks-id.csv`.
+- [ ] Znaleźć tabelę ID → tekst / min / max / poziom (potrzebny dezasembler Thumb2 kodu menu).
+- [ ] Teksty menu (UTF-16, PL/EN/CZ/RO/LT/EE/ES) zmapować na ID → nazwy dla 197 rejestrów.
+- [ ] Bitmapy: 188 w tablicy @0x54450 (rekord 20 B), format niezgodny z RGB565/A8 – wymaga kodeku TouchGFX (opcjonalne; ikony do karty lepiej zrobić jako SVG/MDI).
+- [ ] Sieć na panelu: nazwa „PelletCAN” zamiast UNKNOWN i SW = wersja ESP (SDO 0x1008 / 0x100A / 0x1000 / 0x1018 jako węzeł 87).
+
+## D. Karta i firmware – funkcje
+- [ ] Tłumaczenia (pliki Lang) karty/firmware.
+- [ ] Wskaźnik aktualizacji (zielona dioda, INFO: autor + wersja + changelog, „odrzuć aktualizację”).
+- [ ] Podział na warianty: ultra-lite (publiczny, tylko podgląd) / pelletcan / pro (osobne repo za kawę min. 5 zł) – dopiero na końcu.
+- [ ] Alarm start/koniec jako timestamp (device_class) w firmware.
+- [ ] Źródła Statystyk, poziom CO1 i histerez kotła (potwierdzić zdjęciami panela).
+- [ ] Test wyjść: Pompa CWU / Wymiennik / Podajnik palnika (węzeł 86).
+- [ ] Końcowe testy zapisów z karty (set_boiler_mode, set_setpoint, harmonogramy, set_param).
+- [ ] Przycisk „Restart ESP” już jest (`switch.tekla_restart`) – nic do dodania.
+- [ ] Epizod encji „unavailable” ok. 25 min (15:08–15:34, 20.10) – znaleźć przyczynę.
+
+## E. Duże pomysły (niezdecydowane)
+- Strona standalone na ESP (karta bez Lovelace, poziom 0), Shelly-style konfiguracja Wi-Fi przy pierwszym starcie (AP + strona).
+- Aplikacja Android wyglądająca jak karta, łącząca się bezpośrednio z ESP (bez HA).
+- Własna integracja HA (lista ESPHome, wspólny klucz API, klucz=wartość zamiast encji), karta instalowana z integracją.
+- Bramka CAN→TCP i odcięcie od ESPHome.
+- Wariant płytki PCB z jednym ESP zamiast składaka.
+
+## F. Co może być „zajebiste” (propozycje Claude)
+1. **Wbudowany skan różnicowy w ESP**: przycisk „Snap A”, „Snap B” → ESP sam publikuje listę zmienionych rejestrów (bez zasypywania historii HA, działa też bez Claude).
+2. **Strona katalogu rejestrów** (GitHub Pages) generowana z CSV: nazwa, zakres, kodowanie, gdzie użyte, status.
+3. **Prognoza paliwa**: kg w zasobniku, dni do końca przy aktualnym spalaniu, powiadomienie przy rezerwie paliwa (blueprint HA).
+4. **Statystyki i wykresy** na karcie: spalanie/dzień, godziny pracy podajnika, liczba rozpaleń, koszt sezonu.
+5. **Tryb demo karty** (dane przykładowe bez ESP) do zrzutów w README i do testów wyglądu.
+6. **CI na GitHubie**: kompilacja ESPHome + lint karty przy każdym pushu, automatyczna kontrola wersji / changelogów / version.json.
+7. **Bezpieczny update**: ESP sprawdza release na GitHubie i pokazuje „dostępna aktualizacja” (zawsze ręczne OTA).
+8. **Zestaw diagnostyczny**: jednym przyciskiem raport (wersja, jakość magistrali, liczba ramek SDO, ostatnie aborty) do wklejenia w Issue.
+9. **Alarmy po ludzku**: pełna lista kodów (rejestry/alarmy-kody.csv) z opisem przyczyny i co zrobić, w karcie i w powiadomieniu.
+10. **Dokumentacja krok po kroku** (instalacja, CAN/okablowanie, zdjęcia, FAQ) – README + docs.
+
+## G. Zrobione (skrót)
+Wybieg pompy 0x3708 i Rezerwa paliwa stop 0x3604 (fw 1.4.14, karta 1.17); czysty log (diag_log/sniff false); folder rejestry/ z katalogiem (617 wierszy), skanerem i instrukcją; tools/oznacz_uzycie.py; analiza FW panela (mapa indeks↔ID); skan 6.11: 446 odpowiedzi, 0 nowych poza katalogiem.
