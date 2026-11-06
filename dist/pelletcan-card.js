@@ -177,7 +177,7 @@
 {
 "t": "x",
 "old": "  stats: 'statystyki_kotla', mirror: 'tryb_mirror',",
-"new": "  stats: 'statystyki_kotla', burn_ign: 'palnik_zapalarka', fuel_use: 'paliwo_zuzycie_24h', fuel_days: 'paliwo_prognoza', fuel_low: 'paliwo_rezerwa', mirror: 'tryb_mirror', ret_temp: 'temperatura_powrotu', boiler_pump_min: 'kociol_minimalna_temp_pomp', boiler_pump_run: 'kociol_wybieg_pompy', cwu_tmax: 'cwu_temperatura_maksymalna', exh_c1: 'wentylator_spalin_krzywa_1', exh_c2: 'wentylator_spalin_krzywa_2', exh_c3: 'wentylator_spalin_krzywa_3', exh_c4: 'wentylator_spalin_krzywa_4', exh_c5: 'wentylator_spalin_krzywa_5', alarm_snd: 'alarm_dzwiekowy', alarm_sil_from: 'alarm_cisza_od', alarm_sil_to: 'alarm_cisza_do', boiler_fuel_reserve: 'kociol_rezerwa_paliwa_stop', boiler_ret_min: 'kociol_minimalna_temp_powrotu', boiler_mixer_time: 'kociol_czas_mieszacza', co_room: 'co1_czujnik_pokojowy_0_brak_1_ctp1_2_ctp2_3_videroom_4_termostat_5_can', co_source: 'co1_zrodlo_0_kociol_1_bufor', co_co_sensor: 'co1_czujnik_co_0_1', co_const_pump: 'co1_stala_pompa_0_1', co_ret_protect: 'co1_obnizenie_tco_ochrona_powrotu_0_1', co_src_inc: 'co1_zwiekszenie_temp_zrodla', co_tmax: 'co1_temperatura_maksymalna', co_corr: 'co1_wspolczynnik_korekcji_t_co', co_out_comf: 'co1_max_tzew_pomp_komfort', co_out_eco: 'co1_max_tzew_pomp_ekon', co_lower: 'co1_obnizenie_temperatury_co', co_pump_min: 'co1_min_temperatura_co_pomp', co_mixer_time: 'co1_czas_mieszacza', mix_co1: 'mieszacz_co1_stan', mix_ret: 'mieszacz_powrotu_stan', boiler_hyst_on: 'histereza_zalaczenia_kotla', boiler_hyst_off: 'histereza_wylaczenia_kotla', co_hyst: 'co1_histereza', co_calib: 'co1_kalibracja_czujnika', co_mode_s: 'co1_tryb_pracy_0_reczny_1_pogodowy', co_cur_m20: 'co1_krzywa_pogodowa_20_c', co_cur_0: 'co1_krzywa_pogodowa_0_c', co_cur_10: 'co1_krzywa_pogodowa_10_c', cwu_hyst: 'cwu_histereza', cwu_src: 'cwu_zrodlo', cwu_src_inc: 'cwu_zwiekszenie_temp_zrodla', cwu_delta: 'cwu_delta_zalaczenia_pompy', cwu_boost: 'cwu_zagrzej_teraz_0_1', cwu_prio: 'cwu_priorytet_0_1',"
+"new": "  stats: 'statystyki_kotla', burn_ign: 'palnik_zapalarka', fuel_use: 'paliwo_zuzycie_24h', fuel_days: 'paliwo_prognoza', fuel_low: 'paliwo_rezerwa', mirror: 'tryb_mirror', ret_temp: 'temperatura_powrotu', boiler_pump_min: 'kociol_minimalna_temp_pomp', boiler_pump_run: 'kociol_wybieg_pompy', cwu_tmax: 'cwu_temperatura_maksymalna', boil_pwr: 'kociol_moc_palnika', boil_cons: 'kociol_zuzycie_paliwa', grate_t: 'kociol_czas_do_czyszczenia_rusztu', exh_pct: 'kociol_wentylator_spalin_moc', nominal_kw: 'kociol_moc_nominalna', predose_g: 'palnik_dawka_wstepna_g', egt_min: 'palnik_temp_spalin_min', egt_max: 'palnik_temp_spalin_max', exch_int: 'wymiennik_interwal_czyszczenia', exh_c1: 'wentylator_spalin_krzywa_1', exh_c2: 'wentylator_spalin_krzywa_2', exh_c3: 'wentylator_spalin_krzywa_3', exh_c4: 'wentylator_spalin_krzywa_4', exh_c5: 'wentylator_spalin_krzywa_5', alarm_snd: 'alarm_dzwiekowy', alarm_sil_from: 'alarm_cisza_od', alarm_sil_to: 'alarm_cisza_do', boiler_fuel_reserve: 'kociol_rezerwa_paliwa_stop', boiler_ret_min: 'kociol_minimalna_temp_powrotu', boiler_mixer_time: 'kociol_czas_mieszacza', co_room: 'co1_czujnik_pokojowy_0_brak_1_ctp1_2_ctp2_3_videroom_4_termostat_5_can', co_source: 'co1_zrodlo_0_kociol_1_bufor', co_co_sensor: 'co1_czujnik_co_0_1', co_const_pump: 'co1_stala_pompa_0_1', co_ret_protect: 'co1_obnizenie_tco_ochrona_powrotu_0_1', co_src_inc: 'co1_zwiekszenie_temp_zrodla', co_tmax: 'co1_temperatura_maksymalna', co_corr: 'co1_wspolczynnik_korekcji_t_co', co_out_comf: 'co1_max_tzew_pomp_komfort', co_out_eco: 'co1_max_tzew_pomp_ekon', co_lower: 'co1_obnizenie_temperatury_co', co_pump_min: 'co1_min_temperatura_co_pomp', co_mixer_time: 'co1_czas_mieszacza', mix_co1: 'mieszacz_co1_stan', mix_ret: 'mieszacz_powrotu_stan', boiler_hyst_on: 'histereza_zalaczenia_kotla', boiler_hyst_off: 'histereza_wylaczenia_kotla', co_hyst: 'co1_histereza', co_calib: 'co1_kalibracja_czujnika', co_mode_s: 'co1_tryb_pracy_0_reczny_1_pogodowy', co_cur_m20: 'co1_krzywa_pogodowa_20_c', co_cur_0: 'co1_krzywa_pogodowa_0_c', co_cur_10: 'co1_krzywa_pogodowa_10_c', cwu_hyst: 'cwu_histereza', cwu_src: 'cwu_zrodlo', cwu_src_inc: 'cwu_zwiekszenie_temp_zrodla', cwu_delta: 'cwu_delta_zalaczenia_pompy', cwu_boost: 'cwu_zagrzej_teraz_0_1', cwu_prio: 'cwu_priorytet_0_1',"
 },
 {
 "t": "x",
@@ -268,7 +268,7 @@
 {
 "t": "x",
 "old": "['Liczba zaników zasilania', n(7)]].map",
-"new": "['Liczba zaników zasilania', n(7)], ['Energia całkowita [kWh]', nz(13)], ['Zużycie paliwa 24 h [kg]', fx(this._v('fuel_use'))], ['Paliwo wystarczy na [dni]', fx(this._v('fuel_days'))]].map"
+"new": "['Liczba zaników zasilania', n(7)], ['Energia całkowita [kWh]', nz(13)], ['Zużycie paliwa 24 h [kg]', fx(this._v('fuel_use'))], ['Paliwo wystarczy na [dni]', fx(this._v('fuel_days'))], ['Moc palnika z kotła [kW]', this._p(this._v('boil_pwr'), 1)], ['Zużycie paliwa z kotła [kg/h]', this._p(this._v('boil_cons'), 1)], ['Czas do czyszczenia rusztu [min]', this._p(this._v('grate_t'), 0)], ['Wentylator spalin [%]', this._p(this._v('exh_pct'), 0)]].map"
 },
 {
 "t": "x",
@@ -340,6 +340,11 @@
       { t: 'Alarm dźwiękowy', r: 'alarm_snd', opts: ['Wyłączony', 'Włączony'], sk: 73, tog: true },   // 44
       { t: 'Cisza od [h]', r: 'alarm_sil_from', lo: 0, hi: 24, st: 1, dc: 0, sk: 74 },   // 45
       { t: 'Cisza do [h]', r: 'alarm_sil_to', lo: 0, hi: 24, st: 1, dc: 0, sk: 75 },   // 46
+      { t: 'Moc nominalna [kW]', r: 'nominal_kw', lo: 4, hi: 200, st: 1, dc: 0, sk: 76 },   // 47..51 (klucz 1, moc nominalna klucz 2)
+      { t: 'Dawka wstępna [g]', r: 'predose_g', lo: 0, hi: 500, st: 10, dc: 0, sk: 77 },
+      { t: 'Min. temp. spalin [°C]', r: 'egt_min', lo: 70, hi: 120, st: 1, dc: 0, sk: 78 },
+      { t: 'Max. temp. spalin [°C]', r: 'egt_max', lo: 180, hi: 280, st: 1, dc: 0, sk: 79 },
+      { t: 'Interwał czyszczenia wymiennika [min]', r: 'exch_int', lo: 10, hi: 600, st: 10, dc: 0, sk: 80 },
     ];
     C.prototype._po = function (k) {
       const c = PR[k], v = this._v(c.r);
@@ -621,7 +626,7 @@
       const r = [P('Korekta powietrza [%]', this._p(this._v('air_corr'), 0), 3), P('Moc min [%]', this._p(this._v('power_min'), 0), 0),
         P('Moc max [%]', this._p(this._v('power_max'), 0), 1), P('Wartość opałowa [kWh/kg]', this._p(this._v('fuel_heat'), 1), 2),
         P('Ilość paliwa test [kg/h]', this._p(this._v('fuel_test'), 1), 4)];
-      const item = i => i === 'wsp' ? [39, 40, 41, 42, 43].map(k => this._prow(PR[k].t, this._po(k), k)).join('') : this._q2row(i);
+      const item = i => i === 'wsp' ? [39, 40, 41, 42, 43, 47, 48, 49, 50, 51].map(k => this._prow(PR[k].t, this._po(k), k)).join('') : this._q2row(i);
       if (l >= 1) {
         r.push(KEYDIV(1), '<div class="row go" data-go="fanmod" data-back="burner_s"><span class="l">Moc dmuchawy modulacja [%]</span><span class="v ch">&rsaquo;</span></div>');
         L1.forEach(i => r.push(item(i)));
@@ -1003,7 +1008,7 @@
 
     // ---- tryb demo (YAML: demo: true) = dane przykladowe bez ESP/HA, do zrzutow ekranu i testow wygladu ----
     const DEMO = {
-      cwu_tmax: 60, legion: 1, exh_c1: 20, exh_c2: 30, exh_c3: 40, exh_c4: 50, exh_c5: 60, alarm_snd: 1, alarm_sil_from: 22, alarm_sil_to: 6, boiler_temp: 68.4, boiler_set: 70, boiler_manual: 70, outside: 3.5, ret_temp: 55.2, on: 'on', power_switch: 'on',
+      boil_pwr: 10, boil_cons: 2.3, grate_t: 145, exh_pct: 40, nominal_kw: 18, predose_g: 100, egt_min: 90, egt_max: 220, exch_int: 180, cwu_tmax: 60, legion: 1, exh_c1: 20, exh_c2: 30, exh_c3: 40, exh_c4: 50, exh_c5: 60, alarm_snd: 1, alarm_sil_from: 22, alarm_sil_to: 6, boiler_temp: 68.4, boiler_set: 70, boiler_manual: 70, outside: 3.5, ret_temp: 55.2, on: 'on', power_switch: 'on',
       burner: 'Praca', burner_code: 5, power: 62, burn_kw: 14.8, burn_kgh: 3.1, burn_bright: 74, burn_temp: 412,
       air_corr: 0, power_min: 30, power_max: 100, fuel_heat: 4.8, fuel_test: 21.5, fan_pct: 48, blower_run: 'on', feeder_run: 'on', burn_ign: 60, mix_co1: 1, feeder: 'Stop',
       burn_time: '5 h 12 min', fuel: 183, fuel_cap: 250, fuel_pct: 73, feed_time: 7,
@@ -1055,6 +1060,8 @@
       ['Menu → Ciepła woda → NASTAWY', ['cwu_hyst', 'cwu_boost', 'cwu_prio', 'legion'], 0],
       ['Menu → Ciepła woda → NASTAWY (klucz 1)', ['cwu_src', 'cwu_src_inc', 'cwu_delta', 'cwu_tmax'], 1],
       ['Menu → Konfiguracja → Alarm dźwiękowy (klucz 1)', ['alarm_snd', 'alarm_sil_from', 'alarm_sil_to'], 1],
+      ['Menu → Statystyki (odczyty z kotła)', ['boil_pwr', 'boil_cons', 'grate_t', 'exh_pct'], 1],
+      ['Menu → Palnik → NASTAWY (klucz 1)', ['nominal_kw', 'predose_g', 'egt_min', 'egt_max', 'exch_int'], 1],
       ['Menu → Palnik → NASTAWY → Wentylator spalin (klucz 1)', ['exh_c1', 'exh_c2', 'exh_c3', 'exh_c4', 'exh_c5'], 1],
       ['Menu → Historia alarmów', ['alarm', 'last_alarm', 'alarm_start', 'alarm_end', 'confirm'], 0],
       ['Menu → Kocioł → NASTAWY (użytkownik)', ['boiler_hyst_on', 'boiler_hyst_off'], 0],
@@ -1280,7 +1287,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.23';
+    const CARD_VER = '1.24';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };

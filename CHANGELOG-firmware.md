@@ -2,6 +2,11 @@
 
 Najnowsze na górze. Karta ma osobny plik: [CHANGELOG.md](CHANGELOG.md).
 
+## v1.4.21
+- Odczyty (co 60 s): moc palnika `0x3706` [dkW → kW], zużycie paliwa `0x3710` [0,1 kg/h], czas do czyszczenia rusztu `0x3711` [min], moc wentylatora spalin `0x228C` [%]. Encje „Kociol moc palnika”, „Kociol zuzycie paliwa”, „Kociol czas do czyszczenia rusztu”, „Kociol wentylator spalin moc”.
+- Nastawy (`set_param` 76–80): moc nominalna `0x3709` (klucz 2), dawka wstępna `0x370E` [g], min/max temperatura spalin `0x3701`/`0x3703`, interwał czyszczenia wymiennika `0x3122` [min]. Wymaga karty ≥ 1.24.
+- Sprawdzone skanem: `0x2315` (auto lato), `0x3729`/`0x372A` (lato), `0x371C`–`0x371F` (sprawność, tlen), `0x3750` (kominiarz) – ten kocioł nie odpowiada, więc nie są podpięte.
+
 ## v1.4.20
 - Antylegionella (`set_param` 67, `0x2297`): zapis dozwolony na poziomie 0 (bez PIN-u), zgodnie z kartą. W 1.4.18–1.4.19 firmware odrzucał go bez klucza 1, więc kliknięcie w kartę nic nie robiło.
 

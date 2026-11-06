@@ -2,6 +2,10 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.24 – Odczyty i nastawy palnika z kotła
+- Statystyki: **Moc palnika z kotła**, **Zużycie paliwa z kotła**, **Czas do czyszczenia rusztu**, **Wentylator spalin [%]**.
+- Palnik → NASTAWY (klucz 1): **Moc nominalna**, **Dawka wstępna [g]**, **Min./Max. temp. spalin**, **Interwał czyszczenia wymiennika**. Wymaga firmware ≥ 1.4.21.
+
 ## v1.23 – Nastawy z firmware panela
 - Menu Ciepła woda: **Temp. maksymalna** i **Antylegionella** (odczyt i zapis). Palnik → NASTAWY (klucz 1): **Wentylator spalin – krzywa 1–5**. Konfiguracja: **Alarm dźwiękowy**, **Cisza od / do** (dotąd atrapa). Wymaga firmware ≥ 1.4.18.
 - Poprawka błędu z 1.22: przy obecnym pakiecie grafik zdarzenie `tekla-img` zapętlało się (przepełnienie stosu w konsoli).

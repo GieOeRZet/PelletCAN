@@ -1,7 +1,8 @@
 {
   "firmware": {
-    "version": "1.4.20",
+    "version": "1.4.21",
     "changelog": [
+      "Nowe odczyty z kotła: moc palnika (0x3706), zużycie paliwa (0x3710), czas do czyszczenia rusztu (0x3711), moc wentylatora spalin (0x228C). Nowe nastawy (set_param 76–80): moc nominalna 0x3709 (klucz 2), dawka wstępna [g] 0x370E, min/max temp. spalin 0x3701/0x3703, interwał czyszczenia wymiennika 0x3122. Wymaga karty ≥ 1.24.",
       "Antylegionella (set_param 67) zapisuje się już na poziomie 0 (bez PIN-u), tak jak pokazuje karta; wcześniej firmware odrzucał zapis bez klucza 1.",
       "Nowe nastawy z panela (CWU max, antylegionella, krzywa wentylatora spalin, alarm dźwiękowy) odświeżają się co 60 s, więc zmiany zrobione na panelu są widoczne na karcie.",
       "Nowe odczyty i zapis (set_param 66–75): CWU temperatura maksymalna (0x201C), CWU antylegionella (0x2297), krzywa wentylatora spalin 1–5 (0x2268/226E/226F/2275/227A), alarm dźwiękowy (0x3506) i godziny ciszy od/do (0x3508/0x3509). Wymaga karty ≥ 1.23. Zapisy do sprawdzenia na kotle.",
@@ -29,8 +30,9 @@
     ]
   },
   "card": {
-    "version": "1.23",
+    "version": "1.24",
     "changelog": [
+      "Statystyki: moc palnika, zużycie paliwa, czas do czyszczenia rusztu i moc wentylatora spalin z kotła. Palnik → NASTAWY (klucz 1): moc nominalna, dawka wstępna [g], min/max temp. spalin, interwał czyszczenia wymiennika. Wymaga firmware ≥ 1.4.21.",
       "Nastawy z firmware panela: CWU Temp. maksymalna i Antylegionella (menu Ciepła woda), krzywa wentylatora spalin 1–5 (Palnik → NASTAWY, klucz 1), Alarm dźwiękowy + Cisza od/do (Konfiguracja). Poprawka: pętla zdarzenia grafik w 1.22 (przepełnienie stosu przy obecnym pakiecie grafik). Wymaga firmware ≥ 1.4.18.",
       "Pakiet grafik panela: domyślnie tylko zbiornik paliwa w oknie Paliwo (pliki 48, 49, 50, 54 w img/panel/). Cały pakiet (wentylator, podajniki, zawór, grzałka, kocioł) włącza opcja grafiki: pelne.",
       "Grzałka zapalarki: animacja pulsowania 65→66→67→65 (zamiast dwóch stanów).",
