@@ -134,6 +134,9 @@ Edytor jest podzielony tak jak karta – według ekranów i menu:
 
 W trybie lite sekcje klucza 1 i 2 są ukryte.
 
+## Oryginalne grafiki panela (opcjonalnie)
+Karta może używać grafik 1:1 z panelu (animowany wentylator i podajniki, zasobnik, zawór, grzałka). Pliki należą do Estymy, więc **nie ma ich w repo**: wygeneruj je ze swojego `FW2213TK.bin` poleceniem `python3 tools/pakiet_grafik.py FW2213TK.bin` (wymaga `pillow`, `numpy`) i skopiuj katalog `dist/img/panel/` jako `img/panel/` obok `pelletcan-card.js`. Bez nich karta używa wektorów. Opcja `boiler_image: 11|12|13` wybiera obraz kotła.
+
 ## Tryb lite
 Jedna karta, dwa tryby. W YAML (wysoko w konfiguracji karty):
 

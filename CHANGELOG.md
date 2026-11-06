@@ -2,6 +2,10 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.20 – Pakiet oryginalnych grafik panela
+- Opcjonalny katalog `img/panel/NNN.png` (numery jak w tablicy bitmap panela; generator: `python3 tools/pakiet_grafik.py FW2213TK.bin`). Z pakietem: animowany wentylator (8–10), podajniki 1/2 (36–38 / 40–42), zasobnik 48/49 z suwakiem 50 i korpusem 54, zawór mieszacza 105 ze strzałkami 106/107, grzałka zapalarki 65–67, kocioł 11–13 (`boiler_image`), palnik 17, bojler 14. Bez pakietu działają wektory. Grafiki są własnością Estymy – katalog jest w `.gitignore`.
+- Grzałka zapalarki wymaga firmware ≥ 1.4.17.
+
 ## v1.19 – Statystyki: średnia moc, tlen, energia
 - Statystyki pokazują **Średnią moc z 50 h**, **Średni tlen** (30/50/70/90 %) i **Energię całkowitą [kWh]**; wartość 0 (brak sondy lambda / licznika energii) = „-”. Wymaga firmware ≥ 1.4.16.
 

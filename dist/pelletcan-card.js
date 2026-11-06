@@ -177,7 +177,7 @@
 {
 "t": "x",
 "old": "  stats: 'statystyki_kotla', mirror: 'tryb_mirror',",
-"new": "  stats: 'statystyki_kotla', fuel_use: 'paliwo_zuzycie_24h', fuel_days: 'paliwo_prognoza', fuel_low: 'paliwo_rezerwa', mirror: 'tryb_mirror', ret_temp: 'temperatura_powrotu', boiler_pump_min: 'kociol_minimalna_temp_pomp', boiler_pump_run: 'kociol_wybieg_pompy', boiler_fuel_reserve: 'kociol_rezerwa_paliwa_stop', boiler_ret_min: 'kociol_minimalna_temp_powrotu', boiler_mixer_time: 'kociol_czas_mieszacza', co_room: 'co1_czujnik_pokojowy_0_brak_1_ctp1_2_ctp2_3_videroom_4_termostat_5_can', co_source: 'co1_zrodlo_0_kociol_1_bufor', co_co_sensor: 'co1_czujnik_co_0_1', co_const_pump: 'co1_stala_pompa_0_1', co_ret_protect: 'co1_obnizenie_tco_ochrona_powrotu_0_1', co_src_inc: 'co1_zwiekszenie_temp_zrodla', co_tmax: 'co1_temperatura_maksymalna', co_corr: 'co1_wspolczynnik_korekcji_t_co', co_out_comf: 'co1_max_tzew_pomp_komfort', co_out_eco: 'co1_max_tzew_pomp_ekon', co_lower: 'co1_obnizenie_temperatury_co', co_pump_min: 'co1_min_temperatura_co_pomp', co_mixer_time: 'co1_czas_mieszacza', mix_co1: 'mieszacz_co1_stan', mix_ret: 'mieszacz_powrotu_stan', boiler_hyst_on: 'histereza_zalaczenia_kotla', boiler_hyst_off: 'histereza_wylaczenia_kotla', co_hyst: 'co1_histereza', co_calib: 'co1_kalibracja_czujnika', co_mode_s: 'co1_tryb_pracy_0_reczny_1_pogodowy', co_cur_m20: 'co1_krzywa_pogodowa_20_c', co_cur_0: 'co1_krzywa_pogodowa_0_c', co_cur_10: 'co1_krzywa_pogodowa_10_c', cwu_hyst: 'cwu_histereza', cwu_src: 'cwu_zrodlo', cwu_src_inc: 'cwu_zwiekszenie_temp_zrodla', cwu_delta: 'cwu_delta_zalaczenia_pompy', cwu_boost: 'cwu_zagrzej_teraz_0_1', cwu_prio: 'cwu_priorytet_0_1',"
+"new": "  stats: 'statystyki_kotla', burn_ign: 'palnik_zapalarka', fuel_use: 'paliwo_zuzycie_24h', fuel_days: 'paliwo_prognoza', fuel_low: 'paliwo_rezerwa', mirror: 'tryb_mirror', ret_temp: 'temperatura_powrotu', boiler_pump_min: 'kociol_minimalna_temp_pomp', boiler_pump_run: 'kociol_wybieg_pompy', boiler_fuel_reserve: 'kociol_rezerwa_paliwa_stop', boiler_ret_min: 'kociol_minimalna_temp_powrotu', boiler_mixer_time: 'kociol_czas_mieszacza', co_room: 'co1_czujnik_pokojowy_0_brak_1_ctp1_2_ctp2_3_videroom_4_termostat_5_can', co_source: 'co1_zrodlo_0_kociol_1_bufor', co_co_sensor: 'co1_czujnik_co_0_1', co_const_pump: 'co1_stala_pompa_0_1', co_ret_protect: 'co1_obnizenie_tco_ochrona_powrotu_0_1', co_src_inc: 'co1_zwiekszenie_temp_zrodla', co_tmax: 'co1_temperatura_maksymalna', co_corr: 'co1_wspolczynnik_korekcji_t_co', co_out_comf: 'co1_max_tzew_pomp_komfort', co_out_eco: 'co1_max_tzew_pomp_ekon', co_lower: 'co1_obnizenie_temperatury_co', co_pump_min: 'co1_min_temperatura_co_pomp', co_mixer_time: 'co1_czas_mieszacza', mix_co1: 'mieszacz_co1_stan', mix_ret: 'mieszacz_powrotu_stan', boiler_hyst_on: 'histereza_zalaczenia_kotla', boiler_hyst_off: 'histereza_wylaczenia_kotla', co_hyst: 'co1_histereza', co_calib: 'co1_kalibracja_czujnika', co_mode_s: 'co1_tryb_pracy_0_reczny_1_pogodowy', co_cur_m20: 'co1_krzywa_pogodowa_20_c', co_cur_0: 'co1_krzywa_pogodowa_0_c', co_cur_10: 'co1_krzywa_pogodowa_10_c', cwu_hyst: 'cwu_histereza', cwu_src: 'cwu_zrodlo', cwu_src_inc: 'cwu_zwiekszenie_temp_zrodla', cwu_delta: 'cwu_delta_zalaczenia_pompy', cwu_boost: 'cwu_zagrzej_teraz_0_1', cwu_prio: 'cwu_priorytet_0_1',"
 },
 {
 "t": "x",
@@ -208,6 +208,11 @@
 "t": "x",
 "old": "['Średni tlen dla mocy 90% [%]', '-']",
 "new": "['Średni tlen dla mocy 90% [%]', nz(12)]"
+},
+{
+"t": "x",
+"old": "['fan_pct', 'Dmuchawa [%]', S], ",
+"new": "['fan_pct', 'Dmuchawa [%]', S], ['burn_ign', 'Palnik zapalarka [%]', S], "
 },
 {
 "t": "x",
@@ -356,6 +361,7 @@
     };
 
     const VALVE = '<svg viewBox="0 0 24 24" style="width:6.6cqw;height:6.6cqw"><path d="M2.5 9.5L11.5 14.5L2.5 19.5Z M21.5 9.5L12.5 14.5L21.5 19.5Z" fill="#e3e9f7"/><path d="M7 6.5Q12 3 17 6.5" stroke="#8fd6ff" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M5.8 4.2L6.9 7.4L9.6 6" fill="#8fd6ff"/></svg>';
+    C.prototype._valve = function (mv) { return mv === 1 ? VALVE : mv === 2 ? '<span style="display:inline-block;transform:scaleX(-1)">' + VALVE + '</span>' : ''; };
     C.prototype._kociol = function (ctx) {
       const bm = ctx.bm, rt = this._v('ret_temp');
       // ikona zaworu (jak na panelu): pojawia sie, gdy mieszacz pracuje; 1 = zamyka (strzalka w lewo), 2 = otwiera (w prawo)
@@ -366,7 +372,7 @@
         <div class="rt" style="top:38cqw;font-size:4.7cqw">T. powrotu=${isNaN(rt) ? '-' : rt.toFixed(1)}</div>
         <div class="tag" data-act="bdlg"><b>${isNaN(this._v('boiler_set')) ? '-' : Math.round(this._v('boiler_set'))}</b>${this._chipHtml(bm)}</div>
         ${bm < 2 ? `<div class="tbar" data-act="prog" data-kind="2" data-back="kociol" style="top:23.8cqw">${this._sched(this._todayBands(2, []))}</div>` : ''}
-        ${this._brow('<div class="bk" data-go="menu"><ha-icon icon="mdi:arrow-left-circle-outline"></ha-icon></div>', 'boiler', '', mv === 1 ? VALVE : mv === 2 ? '<span style="display:inline-block;transform:scaleX(-1)">' + VALVE + '</span>' : '')}`;
+        ${this._brow('<div class="bk" data-go="menu"><ha-icon icon="mdi:arrow-left-circle-outline"></ha-icon></div>', 'boiler', '', this._valve(mv))}`;
     };
     const q = (v, c) => Number(Math.max(c.lo, Math.min(c.hi, Math.round(v / c.st) * c.st)).toFixed(c.dc));
     C.prototype._prow = function (label, val, k) {
@@ -932,11 +938,62 @@
     };
     const og2 = C.prototype._go;
     C.prototype._go = function (s, b) { if (this._lite && LITE_GO.includes(s)) return; return og2.call(this, s, b); };
+    // ---- pakiet oryginalnych grafik panela: img/panel/NNN.png (numery jak w tablicy bitmap FW panela; pliki Estymy, poza repo) ----
+    await (async () => {
+      const PB = new URL('.', import.meta.url).pathname + 'img/panel/';
+      const stamp = Date.now();
+      const has = n => new Promise(r => { const im = new Image(); im.onload = () => r(true); im.onerror = () => r(false); im.src = PB + String(n).padStart(3, '0') + '.png?v=' + stamp; });
+      if (!(await has(8))) return;   // brak pakietu = zostaja wektory
+      const U = n => PB + String(n).padStart(3, '0') + '.png?v=' + stamp, K = 0.2083;   // 1 px panelu = 0,2083 cqw (480 px = 100 cqw)
+      const img = (n, st) => `<img src="${U(n)}" draggable="false" style="${st || ''}">`;
+      const seq = (ns, w, h, on) => `<span class="sp ${on ? 'on' : ''}" style="width:${(w * K).toFixed(2)}cqw;height:${(h * K).toFixed(2)}cqw">${ns.map(n => img(n)).join('')}</span>`;
+      const oc = C.prototype._css;
+      C.prototype._css = function () {
+        return oc.call(this) + `.sp{position:relative;display:inline-block;line-height:0}.sp img,.mbs{mix-blend-mode:screen}.sp img{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0}.sp img:first-child{opacity:1}
+        .sp.on img{animation:spfr .45s linear infinite}.sp.on img:nth-child(2){animation-delay:.15s}.sp.on img:nth-child(3){animation-delay:.3s}
+        @keyframes spfr{0%,33.3%{opacity:1}33.4%,100%{opacity:0}}.sp.on img:first-child{opacity:0}
+        .ftk.pk{background:url(${U(54)}) 0 0/100% 100% no-repeat!important;border:0!important}.ftk.pk .fth,.ftk.pk .fhd{display:none}`;
+      };
+      C.prototype._fan = function (spin) { return seq([8, 9, 10], 34, 27, spin); };
+      C.prototype._augSvg = function (anim = true) { return seq([36, 37, 38], 34, 27, anim); };
+      C.prototype._auger = function (n, run) { return run ? `<span class="augw">${seq(n === 2 ? [40, 41, 42] : [36, 37, 38], 34, 27, true)}</span>` : ''; };
+      C.prototype._valve = function (mv) {
+        if (!mv) return '';
+        return `<span class="sp" style="width:${(34 * K).toFixed(2)}cqw;height:${(27 * K).toFixed(2)}cqw">${img(105)}</span><span style="position:absolute;margin-left:-${(24 * K).toFixed(1)}cqw;margin-top:-4.4cqw;width:${(15 * K).toFixed(2)}cqw;line-height:0">${img(mv === 1 ? 106 : 107, 'width:100%').replace('<img ', '<img class="mbs" ')}</span>`;
+      };
+      const of = C.prototype._fuelDlg;
+      C.prototype._fuelDlg = function () {
+        let h = of.call(this);
+        const W = (29 * K).toFixed(2), H = (155 * K).toFixed(2);
+        h = h.replace('<div class="ftk">', '<div class="ftk pk">');
+        h = h.replace(/<div class="fbar"><i style="height:([\d.]+)%"><\/i><\/div>/, (m, p) =>
+          `<div style="position:absolute;left:9.7cqw;top:9.58cqw;width:${W}cqw;height:${H}cqw">${img(48, 'position:absolute;left:0;top:0;width:100%;height:100%')}<div style="position:absolute;left:0;right:0;bottom:0;height:${p}%;overflow:hidden">${img(49, `position:absolute;left:0;bottom:0;width:100%;height:${H}cqw`)}</div></div>`);
+        h = h.replace(/<div class="fhn" style="top:([\d.]+)cqw"><\/div>/, (m, y) => `<img src="${U(50)}" draggable="false" style="position:absolute;left:11.6cqw;top:${(y - 21 * K).toFixed(2)}cqw;width:${(57 * K).toFixed(2)}cqw">`);
+        return h.replace(/<svg viewBox="0 0 24 13" class="fch"[\s\S]*?<\/svg>/g, '');
+      };
+      // zapalarka (grzalka) w trzeciej komorce paska ekranu Palnik: 65 = zimna, 66 = grzeje, 67 = rozgrzana
+      const ob = C.prototype._burn;
+      C.prototype._burn = function (ctx) {
+        const h = ob.call(this, ctx), g = this._v('burn_ign');
+        if (isNaN(g) || g <= 0) return h;
+        const ic = `<span class="sp" style="width:${(34 * K).toFixed(2)}cqw;height:${(15 * K).toFixed(2)}cqw">${img(g > 50 ? 67 : 66)}</span>`;
+        return h.replace('<div class="c"></div>', `<div class="c">${ic}</div>`);
+      };
+      const T = window.TEKLA_IMG = window.TEKLA_IMG || {}, IM2 = window.__igneoImg = window.__igneoImg || {};
+      let BC = null;
+      const bi = c => { if (c !== undefined) BC = c; T.burner = U(17); IM2.tank = U(14); T.boiler = U([11, 12, 13].includes(+(BC && BC.boiler_image)) ? +BC.boiler_image : 13); };
+      bi(null);
+      window.addEventListener('tekla-img', () => { if (T.boiler !== U([11, 12, 13].includes(+(BC && BC.boiler_image)) ? +BC.boiler_image : 13) || T.burner !== U(17)) { bi(); window.dispatchEvent(new Event('tekla-img')); } });
+      const sc3 = C.prototype.setConfig;
+      C.prototype.setConfig = function (c) { bi(c); return sc3.call(this, c); };
+      window.dispatchEvent(new Event('tekla-img'));
+    })();
+
     // ---- tryb demo (YAML: demo: true) = dane przykladowe bez ESP/HA, do zrzutow ekranu i testow wygladu ----
     const DEMO = {
       boiler_temp: 68.4, boiler_set: 70, boiler_manual: 70, outside: 3.5, ret_temp: 55.2, on: 'on', power_switch: 'on',
       burner: 'Praca', burner_code: 5, power: 62, burn_kw: 14.8, burn_kgh: 3.1, burn_bright: 74, burn_temp: 412,
-      air_corr: 0, power_min: 30, power_max: 100, fuel_heat: 4.8, fuel_test: 21.5, fan_pct: 48, blower_run: 'on', feeder_run: 'off', feeder: 'Stop',
+      air_corr: 0, power_min: 30, power_max: 100, fuel_heat: 4.8, fuel_test: 21.5, fan_pct: 48, blower_run: 'on', feeder_run: 'on', burn_ign: 60, mix_co1: 1, feeder: 'Stop',
       burn_time: '5 h 12 min', fuel: 183, fuel_cap: 250, fuel_pct: 73, feed_time: 7,
       co_temp: 41.5, co_set: 45, co_manual: 45, co_pump: 'on', co_comfort: 45, co_eco: 38, co_mode: 3,
       cwu_temp: 47.2, cwu_set: 50, cwu_comfort: 50, cwu_eco: 40, cwu_pump: 'off', cwu_mode: 3,
@@ -1209,7 +1266,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.19';
+    const CARD_VER = '1.20';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };

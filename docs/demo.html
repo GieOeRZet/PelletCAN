@@ -12,7 +12,7 @@ h1{font-size:18px;font-weight:400;margin:0 0 12px}
 <script>
 // ?screen=stats pokazuje jeden ekran; bez parametru – kilka ekranów obok siebie
 const q = new URLSearchParams(location.search).get('screen');
-window.__demoScreens = q ? [q] : ['main', 'burn', 'stats', 'fuel'];
+window.__demoScreens = q ? [q] : ['main', 'burn', 'kociol', 'fuel'];
 </script>
 <script type="module">
 await import(location.pathname.includes('/docs/') ? '../dist/pelletcan-card.js' : './dist/pelletcan-card.js');

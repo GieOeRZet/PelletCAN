@@ -2,6 +2,9 @@
 
 Najnowsze na górze. Karta ma osobny plik: [CHANGELOG.md](CHANGELOG.md).
 
+## v1.4.17
+- Odczyt **zapalarki** `0x2253` (u16, 0–100 %) → encja „Palnik zapalarka” (cyklicznie z pozostałymi rejestrami palnika). Wymaga karty ≥ 1.20 (ikona grzałki).
+
 ## v1.4.16
 - **Statystyki**: nowe odczyty `0x3610` (średnia moc z 50 h, flaga+bajt), `0x3613–0x3616` (średni tlen 30/50/70/90 %, flaga+bajt), `0x3628` (energia całkowita kWh) – nazwy i typy z firmware panela FW2213TK. Encja „Statystyki kotla” ma teraz 14 liczb. Wymaga karty ≥ 1.19.
 

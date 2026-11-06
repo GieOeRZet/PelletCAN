@@ -1,7 +1,8 @@
 {
   "firmware": {
-    "version": "1.4.16",
+    "version": "1.4.17",
     "changelog": [
+      "Nowy odczyt zapalarki (grzałki palnika) 0x2253 – encja „Palnik zapalarka” [%] (ikona grzałki na ekranie Palnik). Wymaga karty ≥ 1.20.",
       "Statystyki: odczyt Średniej mocy palnika z 50 h (0x3610), Średniego tlenu przy 30/50/70/90 % (0x3613–0x3616) i Energii całkowitej [kWh] (0x3628) – rejestry z firmware panelu. Wymaga karty ≥ 1.19.",
       "Nowe: przycisk „Raport diagnostyczny (utwórz)” (tekst do wklejenia w Issue), Snap A / Snap B – ESP sam publikuje listę zmienionych rejestrów („Zmiany rejestrow (Snap)”), prognoza paliwa (Paliwo zuzycie 24h, Paliwo prognoza [dni], Paliwo rezerwa). Wymień PelletCAN_packages/PelletCAN.yaml. Karta ≥ 1.18 pokazuje zużycie i prognozę w Statystykach.",
       "Czysty log: diagnostyka (NMT, IDENT, PDO, SKAN SIECI) wyłączona domyślnie (diag_log), migawki wykomentowane, CAN diag/CAN ID ramek niewidoczne w HA; zostaje skaner sdo_scan/sdo_read/sdo_write, który pokazuje też rejestry znane. Nowy folder rejestry/ z pełnym katalogiem i instrukcją. Wymień PelletCAN.yaml (nowe diag_log). Karta bez zmian.",
@@ -25,8 +26,9 @@
     ]
   },
   "card": {
-    "version": "1.19",
+    "version": "1.20",
     "changelog": [
+      "Pakiet oryginalnych grafik panela (opcjonalny, katalog img/panel/ – generowany z własnego FW2213TK.bin: tools/pakiet_grafik.py): animowany wentylator i podajniki 1/2, zasobnik z pelletem i suwak w oknie Paliwo, zawór mieszacza ze strzałkami, grzałka zapalarki, obrazy kotła/palnika/bojlera 1:1. Bez pakietu – dotychczasowe wektory. Opcja boiler_image: 11/12/13. Grzałka wymaga firmware ≥ 1.4.17.",
       "Statystyki: Średnia moc z 50 h, Średni tlen (30/50/70/90 %) i Energia całkowita [kWh] zamiast „-” (0 = brak sondy/licznika → „-”). Wymaga firmware ≥ 1.4.16.",
       "Statystyki: Zużycie paliwa 24 h i Paliwo wystarczy na [dni] (wymaga firmware ≥ 1.4.15). Nowy tryb demo (demo: true) – dane przykładowe bez ESP, strona docs/demo.html i zrzuty w README.",
       "Kocioł NASTAWY: Wybieg pompy i Rezerwa paliwa stop edytowalne (poziom 1). Wymaga firmware ≥ 1.4.13.",
