@@ -2,6 +2,10 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.22 – Pakiet grafik: domyślnie tylko zbiornik paliwa
+- Z pakietu `img/panel/` karta domyślnie bierze tylko **zbiornik paliwa** w oknie Paliwo (pliki 48, 49, 50, 54). Wystarczy skopiować te 4 pliki; wentylator, podajniki, zawór, grzałka i obrazy kotła/palnika/bojlera pozostają wektorami.
+- Opcja `grafiki: pelne` włącza cały pakiet jak w 1.20–1.21.
+
 ## v1.21 – Grzałka pulsuje
 - Ikona grzałki zapalarki animowana jak na panelu: 65→66→67→65 (gdy `Palnik zapalarka` > 0).
 

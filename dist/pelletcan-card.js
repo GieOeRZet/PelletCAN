@@ -943,7 +943,7 @@
       const PB = new URL('.', import.meta.url).pathname + 'img/panel/';
       const stamp = Date.now();
       const has = n => new Promise(r => { const im = new Image(); im.onload = () => r(true); im.onerror = () => r(false); im.src = PB + String(n).padStart(3, '0') + '.png?v=' + stamp; });
-      if (!(await has(8))) return;   // brak pakietu = zostaja wektory
+      if (!(await has(54))) return;   // brak pakietu = zostaja wektory (wystarczy zbiornik: 48, 49, 50, 54)
       const U = n => PB + String(n).padStart(3, '0') + '.png?v=' + stamp, K = 0.2083;   // 1 px panelu = 0,2083 cqw (480 px = 100 cqw)
       const img = (n, st) => `<img src="${U(n)}" draggable="false" style="${st || ''}">`;
       const seq = (ns, w, h, on) => `<span class="sp ${on ? 'on' : ''}" style="width:${(w * K).toFixed(2)}cqw;height:${(h * K).toFixed(2)}cqw">${ns.map(n => img(n)).join('')}</span>`;
@@ -954,13 +954,16 @@
         @keyframes spfr{0%,33.3%{opacity:1}33.4%,100%{opacity:0}}.sp.on img:first-child{opacity:0}.sp.slow img{animation-duration:1.5s}.sp.slow img:nth-child(2){animation-delay:.5s}.sp.slow img:nth-child(3){animation-delay:1s}
         .ftk.pk{background:url(${U(54)}) 0 0/100% 100% no-repeat!important;border:0!important}.ftk.pk .fth,.ftk.pk .fhd{display:none}`;
       };
-      C.prototype._fan = function (spin) { return seq([8, 9, 10], 34, 27, spin); };
-      C.prototype._augSvg = function (anim = true) { return seq([36, 37, 38], 34, 27, anim); };
-      C.prototype._auger = function (n, run) { return run ? `<span class="augw">${seq(n === 2 ? [40, 41, 42] : [36, 37, 38], 34, 27, true)}</span>` : ''; };
-      C.prototype._valve = function (mv) {
+      // domyslnie z pakietu tylko zbiornik paliwa (48, 49, 50, 54); reszta grafik dopiero z grafiki: pelne
+      const FULL = t => !!(t && t._cfg && t._cfg.grafiki === 'pelne');
+      const gate = (name, fn) => { const o = C.prototype[name]; C.prototype[name] = function (...a) { return FULL(this) ? fn.apply(this, a) : o.apply(this, a); }; };
+      gate('_fan', function (spin) { return seq([8, 9, 10], 34, 27, spin); });
+      gate('_augSvg', function (anim = true) { return seq([36, 37, 38], 34, 27, anim); });
+      gate('_auger', function (n, run) { return run ? `<span class="augw">${seq(n === 2 ? [40, 41, 42] : [36, 37, 38], 34, 27, true)}</span>` : ''; });
+      gate('_valve', function (mv) {
         if (!mv) return '';
         return `<span class="sp" style="width:${(34 * K).toFixed(2)}cqw;height:${(27 * K).toFixed(2)}cqw">${img(105)}</span><span style="position:absolute;margin-left:-${(24 * K).toFixed(1)}cqw;margin-top:-4.4cqw;width:${(15 * K).toFixed(2)}cqw;line-height:0">${img(mv === 1 ? 106 : 107, 'width:100%').replace('<img ', '<img class="mbs" ')}</span>`;
-      };
+      });
       const of = C.prototype._fuelDlg;
       C.prototype._fuelDlg = function () {
         let h = of.call(this);
@@ -975,13 +978,13 @@
       const ob = C.prototype._burn;
       C.prototype._burn = function (ctx) {
         const h = ob.call(this, ctx), g = this._v('burn_ign');
-        if (isNaN(g) || g <= 0) return h;   // grzałka tylko gdy zapalarka pracuje
+        if (!FULL(this) || isNaN(g) || g <= 0) return h;   // grzałka tylko gdy zapalarka pracuje
         const ic = `<span class="sp on slow" style="width:${(34 * K).toFixed(2)}cqw;height:${(15 * K).toFixed(2)}cqw">${img(65)}${img(66)}${img(67)}</span>`;   // pulsowanie 65-66-67-65
         return h.replace('<div class="c"></div>', `<div class="c">${ic}</div>`);
       };
       const T = window.TEKLA_IMG = window.TEKLA_IMG || {}, IM2 = window.__igneoImg = window.__igneoImg || {};
       let BC = null;
-      const bi = c => { if (c !== undefined) BC = c; T.burner = U(17); IM2.tank = U(14); T.boiler = U([11, 12, 13].includes(+(BC && BC.boiler_image)) ? +BC.boiler_image : 13); };
+      const bi = c => { if (c !== undefined) BC = c; if (!FULL(BC && { _cfg: BC })) return; T.burner = U(17); IM2.tank = U(14); T.boiler = U([11, 12, 13].includes(+(BC && BC.boiler_image)) ? +BC.boiler_image : 13); };
       bi(null);
       window.addEventListener('tekla-img', () => { if (T.boiler !== U([11, 12, 13].includes(+(BC && BC.boiler_image)) ? +BC.boiler_image : 13) || T.burner !== U(17)) { bi(); window.dispatchEvent(new Event('tekla-img')); } });
       const sc3 = C.prototype.setConfig;
@@ -1266,7 +1269,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.21';
+    const CARD_VER = '1.22';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };

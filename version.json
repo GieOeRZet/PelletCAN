@@ -26,8 +26,9 @@
     ]
   },
   "card": {
-    "version": "1.21",
+    "version": "1.22",
     "changelog": [
+      "Pakiet grafik panela: domyślnie tylko zbiornik paliwa w oknie Paliwo (pliki 48, 49, 50, 54 w img/panel/). Cały pakiet (wentylator, podajniki, zawór, grzałka, kocioł) włącza opcja grafiki: pelne.",
       "Grzałka zapalarki: animacja pulsowania 65→66→67→65 (zamiast dwóch stanów).",
       "Pakiet oryginalnych grafik panela (opcjonalny, katalog img/panel/ – generowany z własnego FW2213TK.bin: tools/pakiet_grafik.py): animowany wentylator i podajniki 1/2, zasobnik z pelletem i suwak w oknie Paliwo, zawór mieszacza ze strzałkami, grzałka zapalarki, obrazy kotła/palnika/bojlera 1:1. Bez pakietu – dotychczasowe wektory. Opcja boiler_image: 11/12/13. Grzałka wymaga firmware ≥ 1.4.17.",
       "Statystyki: Średnia moc z 50 h, Średni tlen (30/50/70/90 %) i Energia całkowita [kWh] zamiast „-” (0 = brak sondy/licznika → „-”). Wymaga firmware ≥ 1.4.16.",
