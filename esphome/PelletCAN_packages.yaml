@@ -45,7 +45,7 @@ substitutions:
   pin_autolock_min: "5"    # blokada poziomu po tylu minutach bezczynnosci (0 = bez blokady)
   burner_eff_kw: "0.90"    # sprawnosc kotla do mocy [kW] (potwierdzone z panelem)
   burner_eff_fuel: "0.85"  # EMPIRYCZNY wspolczynnik do spalania [kg/h] (dopasowanie do panelu)
-  fw_version: "1.4.21"
+  fw_version: "1.4.22"
   # ---- PINY I UKLAD CAN (domyslnie: XIAO ESP32-C6 + Seeed CAN Bus Breakout z MCP2515) ----
   # Inny ESP lub inny modul CAN (MCP2515): zmien te wartosci w PelletCAN.yaml (nie edytuj rdzenia).
   # Zapis jak w ESPHome: GPIO17, albo nazwa pinu plytki (np. D7) - wg dokumentacji Twojej plytki.
@@ -237,7 +237,7 @@ api:
             id(reg_write).execute((int) ix[key], raw, 2);
     # v1.2 TEST WYJSC: out 0..17 i 19 (Podajnik palnika, 0x2295; 18 = suwak), mode 0 = A (Automat), 1 = OFF/CLOSE, 2 = ON/OPEN. Wymaga poziomu dostepu 2 (PIN klucza 2).
     # out: 0 Podajnik, 1 Dmuchawa, 2 Zapalarka, 3 Pompa kotlowa, 4 Pompa solarna, 5..8 Pompa CO1..CO4, 9..12 Mieszacz CO1..CO4,
-    #      13 Mieszacz powrotu, 14 Magazyn transporter, 15 Magazyn podajnik, 16 Ruszt, 17 WentWyc tryb (18 = WentWyc suwak: set_output_pct), 19 Podajnik palnika, 20 Pompa CWU (0x2296).
+    #      13 Mieszacz powrotu, 14 Magazyn transporter, 15 Magazyn podajnik, 16 Ruszt, 17 WentWyc tryb (18 = WentWyc suwak: set_output_pct), 19 Podajnik palnika, 20 Pompa CWU (0x2296), 21 Wymiennik (0x2285). Od 1.4.22 mieszacze CO1..CO4 = 0x214A..0x214D (0x22B9..0x22BC to tylko stan).
     - action: set_output
       variables:
         out: int
@@ -245,10 +245,10 @@ api:
       then:
         - lambda: |-
             if (std::string("${mirror}") == "true" || std::string("${output_test_write}") != "true") { ESP_LOGW("igneo", "Test wyjsc wylaczony (mirror: true lub output_test_write: false)"); return; }
-            if (out < 0 || out > 20 || out == 18 || mode < 0 || mode > 2) { ESP_LOGW("igneo", "Test wyjsc: zle wyjscie lub tryb"); return; }
+            if (out < 0 || out > 21 || out == 18 || mode < 0 || mode > 2) { ESP_LOGW("igneo", "Test wyjsc: zle wyjscie lub tryb"); return; }
             id(access_t) = millis();
             if (id(access_level) < 2) { ESP_LOGW("igneo", "Test wyjsc wymaga poziomu dostepu 2 (PIN)"); return; }
-            static const uint16_t tix[] = {0x2259, 0x2283, 0x2284, 0x2286, 0x311F, 0x229D, 0x229E, 0x229F, 0x22A0, 0x22B9, 0x22BA, 0x22BB, 0x22BC, 0x216D, 0x351E, 0x351F, 0x2279, 0x2293, 0x2298, 0x2295, 0x2296};
+            static const uint16_t tix[] = {0x2259, 0x2283, 0x2284, 0x2286, 0x311F, 0x229D, 0x229E, 0x229F, 0x22A0, 0x214A, 0x214B, 0x214C, 0x214D, 0x216D, 0x351E, 0x351F, 0x2279, 0x2293, 0x2298, 0x2295, 0x2296, 0x2285};
             id(reg_write).execute((int) tix[out], 0x0100 | mode, 2);
             if (mode) id(test_mask) |= (1u << out); else id(test_mask) &= ~(1u << out);
             id(test_t) = millis();
@@ -907,14 +907,14 @@ canbus:
               }
               // v1.1: stany wyjsc testowych (19 rejestrow: tryb 0 = A, 1 = OFF/CLOSE, 2 = ON/OPEN; ostatni = suwak WentWyc w %) -> "Test wyjsc stany"
               {
-                static const uint16_t tix[] = {0x2259, 0x2283, 0x2284, 0x2286, 0x311F, 0x229D, 0x229E, 0x229F, 0x22A0, 0x22B9, 0x22BA, 0x22BB, 0x22BC, 0x216D, 0x351E, 0x351F, 0x2279, 0x2293, 0x2298, 0x2295, 0x2296};
+                static const uint16_t tix[] = {0x2259, 0x2283, 0x2284, 0x2286, 0x311F, 0x229D, 0x229E, 0x229F, 0x22A0, 0x214A, 0x214B, 0x214C, 0x214D, 0x216D, 0x351E, 0x351F, 0x2279, 0x2293, 0x2298, 0x2295, 0x2296, 0x2285};
                 int ti = -1;
-                for (int k = 0; k < 21; k++) if (tix[k] == idx) { ti = k; break; }
+                for (int k = 0; k < 22; k++) if (tix[k] == idx) { ti = k; break; }
                 if (ti >= 0) {
-                  if (id(test_vals).size() != 21) id(test_vals).assign(21, -1);
+                  if (id(test_vals).size() != 22) id(test_vals).assign(22, -1);
                   id(test_vals)[ti] = (int32_t) (raw & 0xFF);
                   std::string so; char tt[8];
-                  for (size_t k = 0; k < 21; k++) { if (id(test_vals)[k] < 0) snprintf(tt, sizeof(tt), "-"); else snprintf(tt, sizeof(tt), "%d", (int) id(test_vals)[k]); if (k) so += ' '; so += tt; }
+                  for (size_t k = 0; k < 22; k++) { if (id(test_vals)[k] < 0) snprintf(tt, sizeof(tt), "-"); else snprintf(tt, sizeof(tt), "%d", (int) id(test_vals)[k]); if (k) so += ' '; so += tt; }
                   id(test_state_txt).publish_state(so);
                 }
               }
@@ -2777,7 +2777,7 @@ script:
     mode: single
     then:
       - lambda: |-
-          static const uint16_t tix[] = {0x2259, 0x2283, 0x2284, 0x2286, 0x311F, 0x229D, 0x229E, 0x229F, 0x22A0, 0x22B9, 0x22BA, 0x22BB, 0x22BC, 0x216D, 0x351E, 0x351F, 0x2279, 0x2293, 0x2298, 0x2295, 0x2296};
+          static const uint16_t tix[] = {0x2259, 0x2283, 0x2284, 0x2286, 0x311F, 0x229D, 0x229E, 0x229F, 0x22A0, 0x214A, 0x214B, 0x214C, 0x214D, 0x216D, 0x351E, 0x351F, 0x2279, 0x2293, 0x2298, 0x2295, 0x2296, 0x2285};
           auto &q = id(par_q);
           if (q.size() > 100) return;
           for (auto r : tix) q.push_back(r);
@@ -2786,10 +2786,10 @@ script:
     mode: single
     then:
       - lambda: |-
-          static const uint16_t tix[] = {0x2259, 0x2283, 0x2284, 0x2286, 0x311F, 0x229D, 0x229E, 0x229F, 0x22A0, 0x22B9, 0x22BA, 0x22BB, 0x22BC, 0x216D, 0x351E, 0x351F, 0x2279, 0x2293, 0x2298, 0x2295, 0x2296};
+          static const uint16_t tix[] = {0x2259, 0x2283, 0x2284, 0x2286, 0x311F, 0x229D, 0x229E, 0x229F, 0x22A0, 0x214A, 0x214B, 0x214C, 0x214D, 0x216D, 0x351E, 0x351F, 0x2279, 0x2293, 0x2298, 0x2295, 0x2296, 0x2285};
           const uint32_t m = id(test_mask);
           id(test_mask) = 0;
-          for (int k = 0; k < 21; k++) if (m & (1u << k)) { id(reg_write).execute((int) tix[k], 0x0100, 2); ESP_LOGW("igneo", "TEST WYJSC: powrot na Automat 0x%04X", (unsigned) tix[k]); }
+          for (int k = 0; k < 22; k++) if (m & (1u << k)) { id(reg_write).execute((int) tix[k], 0x0100, 2); ESP_LOGW("igneo", "TEST WYJSC: powrot na Automat 0x%04X", (unsigned) tix[k]); }
   # Kolejkuje odczyt ustawien do biezacego poziomu dostepu (0 = uzytkownik, 1 = klucz 1, 2 = klucz 2).
   - id: par_refresh
     mode: restart

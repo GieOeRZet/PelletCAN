@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.26 – Test wyjść: wymiennik i mieszacze
+- Test wyjść: aktywny wiersz Wymiennik (rejestr 0x2285), mieszacze CO1–CO4 działają przez rejestry testowe 0x214A–0x214D. Wymaga firmware ≥ 1.4.22.
+
 ## v1.25 – Tłumaczenia
 - Tłumaczenia nowych napisów (nastawy i odczyty z kotła, krzywa wentylatora spalin, alarm/cisza, statystyki, paliwo) we wszystkich 11 językach.
 

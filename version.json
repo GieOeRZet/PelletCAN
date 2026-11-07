@@ -1,7 +1,8 @@
 {
   "firmware": {
-    "version": "1.4.21",
+    "version": "1.4.22",
     "changelog": [
+      "Test wyjść: mieszacze CO1–CO4 sterowane rejestrami testowymi `0x214A`–`0x214D` (według tablicy parametrów panelu); `0x22B9`–`0x22BC` to tylko stan (odczyt), dlatego kocioł odrzucał zapis. Nowe wyjście 21 Wymiennik = `0x2285` („Exchanger cleaner test”), stan testu ma teraz 22 pozycje. Do sprawdzenia na kotle. Wymaga karty ≥ 1.26.",
       "Nowe odczyty z kotła: moc palnika (0x3706), zużycie paliwa (0x3710), czas do czyszczenia rusztu (0x3711), moc wentylatora spalin (0x228C). Nowe nastawy (set_param 76–80): moc nominalna 0x3709 (klucz 2), dawka wstępna [g] 0x370E, min/max temp. spalin 0x3701/0x3703, interwał czyszczenia wymiennika 0x3122. Wymaga karty ≥ 1.24.",
       "Antylegionella (set_param 67) zapisuje się już na poziomie 0 (bez PIN-u), tak jak pokazuje karta; wcześniej firmware odrzucał zapis bez klucza 1.",
       "Nowe nastawy z panela (CWU max, antylegionella, krzywa wentylatora spalin, alarm dźwiękowy) odświeżają się co 60 s, więc zmiany zrobione na panelu są widoczne na karcie.",
@@ -30,8 +31,9 @@
     ]
   },
   "card": {
-    "version": "1.25",
+    "version": "1.26",
     "changelog": [
+      "Test wyjść: aktywny wiersz Wymiennik (rejestr 0x2285), mieszacze CO1–CO4 działają przez rejestry testowe 0x214A–0x214D. Wymaga firmware ≥ 1.4.22.",
       "Tłumaczenia nowych napisów (nastawy i odczyty z kotła, krzywa wentylatora spalin, alarm/cisza, statystyki, paliwo) we wszystkich 11 językach.",
       "Statystyki: moc palnika, zużycie paliwa, czas do czyszczenia rusztu i moc wentylatora spalin z kotła. Palnik → NASTAWY (klucz 1): moc nominalna, dawka wstępna [g], min/max temp. spalin, interwał czyszczenia wymiennika. Wymaga firmware ≥ 1.4.21.",
       "Nastawy z firmware panela: CWU Temp. maksymalna i Antylegionella (menu Ciepła woda), krzywa wentylatora spalin 1–5 (Palnik → NASTAWY, klucz 1), Alarm dźwiękowy + Cisza od/do (Konfiguracja). Poprawka: pętla zdarzenia grafik w 1.22 (przepełnienie stosu przy obecnym pakiecie grafik). Wymaga firmware ≥ 1.4.18.",

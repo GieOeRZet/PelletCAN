@@ -1182,11 +1182,11 @@
     C.prototype.__v11 = true;
     const W = window.__tekla80 = window.__tekla80 || {};
     W.NEW = W.NEW || {};
-    W.NEW.test_state = 'test_wyjsc_stany';   // text_sensor z ESP: 21 liczb po spacji (0 = A, 1 = OFF/CLOSE, 2 = ON/OPEN; ostatnia = suwak WentWyc %)
+    W.NEW.test_state = 'test_wyjsc_stany';   // text_sensor z ESP: 22 liczby po spacji (0 = A, 1 = OFF/CLOSE, 2 = ON/OPEN; ostatnia = suwak WentWyc %)
     // [numer wyjscia w firmware (-1 = rejestr nieznany), nazwa, 'cl' = A/CLOSE/OPEN, suwak %]
     // kolejnosc i nazwy jak na panelu (6 zdjec): [numer wyjscia w firmware (-1 = rejestr nieznany), nazwa, 'cl' = A/CLOSE/OPEN, suwak: 'dm' (bez rejestru) | 'wy' (0x2298)]
     const TR = [
-      [20, 'Pompa CWU'], [3, 'Pompa kotłowa'], [4, 'Pompa solarna'], [0, 'Podajnik'], [16, 'Ruszt', 'cl'], [-1, 'Wymiennik'], [2, 'Zapalarka'],
+      [20, 'Pompa CWU'], [3, 'Pompa kotłowa'], [4, 'Pompa solarna'], [0, 'Podajnik'], [16, 'Ruszt', 'cl'], [21, 'Wymiennik'], [2, 'Zapalarka'],
       [19, 'Podajnik palnika'], [14, 'Magazyn paliwa transporter'], [15, 'Magazyn paliwa podajnik'], [1, 'Dm.', '', 'dm'], [17, 'WentWyc', '', 'wy'],
       [5, 'Pompa CO1'], [6, 'Pompa CO2'], [7, 'Pompa CO3'], [8, 'Pompa CO4'],
       [9, 'Mieszacz CO1', 'cl'], [10, 'Mieszacz CO2', 'cl'], [11, 'Mieszacz CO3', 'cl'], [12, 'Mieszacz CO4', 'cl'], [13, 'Mieszacz powrotu', 'cl'],
@@ -1195,7 +1195,7 @@
     const COLX = [69.7, 78.0, 86.3];
     C.prototype._tVals = function () {
       const t = this._t('test_state', '').trim().split(/\s+/), a = [];
-      for (let i = 0; i < 21; i++) { const n = parseInt(t[i], 10); a.push(isNaN(n) ? NaN : n); }
+      for (let i = 0; i < 22; i++) { const n = parseInt(t[i], 10); a.push(isNaN(n) ? NaN : n); }
       return a;
     };
     C.prototype._tMode = function (i) {
@@ -1287,7 +1287,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.25';
+    const CARD_VER = '1.26';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };

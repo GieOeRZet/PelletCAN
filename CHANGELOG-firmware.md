@@ -2,6 +2,9 @@
 
 Najnowsze na górze. Karta ma osobny plik: [CHANGELOG.md](CHANGELOG.md).
 
+## v1.4.22
+- Test wyjść: mieszacze CO1–CO4 sterowane rejestrami testowymi `0x214A`–`0x214D` (według tablicy parametrów panelu); `0x22B9`–`0x22BC` to tylko stan (odczyt), dlatego kocioł odrzucał zapis. Nowe wyjście 21 Wymiennik = `0x2285` („Exchanger cleaner test”), stan testu ma teraz 22 pozycje. Do sprawdzenia na kotle. Wymaga karty ≥ 1.26.
+
 ## v1.4.21
 - Odczyty (co 60 s): moc palnika `0x3706` [dkW → kW], zużycie paliwa `0x3710` [0,1 kg/h], czas do czyszczenia rusztu `0x3711` [min], moc wentylatora spalin `0x228C` [%]. Encje „Kociol moc palnika”, „Kociol zuzycie paliwa”, „Kociol czas do czyszczenia rusztu”, „Kociol wentylator spalin moc”.
 - Nastawy (`set_param` 76–80): moc nominalna `0x3709` (klucz 2), dawka wstępna `0x370E` [g], min/max temperatura spalin `0x3701`/`0x3703`, interwał czyszczenia wymiennika `0x3122` [min]. Wymaga karty ≥ 1.24.
