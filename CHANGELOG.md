@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.30 – Pakiet grafik
+- Pakiet grafik panela (img/panel/, 188 plików) jest teraz w paczce karty – zbiornik paliwa działa od razu; resztę (wentylator, podajniki, zawór, grzałka, kocioł, palnik) włącza opcja grafiki: pelne.
+
 ## v1.29 – Animacja grzałki
 - Grzałka zapalarki: animacja jak w panelu – klatki 65→66→67→66→65 (tam i z powrotem, 2 s) zamiast pulsowania z trzech klatek.
 

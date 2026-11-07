@@ -1,8 +1,7 @@
-Podajnik palnika, NASTAWY i nowy podział plików
+Nastawy z panela, odczyty palnika, test wyjść i grafiki
 ## Co nowego
-- **Karta v1.3:** ikona „2” (podajnik palnika) na ekranie Palnik, ikona zaworu na ekranie Kocioł, NASTAWY Kocioł / Ogrzewanie 1 / Woda przebudowane według panelu (pozycje bez rejestru przyciemnione, „-”), edytor odzwierciedla wykryte encje w YAML.
-- **Firmware v1.3:** diagnostyka magistrali w HA („CAN diag”, „CAN ID ramek”), tożsamość węzła dla zakładki Sieć (nazwa PelletCAN, wersja), instrukcja: docs/DIAGNOSTYKA.md.
-- **Firmware v1.2:** Podajnik palnika w Teście wyjść i jako encja, stany mieszaczy, CWU Źródło / Zwiększenie / Delta z zapisem, histerezy na poziomie 0.
-- **Nowy podział plików:** plik użytkownika `PelletCAN.yaml` (ustawienia + esphome/esp32/logger/web_server/captive_portal/api + packages) i niezmienny rdzeń z GitHuba. **Wymień swój plik `PelletCAN.yaml` na nowy.**
+- **Karta v1.30:** nastawy CWU (temp. max, antylegionella), krzywa wentylatora spalin, alarm dźwiękowy i cisza, odczyty i nastawy palnika z kotła (moc, zużycie, dawka wstępna, temp. spalin, interwał wymiennika), tłumaczenia nowych napisów (11 języków), obraz bojlera CWU, animacja grzałki zapalarki, pakiet grafik panela w `img/panel/`.
+- **Firmware v1.4.22:** zapis antylegionelli bez PIN-u, cykliczny odczyt nastaw co 60 s, test wyjść: wymiennik (0x2285) i mieszacze CO1–CO4 przez rejestry testowe 0x214A–0x214D (do sprawdzenia na kotle).
+- Wymień pliki ESPHome (`PelletCAN_packages.yaml`) na nowe i zaktualizuj kartę w HACS.
 
 Szczegóły: [CHANGELOG.md](CHANGELOG.md) i [CHANGELOG-firmware.md](CHANGELOG-firmware.md).

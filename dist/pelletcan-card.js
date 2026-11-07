@@ -957,7 +957,7 @@
     };
     const og2 = C.prototype._go;
     C.prototype._go = function (s, b) { if (this._lite && LITE_GO.includes(s)) return; return og2.call(this, s, b); };
-    // ---- pakiet oryginalnych grafik panela: img/panel/NNN.png (numery jak w tablicy bitmap FW panela; pliki Estymy, poza repo) ----
+    // ---- pakiet oryginalnych grafik panela: img/panel/NNN.png (numery jak w tablicy bitmap FW panela) ----
     await (async () => {
       const PB = new URL('.', import.meta.url).pathname + 'img/panel/';
       const stamp = Date.now();
@@ -1294,7 +1294,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.29';
+    const CARD_VER = '1.30';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };
