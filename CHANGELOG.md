@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.27 – Obraz bojlera
+- Bojler CWU: własny obraz (img/bojler.png) nie rozciąga się już do ramki – zachowuje proporcje. Pełna rozdzielczość np. 3× (przeskalowany wektorowo-ostro) wskazana dla ekranów 2×.
+
 ## v1.26 – Test wyjść: wymiennik i mieszacze
 - Test wyjść: aktywny wiersz Wymiennik (rejestr 0x2285), mieszacze CO1–CO4 działają przez rejestry testowe 0x214A–0x214D. Wymaga firmware ≥ 1.4.22.
 

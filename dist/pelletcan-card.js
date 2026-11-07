@@ -252,6 +252,11 @@
 },
 {
 "t": "x",
+"old": ".pos-tank{position:absolute;left:18.7cqw;top:12cqw;width:18.9cqw;height:35.4cqw}",
+"new": ".pos-tank{position:absolute;left:18.7cqw;top:12cqw;width:18.9cqw;height:35.4cqw;object-fit:contain}"
+},
+{
+"t": "x",
 "old": "class TeklaPanelCard extends HTMLElement {",
 "new": "window.__teklaDefs = { ENT_GROUPS, ROLE_KEY, SCREEN_OPTS };\nclass TeklaPanelCard extends HTMLElement {"
 },
@@ -1287,7 +1292,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.26';
+    const CARD_VER = '1.27';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };

@@ -31,8 +31,9 @@
     ]
   },
   "card": {
-    "version": "1.26",
+    "version": "1.27",
     "changelog": [
+      "Bojler CWU: własny obraz (img/bojler.png) nie rozciąga się już do ramki – zachowuje proporcje. Pełna rozdzielczość np. 3× (przeskalowany wektorowo-ostro) wskazana dla ekranów 2×.",
       "Test wyjść: aktywny wiersz Wymiennik (rejestr 0x2285), mieszacze CO1–CO4 działają przez rejestry testowe 0x214A–0x214D. Wymaga firmware ≥ 1.4.22.",
       "Tłumaczenia nowych napisów (nastawy i odczyty z kotła, krzywa wentylatora spalin, alarm/cisza, statystyki, paliwo) we wszystkich 11 językach.",
       "Statystyki: moc palnika, zużycie paliwa, czas do czyszczenia rusztu i moc wentylatora spalin z kotła. Palnik → NASTAWY (klucz 1): moc nominalna, dawka wstępna [g], min/max temp. spalin, interwał czyszczenia wymiennika. Wymaga firmware ≥ 1.4.21.",

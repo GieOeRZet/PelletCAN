@@ -2,3 +2,5 @@ esphome/secrets.yaml
 esphome/.esphome/
 *.bak
 dist/img/panel/
+dist/img/bojler.png
+dist/img/bojler.webp
