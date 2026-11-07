@@ -975,6 +975,7 @@
         .sq{position:relative;display:inline-block;line-height:0}.sq img{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;mix-blend-mode:screen;animation:spf4 2s linear infinite}.sq img:nth-child(2){animation-delay:.5s}.sq img:nth-child(3){animation-delay:1s}.sq img:nth-child(4){animation-delay:1.5s}
         @keyframes spf4{0%,25%{opacity:1}25.01%,100%{opacity:0}}`
           + (FULL(this) ? `.tgq,.row .tgq{background:url(${U(184)}) 0 0/100% 100% no-repeat!important;box-shadow:none!important;border-radius:0!important;height:auto!important;aspect-ratio:45/20}.tgq.on,.row .tgq.on{background-image:url(${U(185)})!important}.tgq i,.tgq::before,.tgq::after,.row .tgq::before,.row .tgq::after{display:none!important}
+        .fmp{background:url(${U(56)}) 0 0/100% 100% no-repeat!important;border:0!important;box-shadow:none!important;width:4.17cqw!important;height:4.17cqw!important;margin:-2.08cqw 0 0 -2.08cqw!important}.fmp.sel{background-image:url(${U(57)})!important}
         .tr .tb{background:url(${U(19)}) 0 0/100% 100% no-repeat!important;border:0!important;border-radius:0!important;width:6.25cqw!important;height:6.46cqw!important}.tr .tb.ck{background-image:url(${U(20)})!important}.tr .tb svg{display:none!important}
         .sl i{background:url(${U(70)}) center/100% 100% no-repeat!important;box-shadow:none!important;border-radius:0!important;width:6.5cqw!important;height:6.5cqw!important;top:-2.15cqw!important;margin-left:-3.25cqw!important}` : '');
       };
@@ -1305,7 +1306,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.33';
+    const CARD_VER = '1.34';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };

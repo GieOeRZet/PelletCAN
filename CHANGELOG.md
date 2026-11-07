@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.34 – Punkty krzywej
+- Grafiki: pelne – punkty krzywej wentylatora (zwykły i edytowany) z oryginalnych bitmap panela (56, 57).
+
 ## v1.33 – Pola wyboru
 - Grafiki: pelne – pola wyboru A/OFF/ON w Teście wyjść z oryginalnych bitmap panela (19 pusty, 20 zaznaczony).
 
