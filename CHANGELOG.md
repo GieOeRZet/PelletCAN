@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.25 – Tłumaczenia
+- Tłumaczenia nowych napisów (nastawy i odczyty z kotła, krzywa wentylatora spalin, alarm/cisza, statystyki, paliwo) we wszystkich 11 językach.
+
 ## v1.24 – Odczyty i nastawy palnika z kotła
 - Statystyki: **Moc palnika z kotła**, **Zużycie paliwa z kotła**, **Czas do czyszczenia rusztu**, **Wentylator spalin [%]**.
 - Palnik → NASTAWY (klucz 1): **Moc nominalna**, **Dawka wstępna [g]**, **Min./Max. temp. spalin**, **Interwał czyszczenia wymiennika**. Wymaga firmware ≥ 1.4.21.
