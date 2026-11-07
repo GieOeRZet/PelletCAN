@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.32 – Opcje w edytorze i grafiki suwaka
+- Grafiki: pelne – przełącznik Kocioł (OFF/ON) i uchwyt suwaków trybu (CO, CWU) z oryginalnych bitmap panela (184/185, 70). Edytor karty: nowe pola Grafiki panela (domyślne/pełne), Obraz kotła (11/12/13), Tryb lite i Tryb demo. Poprawka: przy grafiki: pelne bojler CWU wraca do własnego obrazu (img/bojler.png) zamiast sprite'a zbiornika.
+
 ## v1.31 – Opcje w edytorze
 - Edytor karty: nowe pola Grafiki panela (domyślne/pełne), Obraz kotła (11/12/13), Tryb lite i Tryb demo. Poprawka: przy grafiki: pelne bojler CWU wraca do własnego obrazu (img/bojler.png) zamiast sprite'a zbiornika.
 
