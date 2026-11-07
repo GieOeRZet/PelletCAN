@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.29 – Animacja grzałki
+- Grzałka zapalarki: animacja jak w panelu – klatki 65→66→67→66→65 (tam i z powrotem, 2 s) zamiast pulsowania z trzech klatek.
+
 ## v1.28 – Obraz bojlera w pakiecie
 - Domyślny obraz bojlera CWU to teraz img/bojler.png (grafika z panelu w pełnej rozdzielczości); wektor bojler.svg zostaje jako zapasowy.
 

@@ -31,8 +31,9 @@
     ]
   },
   "card": {
-    "version": "1.28",
+    "version": "1.29",
     "changelog": [
+      "Grzałka zapalarki: animacja jak w panelu – klatki 65→66→67→66→65 (tam i z powrotem, 2 s) zamiast pulsowania z trzech klatek.",
       "Domyślny obraz bojlera CWU to teraz img/bojler.png (grafika z panelu w pełnej rozdzielczości); wektor bojler.svg zostaje jako zapasowy.",
       "Bojler CWU: własny obraz (img/bojler.png) nie rozciąga się już do ramki – zachowuje proporcje. Pełna rozdzielczość np. 3× (przeskalowany wektorowo-ostro) wskazana dla ekranów 2×.",
       "Test wyjść: aktywny wiersz Wymiennik (rejestr 0x2285), mieszacze CO1–CO4 działają przez rejestry testowe 0x214A–0x214D. Wymaga firmware ≥ 1.4.22.",
