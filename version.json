@@ -31,8 +31,9 @@
     ]
   },
   "card": {
-    "version": "1.32",
+    "version": "1.33",
     "changelog": [
+      "Grafiki: pelne – pola wyboru A/OFF/ON w Teście wyjść z oryginalnych bitmap panela (19 pusty, 20 zaznaczony).",
       "Grafiki: pelne – przełącznik Kocioł (OFF/ON) i uchwyt suwaków trybu (CO, CWU) z oryginalnych bitmap panela (184/185, 70). Edytor karty: nowe pola Grafiki panela (domyślne/pełne), Obraz kotła (11/12/13), Tryb lite i Tryb demo. Poprawka: przy grafiki: pelne bojler CWU wraca do własnego obrazu (img/bojler.png) zamiast sprite'a zbiornika.",
       "Edytor karty: nowe pola Grafiki panela (domyślne/pełne), Obraz kotła (11/12/13), Tryb lite i Tryb demo. Poprawka: przy grafiki: pelne bojler CWU wraca do własnego obrazu (img/bojler.png) zamiast sprite'a zbiornika.",
       "Pakiet grafik panela (img/panel/, 188 plików) jest teraz w paczce karty – zbiornik paliwa działa od razu; resztę (wentylator, podajniki, zawór, grzałka, kocioł, palnik) włącza opcja grafiki: pelne.",
