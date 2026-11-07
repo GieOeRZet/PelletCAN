@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.31 – Opcje w edytorze
+- Edytor karty: nowe pola Grafiki panela (domyślne/pełne), Obraz kotła (11/12/13), Tryb lite i Tryb demo. Poprawka: przy grafiki: pelne bojler CWU wraca do własnego obrazu (img/bojler.png) zamiast sprite'a zbiornika.
+
 ## v1.30 – Pakiet grafik
 - Pakiet grafik panela (img/panel/, 188 plików) jest teraz w paczce karty – zbiornik paliwa działa od razu; resztę (wentylator, podajniki, zawór, grzałka, kocioł, palnik) włącza opcja grafiki: pelne.
 

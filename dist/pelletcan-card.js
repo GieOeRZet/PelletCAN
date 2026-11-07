@@ -1005,7 +1005,7 @@
       };
       const T = window.TEKLA_IMG = window.TEKLA_IMG || {}, IM2 = window.__igneoImg = window.__igneoImg || {};
       let BC = null;
-      const bi = c => { if (c !== undefined) BC = c; if (!FULL(BC && { _cfg: BC })) return; T.burner = U(17); IM2.tank = U(14); T.boiler = U([11, 12, 13].includes(+(BC && BC.boiler_image)) ? +BC.boiler_image : 13); };
+      const bi = c => { if (c !== undefined) BC = c; if (!FULL(BC && { _cfg: BC })) return; T.burner = U(17); T.boiler = U([11, 12, 13].includes(+(BC && BC.boiler_image)) ? +BC.boiler_image : 13); };
       bi(null);
       window.addEventListener('tekla-img', () => { if (!FULL(BC && { _cfg: BC })) return; if (T.boiler !== U([11, 12, 13].includes(+(BC && BC.boiler_image)) ? +BC.boiler_image : 13) || T.burner !== U(17)) { bi(); window.dispatchEvent(new Event('tekla-img')); } });
       const sc3 = C.prototype.setConfig;
@@ -1095,7 +1095,7 @@
         const c = this._cfg, ids = this._ids(), pf = pfOf(c, ids), keys = keysAll(), ex = c.entities || {};
         const d = {
           screen: c.screen || 'main', language: ({ dk: 'da', se: 'sv', cz: 'cs', est: 'et' }[String(c.language || 'pl').toLowerCase()] || c.language || 'pl'), device: c.entity_prefix ? String(c.entity_prefix) : 'auto',
-          esphome_node: c.esphome_node || '', mirror_mode: typeof c.mirror === 'boolean' ? (c.mirror ? 'on' : 'off') : 'auto',
+          esphome_node: c.esphome_node || '', grafiki: c.grafiki === 'pelne' ? 'pelne' : 'domyslne', boiler_image: [11, 12, 13].includes(+c.boiler_image) ? String(c.boiler_image) : '13', lite: !!c.lite, demo: !!c.demo, mirror_mode: typeof c.mirror === 'boolean' ? (c.mirror ? 'on' : 'off') : 'auto',
         };
         Object.keys(keys).forEach(r => { d['e_' + r] = ex[r] || (ids.length ? findRole(ids, r, keys[r], pf, this._hass.states) : ''); });   // pola od razu pokazuja wykryte encje
         return d;
@@ -1126,6 +1126,10 @@
           ],
         }, {
           type: 'expandable', title: 'Zaawansowane (zwykle zbędne)', flatten: true, schema: [
+            { name: 'grafiki', label: 'Grafiki panela', selector: { select: { mode: 'dropdown', options: [{ value: 'domyslne', label: 'Domyślne (tylko zbiornik paliwa)' }, { value: 'pelne', label: 'Pełne (wentylator, podajniki, zawór, grzałka, kocioł, palnik)' }] } } },
+            { name: 'boiler_image', label: 'Obraz kotła (grafiki pełne)', selector: { select: { mode: 'dropdown', options: [{ value: '11', label: 'Typ 11' }, { value: '12', label: 'Typ 12' }, { value: '13', label: 'Typ 13 (domyślny)' }] } } },
+            { name: 'lite', label: 'Tryb lite (tylko poziom 0, bez PIN-u)', selector: { boolean: {} } },
+            { name: 'demo', label: 'Tryb demo (dane przykładowe, bez ESP)', selector: { boolean: {} } },
             { name: 'esphome_node', label: 'Węzeł ESPHome – puste = wykryty automatycznie', selector: { text: {} } },
             { name: 'mirror_mode', label: 'Tryb mirror (blokada zapisów w tej karcie)', selector: { select: { mode: 'dropdown', options: [{ value: 'auto', label: 'wg ESP (domyślnie)' }, { value: 'on', label: 'włączony – tylko podgląd' }, { value: 'off', label: 'wyłączony' }] } } },
           ],
@@ -1162,6 +1166,10 @@
         else Object.keys(keys).forEach(r => { const x = v['e_' + r]; if (x) entities[r] = x; });
         if (Object.keys(entities).length) cfg.entities = entities; else delete cfg.entities;
         const nd = (v.esphome_node || '').trim(); if (nd) cfg.esphome_node = nd; else delete cfg.esphome_node;
+        if (v.grafiki === 'pelne') cfg.grafiki = 'pelne'; else delete cfg.grafiki;
+        if (v.boiler_image && v.boiler_image !== '13') cfg.boiler_image = +v.boiler_image; else delete cfg.boiler_image;
+        if (v.lite) cfg.lite = true; else delete cfg.lite;
+        if (v.demo) cfg.demo = true; else delete cfg.demo;
         if (v.mirror_mode === 'on') cfg.mirror = true; else if (v.mirror_mode === 'off') cfg.mirror = false; else delete cfg.mirror;
         this._cfg = cfg;
         if (dev !== old) this._draw(); else this._status();
@@ -1294,7 +1302,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.30';
+    const CARD_VER = '1.31';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };
