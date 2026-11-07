@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.28 – Obraz bojlera w pakiecie
+- Domyślny obraz bojlera CWU to teraz img/bojler.png (grafika z panelu w pełnej rozdzielczości); wektor bojler.svg zostaje jako zapasowy.
+
 ## v1.27 – Obraz bojlera
 - Bojler CWU: własny obraz (img/bojler.png) nie rozciąga się już do ramki – zachowuje proporcje. Pełna rozdzielczość np. 3× (przeskalowany wektorowo-ostro) wskazana dla ekranów 2×.
 
