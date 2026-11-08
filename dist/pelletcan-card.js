@@ -581,10 +581,11 @@
       const l = this._lvl(), r = [
         mrow('kociol', 'Kocioł', 'mdi:water-boiler'), mrow('burner_s', 'Palnik', 'mdi:fire'), mrow('co_s', 'Ogrzewanie obwód 1', 'mdi:radiator'),
         mrow('cwu_s', 'Ciepła woda użytkowa', 'mdi:faucet'), mrow('alarm', 'Historia alarmów', 'mdi:clipboard-alert-outline')];
-      if (l >= 1) r.push(mrow(null, 'Język', 'mdi:translate', (this._langLbl || 'PL')), mrow(null, 'Alarm dźwiękowy', 'mdi:volume-high', this._po(44)),
-        mrow('conf', 'Konfiguracja', 'mdi:cog'), mrow('test', 'Test wyjść', 'mdi:toggle-switch-outline'), mrow('stats', 'Statystyki', 'mdi:chart-box-outline'), mrow('net', 'Sieć', 'mdi:lan'));
       r.push(mrow('info', 'Informacje o programie', 'mdi:information'));
       r.push(`<div class="row go mi" data-go="level" data-back="menu"><span class="l"><ha-icon icon="mdi:account-lock"></ha-icon>Poziom menu (PIN)</span></div>`);
+      // kolejnosc jak na panelu (zdjecia poziom 1 i 2): po Poziomie menu (PIN) dochodzi Jezyk, Alarm, Konfiguracja, Test, Statystyki, Siec
+      if (l >= 1) r.push(mrow(null, 'Język', 'mdi:translate', (this._langLbl || 'PL')), mrow(null, 'Alarm dźwiękowy', 'mdi:volume-high', this._po(44)),
+        mrow('conf', 'Konfiguracja', 'mdi:cog'), mrow('test', 'Test wyjść', 'mdi:toggle-switch-outline'), mrow('stats', 'Statystyki', 'mdi:chart-box-outline'), mrow('net', 'Sieć', 'mdi:lan'));
       return this._page('MENU', 'main', r.join(''));
     };
 
@@ -1306,7 +1307,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.34';
+    const CARD_VER = '1.35';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };

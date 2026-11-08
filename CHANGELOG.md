@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.35 – Kolejność menu
+- Menu główne w kolejności z panelu (zdjęcia poziomu 1 i 2): Informacje o programie i Poziom menu (PIN) stoją przed Językiem, Alarmem dźwiękowym, Konfiguracją, Testem wyjść, Statystykami i Siecią.
+
 ## v1.34 – Punkty krzywej
 - Grafiki: pelne – punkty krzywej wentylatora (zwykły i edytowany) z oryginalnych bitmap panela (56, 57).
 
