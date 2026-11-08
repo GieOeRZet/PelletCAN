@@ -220,10 +220,10 @@ Odczyt ustawień: po starcie ESP czyta wszystkie ustawienia (najpierw poziom 0),
 |---|---|
 | ![Klucz 1](docs/img/21-klucz1-palnik-nastawy.png) | ![Klucz 2](docs/img/22-klucz2-palnik-nastawy.png) |
 
-Historia alarmów jest czytana z bufora kotła (20 ostatnich wpisów, encje „Alarm wpis 1..20” – wymaga firmware ≥ 2.25).
+Historia alarmów jest czytana z bufora kotła (20 ostatnich wpisów, encje „Alarm wpis 1..20” – działa od pierwszych wersji firmware).
 
 ## Encje wystawiane przez ESPHome
-Nazwy encji mają prefiks urządzenia (np. `sensor.kotlownia_tekla_kociol_temperatura`; prefiks zależy od nazwy urządzenia w HA). W sumie ok. 193 encji:
+Nazwy encji mają prefiks urządzenia (np. `sensor.kotlownia_tekla_temperatura_powrotu`; prefiks zależy od nazwy urządzenia w HA). W sumie ok. 193 encji:
 
 | Grupa | Przykłady |
 |---|---|
@@ -290,7 +290,7 @@ Ta część zbiera wszystko, co udało się ustalić o kotle i panelu. Szczegó�
 Większość nastaw menu to U16 w postaci **flaga + bajt** (`raw = 256 + wartość`), reszta to liczba bez flagi, ułamek ×10, przełącznik `256`/`257`, wybór z listy `256 + indeks`, maska 24-bitowa godzin dla harmonogramów (bit i = godzina i) i znacznik czasu Unix dla alarmów. Pełna tabela: [rejestry/README.md](rejestry/README.md#kodowanie-wartości-rejestry-u16-sub-1-zapis-cs-0x2b--2-bajty). Kocioł **odrzuca zapis spoza zakresu** (sub 3/4), więc zakres sprawdza się zapisem wartości skrajnych.
 
 ### Katalog rejestrów
-- [`katalog-rejestrow.csv`](rejestry/katalog-rejestrow.csv): 617 wierszy (węzły 4 i 86) z nazwą, statusem (`POTWIERDZONY`, `PRZYPISANY`, `KANDYDAT`, `NIEZNANY`), zakresem, kodowaniem, dostępem, poziomem menu (PIN) oraz informacją, czy rejestr jest użyty w firmware i gdzie. Wersja do przeglądania: [strona katalogu](https://gieoerzet.github.io/PelletCAN/katalog.html).
+- [`katalog-rejestrow.csv`](rejestry/katalog-rejestrow.csv): 693 wiersze (węzły 4 i 86; w tym 76 parametrów znanych tylko z firmware panelu) z nazwą, statusem (`POTWIERDZONY`, `PRZYPISANY`, `KANDYDAT`, `NIEZNANY`), zakresem, kodowaniem, dostępem, poziomem menu (PIN) oraz informacją, czy rejestr jest użyty w firmware i gdzie. Wersja do przeglądania: [strona katalogu](https://gieoerzet.github.io/PelletCAN/katalog.html).
 - [`alarmy-kody.csv`](rejestry/alarmy-kody.csv): 54 kody alarmów z opisem (np. 1 czujnik kotła, 2 przegrzanie kotła, 140 brak ognia/opału). Historia: 20 wpisów w buforze kotła (kod 0x4010+i, początek 0x4024+i, koniec 0x4038+i, w sekundach Unix).
 - Mapa adresowa węzła 4: 0x2001–0x2067 ustawienia podstawowe i tryby, 0x2101–0x2160 harmonogramy i parametry palnika, 0x2161–0x216F nastawy kotła, 0x2207–0x2314 kocioł/palnik/dmuchawa/pompy/CO1/test wyjść, 0x3000–0x3174 i 0x3500–0x352B serwis i liczniki, 0x3600–0x3665 zbiornik i statystyki, 0x3700–0x3728 palnik, 0x4000–0x404D pomiary i alarmy.
 
@@ -402,14 +402,17 @@ Karta pobiera `version.json` z GitHuba (raz na 6 h) i porównuje z wersją firmw
 ## Struktura repozytorium
 | Ścieżka | Co to |
 |---|---|
-| `esphome/PelletCAN.yaml` | firmware ESPHome (historia zmian w nagłówku) |
+| `esphome/PelletCAN.yaml` | plik użytkownika: Wi-Fi, IP, piny, flagi zapisu, diagnostyka (jedyny plik, który edytujesz) |
+| `esphome/PelletCAN_packages.yaml` | rdzeń firmware (logika, encje, CAN, akcje) – ESPHome pobiera go sam z GitHuba przy kompilacji |
 | `esphome/secrets.example.yaml` | wzór `secrets.yaml` |
 | `dist/pelletcan-card.js` | karta – jedyny plik dodawany jako zasób dashboardu |
 | `dist/tekla-panel-card.js` | rdzeń karty, pobierany przez `pelletcan-card.js` |
 | `dist/pelletcan-lang.js` | tłumaczenia interfejsu (generowany z `docs/lang/pelletcan-lang.txt` przez `tools/gen_lang.py`) |
 | `dist/img/` | grafiki kotła, palnika i bojlera (można podmienić); `dist/img/panel/` – grafiki panela (opcja `grafiki: pelne`) |
 | `rejestry/` | katalog rejestrów CANopen (`katalog-rejestrow.csv`), kody alarmów, **instrukcja skanera rejestrów** (`README.md`) |
-| `tools/oznacz_uzycie.py` | przelicza w katalogu, które rejestry są wykorzystane w firmware |
+| `tools/` | skrypty: `oznacz_uzycie.py` (które rejestry są użyte w firmware), `scal_nazwy_panela.py` (nazwy z firmware panela do katalogu), `check_versions.py` (kontrola wersji w CI), `gen_lang.py`, `gen_katalog_html.py`, `pakiet_grafik.py` |
+| `docs/` | `DIAGNOSTYKA.md`, strona demo karty (`demo.html`), strona katalogu rejestrów (`katalog.html`), zrzuty ekranu (`img/`) |
+| `hacs.json`, `version.json`, `LICENSE` | metadane HACS, wersje i changelogi czytane przez kartę, licencja |
 | `docs/img/` | zrzuty ekranu do tego README |
 | `CHANGELOG.md`, `CHANGELOG-firmware.md` | historia zmian karty i firmware |
 

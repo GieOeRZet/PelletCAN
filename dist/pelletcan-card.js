@@ -1,5 +1,5 @@
-/* PelletCAN-card v1.10 - JEDEN plik wejsciowy karty Tekla/Estyma Igneo Touch (zastepuje lancuch tekla-panel-card-v78 ... v86).
-   Rejestruje karte custom:tekla-panel-card (tryb lite: lite: true w konfiguracji karty; typ tekla-panel-card_lite = alias).
+/* PelletCAN-card - JEDEN plik wejsciowy karty Tekla/Estyma Igneo Touch (wersja karty: patrz CARD_VER nizej i version.json).
+   Rejestruje karte custom:pelletcan-card (stary typ custom:tekla-panel-card dziala dalej; tryb lite: lite: true w konfiguracji karty; typ tekla-panel-card_lite = alias).
    Dziala tak: pobiera rdzen tekla-panel-card.js (z tego samego katalogu) (baza v6.9), naklada poprawki (lista EDITS) i dolacza moduly:
      poprawki ekranow (menu, PROGRAM, NASTAWY) | paski harmonogramu | poziomy dostepu z ESP + parametry palnika/CWU | Antylegionella | Ogrzewanie 1
      | czas podawania | historia alarmow z kotla | grafiki z folderu img/ | autor na ekranie INFO | v9.2: automatyczne wykrywanie encji, tryb lite (lite: true w YAML), nowy edytor.

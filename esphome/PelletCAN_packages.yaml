@@ -80,7 +80,7 @@ substitutions:
   feeder_write: "true"
   # Dmuchawa (0x2283: 0 = Automat, 1 = Wylaczona, 2 = Wlaczona; predkosc testowa ustawiasz na panelu).
   blower_write: "true"
-  # Test wyjsc z karty (v1.1): akcje set_output / set_output_pct (18 wyjsc, wymagany poziom dostepu 2 = PIN klucza 2).
+  # Test wyjsc z karty (v1.1): akcje set_output / set_output_pct (22 pozycje, wymagany poziom dostepu 2 = PIN klucza 2).
   # Wyjscie ustawione na OFF/ON samo wraca do Automatu po test_revert_s sekundach (0 = nie wraca; akcja test_reset wraca wszystko od razu).
   output_test_write: "true"
   test_revert_s: "120"
@@ -95,7 +95,7 @@ substitutions:
   # ===================================================================
   # Loguje WSZYSTKIE odebrane ramki CAN (do diagnozy; po uruchomieniu daj "false").
   can_debug: "false"
-  # Podsluch SDO innych wezlow (nowe ramki / zmiany / zapisy). Zostaw "true" do szukania rejestrow.
+  # Podsluch SDO innych wezlow (nowe ramki / zmiany / zapisy). Domyslnie "false"; "true" tylko do szukania rejestrow.
   sniff: "false"
   # v1.4.14: "true" = dodatkowe wpisy diagnostyczne (NMT, IDENT, PDO, SKAN SIECI) w logu i w "SDO ostatni odczyt". Domyslnie "false" = czysty log.
   diag_log: "false"
@@ -907,7 +907,7 @@ canbus:
                 id(sdo_last).publish_state(buf);
                 return;
               }
-              // v1.1: stany wyjsc testowych (19 rejestrow: tryb 0 = A, 1 = OFF/CLOSE, 2 = ON/OPEN; ostatni = suwak WentWyc w %) -> "Test wyjsc stany"
+              // v1.1: stany wyjsc testowych (22 rejestry: tryb 0 = A, 1 = OFF/CLOSE, 2 = ON/OPEN; ostatni = suwak WentWyc w %) -> "Test wyjsc stany"
               {
                 static const uint16_t tix[] = {0x2259, 0x2283, 0x2284, 0x2286, 0x311F, 0x229D, 0x229E, 0x229F, 0x22A0, 0x214A, 0x214B, 0x214C, 0x214D, 0x216D, 0x351E, 0x351F, 0x2279, 0x2293, 0x2298, 0x2295, 0x2296, 0x2285};
                 int ti = -1;

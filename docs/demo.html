@@ -18,12 +18,12 @@ window.__demoScreens = q ? [q] : ['main', 'burn', 'kociol', 'fuel'];
 await import(location.pathname.includes('/docs/') ? '../dist/pelletcan-card.js' : './dist/pelletcan-card.js');
 </script>
 <script type="module">
-const wait = async () => { for (let i = 0; i < 100 && !customElements.get('tekla-panel-card'); i++) await new Promise(r => setTimeout(r, 100)); };
+const wait = async () => { for (let i = 0; i < 100 && !customElements.get('pelletcan-card'); i++) await new Promise(r => setTimeout(r, 100)); };
 await wait();
 const g = document.getElementById('g');
 for (const s of window.__demoScreens) {
   const d = document.createElement('div'); d.className = 'c'; g.appendChild(d);
-  const el = document.createElement('tekla-panel-card');
+  const el = document.createElement('pelletcan-card');
   el.setConfig({ demo: true, screen: s === 'stats' ? 'main' : s });
   d.appendChild(el);
   el.hass = { states: {}, services: {}, callService() {}, language: 'pl' };

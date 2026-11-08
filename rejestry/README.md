@@ -4,7 +4,7 @@ Ten folder zawiera **wszystko, co wiemy o rejestrach kotła**, oraz instrukcję,
 
 | Plik | Zawartość |
 |---|---|
-| [`katalog-rejestrow.csv`](katalog-rejestrow.csv) | **Pełny katalog** (węzeł 4 – kocioł, węzeł 86 – CAN IO BIG; 617 wierszy). Nazwa, status, opis, typ, zakres min/max, kodowanie wartości, dostęp (R / R/W), poziom menu (PIN), przykładowa wartość, jak potwierdzono, **czy rejestr jest już wykorzystany w firmware/karcie i gdzie**. Otwiera się w Excelu/LibreOffice (UTF-8). |
+| [`katalog-rejestrow.csv`](katalog-rejestrow.csv) | **Pełny katalog** (węzeł 4 – kocioł, węzeł 86 – CAN IO BIG; 693 wiersze). Nazwa, status, opis, typ, zakres min/max, kodowanie wartości, dostęp (R / R/W), poziom menu (PIN), przykładowa wartość, jak potwierdzono, **czy rejestr jest już wykorzystany w firmware/karcie i gdzie**. Otwiera się w Excelu/LibreOffice (UTF-8). |
 | [`alarmy-kody.csv`](alarmy-kody.csv) | Kody alarmów (opis z firmware i z karty). |
 | [`archiwum/`](archiwum) | Stary surowy katalog ze skanów (wartości ze skanu i migawki z 19–21.10) – dla historii. |
 | [`../tools/oznacz_uzycie.py`](../tools/oznacz_uzycie.py) | Skrypt przeliczający kolumny „wykorzystany” i „gdzie w firmware” na podstawie aktualnego kodu. |
@@ -99,23 +99,30 @@ Po wskazaniu rejestru: `sdo_write` z wartością inną niż obecna (w kodowaniu 
 3. **Karta** (`dist/pelletcan-card.js`): wpis w tablicy `PR[]`, wiersz w ekranie (`P('Nazwa', this._po(k), k)`), nazwa encji w mapie ról, wpis w liście edytora, `CARD_VER`.
 4. **Wersje i dokumentacja**: podbij wersję firmware i karty; `CHANGELOG.md`, `CHANGELOG-firmware.md`, `version.json`; commit i push.
 
-## 5. Stan na 22.10.2026
+## 5. Stan na 08.11.2026 (fw 1.4.23)
 
-### Znalezione i wykorzystane w ostatniej serii
-- **Kocioł → NASTAWY (klucz 1):** `0x2207` min. temp. pomp, `0x3708` wybieg pompy, `0x216C` min. temp. powrotu, `0x216E` czas mieszacza, `0x3604` rezerwa paliwa stop.
+### Źródła rejestrów
+- **Skan kotła** (węzeł 4, sub 1): 593 rejestry odpowiadają.
+- **Firmware panela FW2213TK** (analiza kodu): 448 parametrów z nazwą, typem, zakresem, wartością domyślną i dostępem – [`panel-fw-parametry-FW2213TK.csv`](panel-fw-parametry-FW2213TK.csv); mapa indeks ↔ ID panela (420 par) – [`panel-fw-mapa-indeks-id.csv`](panel-fw-mapa-indeks-id.csv).
+- **Katalog** ([`katalog-rejestrow.csv`](katalog-rejestrow.csv), 693 wiersze) łączy oba źródła (`tools/scal_nazwy_panela.py`): nazwy z panela dopisane do 225 wcześniej bezimiennych rejestrów, a 76 parametrów znanych tylko z firmware panela dodane jako osobne wiersze (status „ODNALEZIONY – TYLKO W FW PANELA”). Kolumna „wykorzystany” jest przeliczana przez `tools/oznacz_uzycie.py`.
+
+### Znalezione i wykorzystane w firmware
+- **Kocioł → NASTAWY (klucz 1):** `0x2207` min. temp. pomp, `0x3708` wybieg pompy, `0x216C` min. temp. powrotu, `0x216E` czas mieszacza, `0x3604` rezerwa paliwa stop, `0x3709` moc nominalna, `0x370E` dawka wstępna, `0x3701`/`0x3703` min/max temp. spalin, `0x3122` interwał czyszczenia wymiennika.
 - **Ogrzewanie 1 → NASTAWY (klucz 1):** `0x22B1`, `0x22D5`, `0x22D9`, `0x22DD`, `0x22E1`, `0x22E5`, `0x22E9`, `0x22B5`, `0x22F1`, `0x22F9`, `0x22D1`, `0x22A5`, `0x22A1` (wszystkie 13 pozycji).
-- **Test wyjść:** `0x2259` podajnik, `0x2283` dmuchawa, `0x2284` zapalarka, `0x2295` podajnik palnika, `0x2296` pompa CWU, pompy i mieszacze CO (szczegóły w CHANGELOG-firmware.md).
+- **Woda:** `0x201C` temperatura maksymalna CWU, `0x2297` antylegionella (tylko flaga wł./wył.).
+- **Palnik:** krzywa wentylatora spalin `0x2268`, `0x226E`, `0x226F`, `0x2275`, `0x227A`; zapalarka `0x2253`; odczyty `0x3706` (moc), `0x3710` (zużycie), `0x3711` (czas do czyszczenia rusztu), `0x228C` (wentylator spalin).
+- **Konfiguracja i alarm dźwiękowy:** 18 rejestrów konfiguracji (odczyt), `0x3506` alarm dźwiękowy, `0x3508`/`0x3509` godziny ciszy.
+- **Statystyki:** `0x3610`, `0x3613`–`0x3616`, `0x3628`.
+- **Test wyjść:** `0x2259` podajnik, `0x2283` dmuchawa, `0x2284` zapalarka, `0x2295` podajnik palnika, `0x2296` pompa CWU, `0x2285` wymiennik, mieszacze CO1–CO4 `0x214A`–`0x214D`.
 
 ### Wciąż otwarte
-| Menu | Pozycja | Uwagi |
-|---|---|---|
-| Woda → NASTAWY | Temperatura maksymalna CWU (40–89 °C) | Po zmianie nie zmienił się żaden rejestr z katalogu; możliwe, że zapis następuje po wyjściu z menu albo rejestr leży poza skanowanymi blokami. |
-| Woda | Antylegionella – dzień / godzina / temperatura | Przełącznik wł./wył. = `0x216F` (znaleziony). |
-| Palnik | Wentylator wspomagający – krzywa | Kandydaci `0x2268`, `0x226E`, `0x226F`, `0x2275`, `0x227A`. |
-| Menu | Alarm dźwiękowy | Prawdopodobnie lokalne w panelu (brak zmiany rejestru). |
-| Test wyjść | Wymiennik (ON) | Nie znaleziony w węźle 4; możliwy węzeł 86 (`0x6200`, `0x6411`; skan: `sdo_scan` z `node: 86`, `from_index: 25088`, `to_index: 25632`). |
-| Mieszacze CO2–CO4 | Zapis z ESP | Kocioł odrzuca zapis tych wyjść z ESP. |
-| PDO | Bit „Podajnik palnika pracuje” | `PDO 0x356` bajt 2 bit 0 – prawdopodobne, do potwierdzenia testem. |
+| Pozycja | Uwagi |
+|---|---|
+| Wymiennik (test wyjść) | Zapis `0x2285` jest w firmware 1.4.22, do sprawdzenia na kotle (czy faktycznie włącza wymiennik). |
+| Mieszacze CO2–CO4 | Kocioł odrzuca zapis tych wyjść z ESP. |
+| PDO | Bit „Podajnik palnika pracuje” (`PDO 0x356` bajt 2 bit 0) – prawdopodobne, do potwierdzenia testem. |
+| 91 indeksów z panela, które nie odpowiadają na kotle | M.in. `0x372F`–`0x374C`, `0x228D`–`0x228F`, `0x218A`–`0x218C` – zapewne opcje innych konfiguracji. |
+| Powiązanie wszystkich wierszy menu z ID z binarki | Tablica ID → tekst menu nie została jeszcze znaleziona w obrazie firmware. |
 
 ## 6. Tryb diagnostyczny (opcjonalnie)
 Firmware ≥ 1.4.14 jest domyślnie „cichy”. Dodatkowe wpisy (NMT/heartbeat innych węzłów, zapytania o tożsamość `IDENT`, zmiany PDO, raport `SKAN SIECI`) włączysz w `PelletCAN.yaml`: `diag_log: "true"`. Podsłuch zapisów innych węzłów w logu ESPHome (np. zapisy panelu): `sniff: "true"`; wszystkie ramki: `can_debug: "true"`. Po zakończeniu przywróć `"false"`.

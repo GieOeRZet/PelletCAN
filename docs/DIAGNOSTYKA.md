@@ -52,4 +52,4 @@ actions:
 Dokładne `entity_id` sprawdź w HA (prefiks zależy od nazwy urządzenia).
 
 ## Tryb demo karty
-`type: custom:tekla-panel-card` + `demo: true` – dane przykładowe, bez ESP i HA. Strona `docs/demo.html` (`?screen=main|burn|stats|fuel`) służy do zrzutów w README; zrzuty: `docs/img/demo-*.png`.
+`type: custom:pelletcan-card` + `demo: true` – dane przykładowe, bez ESP i HA. Strona `docs/demo.html` (`?screen=main|burn|stats|fuel`) służy do zrzutów w README; zrzuty: `docs/img/demo-*.png`.
