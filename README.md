@@ -234,7 +234,7 @@ Nazwy encji mają prefiks urządzenia (np. `sensor.kotlownia_tekla_temperatura_p
 | Zbiornik i paliwo | Zbiornik pojemnosc / paliwo / zapelnienie, Paliwo zuzycie 24h, Paliwo prognoza [dni], Paliwo rezerwa |
 | Alarmy | Ostatni alarm, Alarm poczatek / koniec, Alarm wpis 1–20, Alarm rejestr |
 | Harmonogramy | CWU / CO / Kociol harmonogram (rejestry) – karta rysuje z nich paski 0–24 |
-| Konfiguracja i statystyki | Konfiguracja kotla (18 rejestrów, tylko odczyt), Statystyki kotla (średnie moce i tlen, energia całkowita), Test wyjsc stany |
+| Konfiguracja i statystyki | Konfiguracja kotla (19 rejestrów, tylko odczyt), Statystyki kotla (średnie moce i tlen, energia całkowita), Test wyjsc stany |
 | Przyciski | Potwierdz alarm; Podajnik: Automat / Wylacz / Podaj paliwo (30 s); Dmuchawa: Automat / Wylacz / Wlacz (czasowo); Snap A / Snap B / Snap STOP; Raport diagnostyczny (utworz) |
 | Przełączniki i wybory | Kociol wlacz/wylacz, Restart; CO (CO1, CO2) tryb ustaw, CWU tryb ustaw |
 | Diagnostyka | SDO ostatni odczyt, CAN diag, CAN ID ramek, Zmiany rejestrow (Snap), Raport diagnostyczny, Wersja firmware, Sygnatura konfiguracji |

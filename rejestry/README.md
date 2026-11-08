@@ -112,7 +112,7 @@ Po wskazaniu rejestru: `sdo_write` z wartością inną niż obecna (w kodowaniu 
 - **Ogrzewanie 1 → NASTAWY (klucz 1):** `0x22B1`, `0x22D5`, `0x22D9`, `0x22DD`, `0x22E1`, `0x22E5`, `0x22E9`, `0x22B5`, `0x22F1`, `0x22F9`, `0x22D1`, `0x22A5`, `0x22A1` (wszystkie 13 pozycji).
 - **Woda:** `0x201C` temperatura maksymalna CWU, `0x2297` antylegionella (tylko flaga wł./wył.).
 - **Palnik:** krzywa wentylatora spalin `0x2268`, `0x226E`, `0x226F`, `0x2275`, `0x227A`; zapalarka `0x2253`; odczyty `0x3706` (moc), `0x3710` (zużycie), `0x3711` (czas do czyszczenia rusztu), `0x228C` (wentylator spalin).
-- **Konfiguracja i alarm dźwiękowy:** 18 rejestrów konfiguracji (odczyt), `0x3506` alarm dźwiękowy, `0x3508`/`0x3509` godziny ciszy.
+- **Konfiguracja i alarm dźwiękowy:** 19 rejestrów konfiguracji (odczyt, w tym `0x370A` obraz kotła), `0x3506` alarm dźwiękowy, `0x3508`/`0x3509` godziny ciszy.
 - **Statystyki:** `0x3610`, `0x3613`–`0x3616`, `0x3628`.
 - **Test wyjść:** `0x2259` podajnik, `0x2283` dmuchawa, `0x2284` zapalarka, `0x2295` podajnik palnika, `0x2296` pompa CWU, `0x2285` wymiennik, mieszacze CO1–CO4 `0x214A`–`0x214D`.
 
