@@ -1351,12 +1351,12 @@
         const cap = this._v('fuel_cap');
         const row = (n, v) => `<div class="row mi"><span class="l">${n}</span><span class="v">${v}</span></div>`;
         const r = [
-          row('Autokonfiguracja', onoff(0)), row('Główny moduł IO', lst(1, ['BIG', 'MINI'])), row('Ilość obwodów grzewczych', '-'),
+          row('Autokonfiguracja', onoff(0)), row('Główny moduł IO', lst(1, ['BIG', 'CAN IO'])), row('Ilość obwodów grzewczych', '-'),
           row('Czujnik temperatury zewnętrznej', lst(2, ['brak', 'CTZ1', 'CAN'])), row('Uśrednianie temp. zewnętrznej [h]', num(3)),
           row('Ciepła woda użytkowa', onoff(4)), row('Solary', onoff(5)), row('Bufor', onoff(6)), row('Moduł Lambda', onoff(7)),
           row('Czujnik rezerwy paliwa', onoff(8)), row('Pojemność zbiornika paliwa [kg]', isNaN(cap) ? '-' : String(Math.round(cap))),
           row('Rezerwa zbiornika paliwa [kg]', num(9)), row('Czujnik powrotu do kotła', onoff(10)), row('Numer profilu', num(11)),
-          row('Pompa kotłowa', lst(12, ['ładująca'])), row('Kaskada master', onoff(13)), row('Czujnik ciśnienia', onoff(14)),
+          row('Pompa kotłowa', lst(12, ['ładująca', 'ochrony powrotu'])), row('Kaskada master', onoff(13)), row('Czujnik ciśnienia', onoff(14)),
           row('Dodatkowy magazyn paliwa', onoff(15)), row('Pomiar energii', onoff(16)), row('Kopiuj nastawy z innego sterownika', '-')];
         if (this._lvl() >= 2) r.push(KEYDIV(2), row('Dmuchawa z HALL', onoff(17)));
         return this._page('KONFIGURACJA', 'menu', r.join('')) + (this._pr ? this._prDlg() : '');
