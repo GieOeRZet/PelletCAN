@@ -26,7 +26,7 @@ Repo: GieOeRZet/PelletCAN (fw 1.4.15, karta 1.18). Zasady: krótko po polsku, �
 - [x] Tablica par (indeks CANopen, ID panela): 420 par @0x37576 → `rejestry/panel-fw-mapa-indeks-id.csv`.
 - [ ] Znaleźć tabelę ID → tekst / min / max / poziom (potrzebny dezasembler Thumb2 kodu menu).
 - [ ] Teksty menu (UTF-16, PL/EN/CZ/RO/LT/EE/ES) zmapować na ID → nazwy dla 197 rejestrów.
-- [x] Bitmapy zdekodowane (RGB565+A8, baza 0x08010000) – tylko lokalnie, własność Estymy, nie do repo.
+- [x] Bitmapy zdekodowane (RGB565+A8, baza 0x08010000) – własność Estymy; w repo jako opcja `grafiki: pelne`, do usunięcia na prośbę właściciela praw.
 - [ ] Sieć na panelu: nazwa „PelletCAN” zamiast UNKNOWN i SW = wersja ESP (SDO 0x1008 / 0x100A / 0x1000 / 0x1018 jako węzeł 87).
 
 ## D. Karta i firmware – funkcje

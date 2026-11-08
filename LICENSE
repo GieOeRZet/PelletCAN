@@ -10,11 +10,13 @@ dokumentacja, katalog rejestrów) pod warunkami:
    edukacyjny i hobbystyczny jest dozwolony.
 Uwaga: zakaz użycia komercyjnego sprawia, że licencja nie jest licencją „open source” w rozumieniu OSI (kod z otwartymi źródłami).
 
-Niezależność i znaki towarowe: projekt jest niezależny i nieoficjalny. Nie jest związany z firmą Tekla (producentem kotłów)
-ani Estyma (producentem sterowników), nie jest przez nie zatwierdzony ani wspierany i nie zastępuje oryginalnych produktów.
-Nazwy Tekla, Estyma, Igneo, Igneo Touch i związane znaki towarowe należą do ich właścicieli i służą wyłącznie do opisania
-zgodności. Repozytorium nie zawiera kodu, firmware'u ani dokumentacji osób trzecich; powstało na podstawie obserwacji
-komunikacji CAN własnej instalacji w celu interoperacyjności z Home Assistant.
+Niezależność, zgodność i prawa producentów: projekt jest niezależny i nieoficjalny. Nie jest związany z firmą Tekla
+(producentem kotłów) ani Estyma (producentem sterowników), nie jest przez nie zatwierdzony ani wspierany i nie zastępuje
+oryginalnych produktów. Jest z nimi zgodny i opiera się na ich rozwiązaniach (magistrala CAN, protokół CANopen, parametry
+sterownika i panelu) w celu współpracy z Home Assistant. Nazwy Tekla, Estyma, Igneo, Igneo Touch, a także wygląd panelu,
+jego grafiki, teksty i wszelkie inne materiały pochodzące od producentów, są ich własnością; wszelkie prawa do nich
+zastrzeżone są dla producentów. Licencja powyżej dotyczy wyłącznie własnego kodu i dokumentacji autora, nie obejmuje
+materiałów producentów. Na wyraźną prośbę właściciela praw wskazana treść zostanie niezwłocznie usunięta.
 
 Gwarancja i odpowiedzialność: oprogramowanie dostarczane jest „tak jak jest”, bez żadnej gwarancji. Użycie z urządzeniem innym niż
 produkt dopuszczony przez producenta kotła (Tekla) i producenta sterowników (Estyma) może naruszać warunki gwarancji i prowadzić
