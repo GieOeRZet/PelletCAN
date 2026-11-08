@@ -177,7 +177,7 @@
 {
 "t": "x",
 "old": "  stats: 'statystyki_kotla', mirror: 'tryb_mirror',",
-"new": "  stats: 'statystyki_kotla', burn_ign: 'palnik_zapalarka', fuel_use: 'paliwo_zuzycie_24h', fuel_days: 'paliwo_prognoza', fuel_low: 'paliwo_rezerwa', mirror: 'tryb_mirror', ret_temp: 'temperatura_powrotu', boiler_pump_min: 'kociol_minimalna_temp_pomp', boiler_pump_run: 'kociol_wybieg_pompy', cwu_tmax: 'cwu_temperatura_maksymalna', boil_pwr: 'kociol_moc_palnika', boil_cons: 'kociol_zuzycie_paliwa', grate_t: 'kociol_czas_do_czyszczenia_rusztu', exh_pct: 'kociol_wentylator_spalin_moc', nominal_kw: 'kociol_moc_nominalna', predose_g: 'palnik_dawka_wstepna_g', egt_min: 'palnik_temp_spalin_min', egt_max: 'palnik_temp_spalin_max', exch_int: 'wymiennik_interwal_czyszczenia', exh_c1: 'wentylator_spalin_krzywa_1', exh_c2: 'wentylator_spalin_krzywa_2', exh_c3: 'wentylator_spalin_krzywa_3', exh_c4: 'wentylator_spalin_krzywa_4', exh_c5: 'wentylator_spalin_krzywa_5', alarm_snd: 'alarm_dzwiekowy', alarm_sil_from: 'alarm_cisza_od', alarm_sil_to: 'alarm_cisza_do', boiler_fuel_reserve: 'kociol_rezerwa_paliwa_stop', boiler_ret_min: 'kociol_minimalna_temp_powrotu', boiler_mixer_time: 'kociol_czas_mieszacza', co_room: 'co1_czujnik_pokojowy_0_brak_1_ctp1_2_ctp2_3_videroom_4_termostat_5_can', co_source: 'co1_zrodlo_0_kociol_1_bufor', co_co_sensor: 'co1_czujnik_co_0_1', co_const_pump: 'co1_stala_pompa_0_1', co_ret_protect: 'co1_obnizenie_tco_ochrona_powrotu_0_1', co_src_inc: 'co1_zwiekszenie_temp_zrodla', co_tmax: 'co1_temperatura_maksymalna', co_corr: 'co1_wspolczynnik_korekcji_t_co', co_out_comf: 'co1_max_tzew_pomp_komfort', co_out_eco: 'co1_max_tzew_pomp_ekon', co_lower: 'co1_obnizenie_temperatury_co', co_pump_min: 'co1_min_temperatura_co_pomp', co_mixer_time: 'co1_czas_mieszacza', mix_co1: 'mieszacz_co1_stan', mix_ret: 'mieszacz_powrotu_stan', boiler_hyst_on: 'histereza_zalaczenia_kotla', boiler_hyst_off: 'histereza_wylaczenia_kotla', co_hyst: 'co1_histereza', co_calib: 'co1_kalibracja_czujnika', co_mode_s: 'co1_tryb_pracy_0_reczny_1_pogodowy', co_cur_m20: 'co1_krzywa_pogodowa_20_c', co_cur_0: 'co1_krzywa_pogodowa_0_c', co_cur_10: 'co1_krzywa_pogodowa_10_c', cwu_hyst: 'cwu_histereza', cwu_src: 'cwu_zrodlo', cwu_src_inc: 'cwu_zwiekszenie_temp_zrodla', cwu_delta: 'cwu_delta_zalaczenia_pompy', cwu_boost: 'cwu_zagrzej_teraz_0_1', cwu_prio: 'cwu_priorytet_0_1',"
+"new": "  stats: 'statystyki_kotla', conf: 'konfiguracja_kotla', burn_ign: 'palnik_zapalarka', fuel_use: 'paliwo_zuzycie_24h', fuel_days: 'paliwo_prognoza', fuel_low: 'paliwo_rezerwa', mirror: 'tryb_mirror', ret_temp: 'temperatura_powrotu', boiler_pump_min: 'kociol_minimalna_temp_pomp', boiler_pump_run: 'kociol_wybieg_pompy', cwu_tmax: 'cwu_temperatura_maksymalna', boil_pwr: 'kociol_moc_palnika', boil_cons: 'kociol_zuzycie_paliwa', grate_t: 'kociol_czas_do_czyszczenia_rusztu', exh_pct: 'kociol_wentylator_spalin_moc', nominal_kw: 'kociol_moc_nominalna', predose_g: 'palnik_dawka_wstepna_g', egt_min: 'palnik_temp_spalin_min', egt_max: 'palnik_temp_spalin_max', exch_int: 'wymiennik_interwal_czyszczenia', exh_c1: 'wentylator_spalin_krzywa_1', exh_c2: 'wentylator_spalin_krzywa_2', exh_c3: 'wentylator_spalin_krzywa_3', exh_c4: 'wentylator_spalin_krzywa_4', exh_c5: 'wentylator_spalin_krzywa_5', alarm_snd: 'alarm_dzwiekowy', alarm_sil_from: 'alarm_cisza_od', alarm_sil_to: 'alarm_cisza_do', boiler_fuel_reserve: 'kociol_rezerwa_paliwa_stop', boiler_ret_min: 'kociol_minimalna_temp_powrotu', boiler_mixer_time: 'kociol_czas_mieszacza', co_room: 'co1_czujnik_pokojowy_0_brak_1_ctp1_2_ctp2_3_videroom_4_termostat_5_can', co_source: 'co1_zrodlo_0_kociol_1_bufor', co_co_sensor: 'co1_czujnik_co_0_1', co_const_pump: 'co1_stala_pompa_0_1', co_ret_protect: 'co1_obnizenie_tco_ochrona_powrotu_0_1', co_src_inc: 'co1_zwiekszenie_temp_zrodla', co_tmax: 'co1_temperatura_maksymalna', co_corr: 'co1_wspolczynnik_korekcji_t_co', co_out_comf: 'co1_max_tzew_pomp_komfort', co_out_eco: 'co1_max_tzew_pomp_ekon', co_lower: 'co1_obnizenie_temperatury_co', co_pump_min: 'co1_min_temperatura_co_pomp', co_mixer_time: 'co1_czas_mieszacza', mix_co1: 'mieszacz_co1_stan', mix_ret: 'mieszacz_powrotu_stan', boiler_hyst_on: 'histereza_zalaczenia_kotla', boiler_hyst_off: 'histereza_wylaczenia_kotla', co_hyst: 'co1_histereza', co_calib: 'co1_kalibracja_czujnika', co_mode_s: 'co1_tryb_pracy_0_reczny_1_pogodowy', co_cur_m20: 'co1_krzywa_pogodowa_20_c', co_cur_0: 'co1_krzywa_pogodowa_0_c', co_cur_10: 'co1_krzywa_pogodowa_10_c', cwu_hyst: 'cwu_histereza', cwu_src: 'cwu_zrodlo', cwu_src_inc: 'cwu_zwiekszenie_temp_zrodla', cwu_delta: 'cwu_delta_zalaczenia_pompy', cwu_boost: 'cwu_zagrzej_teraz_0_1', cwu_prio: 'cwu_priorytet_0_1',"
 },
 {
 "t": "x",
@@ -1026,7 +1026,7 @@
       burn_time: '5 h 12 min', fuel: 183, fuel_cap: 250, fuel_pct: 73, feed_time: 7,
       co_temp: 41.5, co_set: 45, co_manual: 45, co_pump: 'on', co_comfort: 45, co_eco: 38, co_mode: 3,
       cwu_temp: 47.2, cwu_set: 50, cwu_comfort: 50, cwu_eco: 40, cwu_pump: 'off', cwu_mode: 3,
-      stats: '214 118 2310 0 4120 37 2 5 43 0 0 0 0 5821', fuel_use: 62.4, fuel_days: 2.9, fuel_low: 'off',
+      stats: '214 118 2310 0 4120 37 2 5 43 0 0 0 0 5821', conf: '0 0 1 0 1 0 0 0 0 0 1 2 0 0 0 0 0 0', fuel_use: 62.4, fuel_days: 2.9, fuel_low: 'off',
       fan_mod_1: 30, fan_mod_2: 40, fan_mod_3: 50, fan_mod_4: 60, fan_mod_5: 70,
       alarm: 'off', last_alarm: '-', can_ok: 'on', mirror: 'off', blower_mode: 'Automat', feeder_mode: 'Automat',
       sch_boil: '000000 000000 000000 000000 000000 000000 000000', sch_co: '03FC3C 03FC3C 03FC3C 03FC3C 03FC3C 03FC3C 03FC3C', sch_cwu: 'FFFFFF FFFFFF FFFFFF FFFFFF FFFFFF FFFFFF FFFFFF'
@@ -1307,7 +1307,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.35';
+    const CARD_VER = '1.36';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };
@@ -1344,18 +1344,22 @@
     const ob = C.prototype._body;
     C.prototype._body = function (s) {
       if (s === 'conf') {
-        const row = (n, ic, v) => `<div class="row mi"><span class="l"><ha-icon icon="${ic}"></ha-icon>${n}</span><span class="v">${v}</span></div>`;
-        const m = this._mirror(), fw = this._fwVer();
-        return this._page('KONFIGURACJA', 'menu', [
-          row('Język', 'mdi:translate', this._langLbl || 'PL'),
-          `<div class="row mi" data-act="pedit" data-k="44"><span class="l"><ha-icon icon="mdi:volume-high"></ha-icon>Alarm dźwiękowy</span><span class="v">${this._po(44)}</span></div>`,
-          `<div class="row mi" data-act="pedit" data-k="45"><span class="l"><ha-icon icon="mdi:volume-off"></ha-icon>Cisza od [h]</span><span class="v">${this._po(45)}</span></div>`,
-          `<div class="row mi" data-act="pedit" data-k="46"><span class="l"><ha-icon icon="mdi:volume-off"></ha-icon>Cisza do [h]</span><span class="v">${this._po(46)}</span></div>`,
-          row('Tryb pracy karty', 'mdi:monitor-eye', m ? 'Lustro (tylko podgląd)' : 'Sterowanie'),
-          row('Węzeł ESPHome', 'mdi:chip', esc(this._node())),
-          row('Poziom menu', 'mdi:account-lock', String(this._lvl())),
-          row('Wersja firmware', 'mdi:memory', esc(fw || '-')),
-          row('Wersja karty', 'mdi:card-text-outline', CARD_VER)].join('')) + (this._pr ? this._prDlg() : '');
+        const cv = this._t('conf', '').trim().split(/\s+/), g = i => (/^\d+$/.test(cv[i] || '') ? +cv[i] : null);
+        const onoff = i => { const v = g(i); return v == null ? '-' : (v ? 'WŁ' : 'WYŁ'); };
+        const lst = (i, a) => { const v = g(i); return v == null ? '-' : (a[v] != null ? a[v] : String(v)); };
+        const num = i => { const v = g(i); return v == null ? '-' : String(v); };
+        const cap = this._v('fuel_cap');
+        const row = (n, v) => `<div class="row mi"><span class="l">${n}</span><span class="v">${v}</span></div>`;
+        const r = [
+          row('Autokonfiguracja', onoff(0)), row('Główny moduł IO', lst(1, ['BIG', 'MINI'])), row('Ilość obwodów grzewczych', '-'),
+          row('Czujnik temperatury zewnętrznej', lst(2, ['brak', 'CTZ1', 'CAN'])), row('Uśrednianie temp. zewnętrznej [h]', num(3)),
+          row('Ciepła woda użytkowa', onoff(4)), row('Solary', onoff(5)), row('Bufor', onoff(6)), row('Moduł Lambda', onoff(7)),
+          row('Czujnik rezerwy paliwa', onoff(8)), row('Pojemność zbiornika paliwa [kg]', isNaN(cap) ? '-' : String(Math.round(cap))),
+          row('Rezerwa zbiornika paliwa [kg]', num(9)), row('Czujnik powrotu do kotła', onoff(10)), row('Numer profilu', num(11)),
+          row('Pompa kotłowa', lst(12, ['ładująca'])), row('Kaskada master', onoff(13)), row('Czujnik ciśnienia', onoff(14)),
+          row('Dodatkowy magazyn paliwa', onoff(15)), row('Pomiar energii', onoff(16)), row('Kopiuj nastawy z innego sterownika', '-')];
+        if (this._lvl() >= 2) r.push(KEYDIV(2), row('Dmuchawa z HALL', onoff(17)));
+        return this._page('KONFIGURACJA', 'menu', r.join('')) + (this._pr ? this._prDlg() : '');
       }
       if (s !== 'info') return ob.call(this, s);
       wire(this);

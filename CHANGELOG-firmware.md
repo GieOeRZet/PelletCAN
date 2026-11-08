@@ -2,6 +2,9 @@
 
 Najnowsze na górze. Karta ma osobny plik: [CHANGELOG.md](CHANGELOG.md).
 
+## v1.4.23
+- Nowy odczyt Konfiguracji z panelu: encja tekstowa „Konfiguracja kotla” (18 rejestrów: 0x3501, 0x3500, 0x3505, 0x3720, 0x2106, 0x2108, 0x2107, 0x2123, 0x3602, 0x3603, 0x350A, 0x350B, 0x299E, 0x350C, 0x350D, 0x3525, 0x3629, 0x299D), odczyt przy starcie i co 60 s. Tylko odczyt. Wymaga karty ≥ 1.36.
+
 ## v1.4.22
 - Test wyjść: mieszacze CO1–CO4 sterowane rejestrami testowymi `0x214A`–`0x214D` (według tablicy parametrów panelu); `0x22B9`–`0x22BC` to tylko stan (odczyt), dlatego kocioł odrzucał zapis. Nowe wyjście 21 Wymiennik = `0x2285` („Exchanger cleaner test”), stan testu ma teraz 22 pozycje. Do sprawdzenia na kotle. Wymaga karty ≥ 1.26.
 

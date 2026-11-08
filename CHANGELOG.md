@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.36 – Konfiguracja z panela
+- Ekran Konfiguracja odtwarza listę z panela (Autokonfiguracja … Kopiuj nastawy, od poziomu 2: Dmuchawa z HALL), wartości z kotła, tylko odczyt. Wymaga firmware ≥ 1.4.23.
+
 ## v1.35 – Kolejność menu
 - Menu główne w kolejności z panelu (zdjęcia poziomu 1 i 2): Informacje o programie i Poziom menu (PIN) stoją przed Językiem, Alarmem dźwiękowym, Konfiguracją, Testem wyjść, Statystykami i Siecią.
 
