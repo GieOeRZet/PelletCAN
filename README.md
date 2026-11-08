@@ -38,11 +38,12 @@ Tryb demo (`demo: true`, bez ESP): [strona demo](docs/demo.html)
 13. [Encje wystawiane przez ESPHome](#encje-wystawiane-przez-esphome)
 14. [Akcje (usługi) dla Home Assistant](#akcje-usługi-dla-home-assistant)
 15. [Diagnostyka i skanery rejestrów](#diagnostyka-i-skanery-rejestrów)
-16. [Przykłady użycia](#przykłady-użycia)
-17. [Aktualizacje](#aktualizacje)
-18. [Rozwiązywanie problemów](#rozwiązywanie-problemów)
-19. [Struktura repozytorium](#struktura-repozytorium)
-20. [Ważne zastrzeżenia, licencja, wsparcie](#ważne-zastrzeżenia)
+16. [Co ustaliliśmy – protokół, rejestry i firmware panelu](#co-ustaliliśmy--protokół-rejestry-i-firmware-panelu)
+17. [Przykłady użycia](#przykłady-użycia)
+18. [Aktualizacje](#aktualizacje)
+19. [Rozwiązywanie problemów](#rozwiązywanie-problemów)
+20. [Struktura repozytorium](#struktura-repozytorium)
+21. [Ważne zastrzeżenia, licencja, wsparcie](#ważne-zastrzeżenia)
 
 ## Pełna czy lite – co wybrać
 | | **PelletCAN (ta wersja)** | [**PelletCAN lite**](https://github.com/GieOeRZet/PelletCAN_lite) |
@@ -277,6 +278,48 @@ Domyślnie firmware jest „cichy”: log ESPHome pokazuje tylko to, co ważne. 
 
 Szczegóły i typowe zadania: [docs/DIAGNOSTYKA.md](docs/DIAGNOSTYKA.md). **Uwaga:** `sdo_write` i skany wykonuj ostrożnie – zapis złego rejestru może zmienić pracę kotła.
 
+## Co ustaliliśmy – protokół, rejestry i firmware panelu
+Ta część zbiera wszystko, co udało się ustalić o kotle i panelu. Szczegółowe dane są w folderze [`rejestry/`](rejestry/README.md) (CSV otwierane w Excelu/LibreOffice).
+
+### Magistrala i węzły
+- CAN 125 kbit/s, ramki 11-bitowe, **CANopen**: odczyt i zapis przez **SDO** (indeks 16 bit + sub), stany przez **PDO** (np. 0x356 / 0x456) i **NMT** (heartbeat, boot-up).
+- **Węzeł 4** – sterownik kotła (593 rejestry, wszystkie przeskanowane w zakresie 0x0000–0xFFFF, sub 1). **Węzeł 86** – moduł wejść/wyjść CAN IO BIG (CiA 401: 0x6000, 0x6200, 0x6400…), m.in. wymiennik. Panel Igneo Touch to osobny węzeł. ESP dołącza jako **węzeł 90** (86 i 87 są zajęte) i odpowiada na zapytania tożsamości (0x1000, 0x1008, 0x100A, 0x1018), dzięki czemu panel widzi je w zakładce Sieć jako „PelletCAN” z wersją softu.
+- SDO działa tylko dla **sub 1** (wartość); sub 2 = typ, sub 3/4 = zakres min/max. Rejestry nieistniejące nie dają odpowiedzi, a część odpowiedzi ginie przy ruchu panelu, dlatego skany powtarza się 2–3 razy.
+
+### Kodowanie wartości
+Większość nastaw menu to U16 w postaci **flaga + bajt** (`raw = 256 + wartość`), reszta to liczba bez flagi, ułamek ×10, przełącznik `256`/`257`, wybór z listy `256 + indeks`, maska 24-bitowa godzin dla harmonogramów (bit i = godzina i) i znacznik czasu Unix dla alarmów. Pełna tabela: [rejestry/README.md](rejestry/README.md#kodowanie-wartości-rejestry-u16-sub-1-zapis-cs-0x2b--2-bajty). Kocioł **odrzuca zapis spoza zakresu** (sub 3/4), więc zakres sprawdza się zapisem wartości skrajnych.
+
+### Katalog rejestrów
+- [`katalog-rejestrow.csv`](rejestry/katalog-rejestrow.csv): 617 wierszy (węzły 4 i 86) z nazwą, statusem (`POTWIERDZONY`, `PRZYPISANY`, `KANDYDAT`, `NIEZNANY`), zakresem, kodowaniem, dostępem, poziomem menu (PIN) oraz informacją, czy rejestr jest użyty w firmware i gdzie. Wersja do przeglądania: [strona katalogu](https://gieoerzet.github.io/PelletCAN/katalog.html).
+- [`alarmy-kody.csv`](rejestry/alarmy-kody.csv): 54 kody alarmów z opisem (np. 1 czujnik kotła, 2 przegrzanie kotła, 140 brak ognia/opału). Historia: 20 wpisów w buforze kotła (kod 0x4010+i, początek 0x4024+i, koniec 0x4038+i, w sekundach Unix).
+- Mapa adresowa węzła 4: 0x2001–0x2067 ustawienia podstawowe i tryby, 0x2101–0x2160 harmonogramy i parametry palnika, 0x2161–0x216F nastawy kotła, 0x2207–0x2314 kocioł/palnik/dmuchawa/pompy/CO1/test wyjść, 0x3000–0x3174 i 0x3500–0x352B serwis i liczniki, 0x3600–0x3665 zbiornik i statystyki, 0x3700–0x3728 palnik, 0x4000–0x404D pomiary i alarmy.
+
+### Co zostało rozszyfrowane
+- **Menu Kocioł (klucz 1):** min. temp. pomp `0x2207`, wybieg pompy `0x3708`, min. temp. powrotu `0x216C`, czas mieszacza `0x216E`, rezerwa paliwa stop `0x3604`.
+- **Menu Ogrzewanie 1 (klucz 1):** wszystkie 13 pozycji (`0x22B1`, `0x22D5`, `0x22D9`, `0x22DD`, `0x22E1`, `0x22E5`, `0x22E9`, `0x22B5`, `0x22F1`, `0x22F9`, `0x22D1`, `0x22A5`, `0x22A1`).
+- **Krzywa pogodowa CO1:** trzy punkty zależności temperatury zasilania od temperatury zewnętrznej: −20 °C = `0x22C5`, 0 °C = `0x22C9`, +10 °C = `0x22CD` (zakres 20–80 °C). Panel ma **tylko te trzy punkty**, więc nie ma punktu −10 °C; kocioł interpoluje między nimi. Tryb pracy CO (ręczny/pogodowy) = `0x2142`.
+- **Palnik i dmuchawa:** krzywa modulacji dmuchawy dla mocy 20/40/60/80/100 % = `0x2261`–`0x2265`, zapalarka `0x2253`, jasność płomienia `0x2250`, czas podawania `0x226D`, parametry rozpalania, rozżarzania i wygaszania.
+- **Z firmware panelu:** temp. maks. CWU `0x201C` (40–80 °C), antylegionella `0x2297` (tylko flaga – panel nie ma dnia ani godziny), krzywa wentylatora spalin `0x2268`/`0x226E`/`0x226F`/`0x2275`/`0x227A`, alarm dźwiękowy `0x3506` i godziny ciszy `0x3508`/`0x3509`, statystyki `0x3610`/`0x3613`–`0x3616`/`0x3628`, zużycie paliwa `0x3710`, data serwisu `0x3718`/`0x3719`, pompa cyrkulacyjna CWU `0x374B`/`0x374C`, rezerwa paliwa `0x3603`, wersja softu `0x3664`, kaskada `0x3511`–`0x351C`, zewnętrzny magazyn paliwa `0x351E`–`0x352B`.
+- **Test wyjść:** podajnik `0x2259`, dmuchawa `0x2283`, zapalarka `0x2284`, podajnik palnika `0x2295`, pompa CWU `0x2296`, pompy CO `0x229D`–`0x22A0`, mieszacze CO1–CO4 `0x214A`–`0x214D` (rejestry `0x22B9`–`0x22BC` to tylko stan), wymiennik `0x2285`. Wyjścia 0–21, tryby A (automat) / OFF / ON; wymaga klucza 2.
+
+### Analiza firmware panelu Igneo Touch (FW2213TK)
+Dla zrozumienia protokołu i zgodności z własnym panelem przeanalizowano obraz firmware panelu (własnego, legalnie zakupionego urządzenia). Repozytorium **nie zawiera** tego firmware ani grafik wyciągniętych z niego; publikowane są tylko ustalenia o rejestrach.
+- Układ **STM32F4**, interfejs **TouchGFX**, prawidłowa baza ładowania obrazu to `0x08010000`, teksty w UTF-16 w 7 językach (PL/EN/CZ/RO/LT/EE/ES).
+- **Tablica par (indeks CANopen ↔ ID parametru panelu):** 420 par, [`panel-fw-mapa-indeks-id.csv`](rejestry/panel-fw-mapa-indeks-id.csv). Potwierdzone m.in. 0x3708→ID 23, 0x2207→18, 0x216C→33, 0x3604→363.
+- **Rejestracja parametrów w kodzie:** funkcja rejestrująca jest wywoływana 448 razy; ID parametru = indeks SDO. Wynik z nazwą, typem, min/max, wartością domyślną i rodzajem dostępu (0 live, 1 komenda, 2–3 nastawa): [`panel-fw-parametry-FW2213TK.csv`](rejestry/panel-fw-parametry-FW2213TK.csv). 372 z 448 jest w naszym katalogu, 76 jest poza nim.
+- **Nazwy 197 rejestrów**, które kocioł zna, a firmware PelletCAN jeszcze nie używa: [`snap-197-nazwy-FW2213TK.csv`](rejestry/snap-197-nazwy-FW2213TK.csv); odczyt wartości bazowych: [`snap-197-baseline-2026-11-06.csv`](rejestry/snap-197-baseline-2026-11-06.csv). Skan 6.11: z 288 indeksów znanych panelowi, a nieużywanych w naszym firmware, **197 odpowiada na kotle, 91 nie** (m.in. 0x372F–0x374C, 0x228D–0x228F, 0x218A–0x218C, 0x3666–0x366B) – to zapewne opcje innych konfiguracji (kaskada, dodatkowe obiegi) albo identyfikatory tylko panelu.
+- **Teksty panelu:** tablice wskaźników na napisy, osobna dla każdego języka; blok polski ma 495 wpisów (id 0–6 nazwy stanów, 33–34 nagłówki menu, od 61 nazwy ekranów, ok. 75–430 etykiety parametrów, 440–494 formaty jednostek). Kolejność tekstów odpowiada kolejności dodawania parametrów w firmware, **nie** kolejności w menu.
+- **Ślepe uliczki:** powiązanie wiersza menu z rejestrem nie jest zwykłą tablicą (ID parametru i ID tekstu nie sąsiadują), adresy RAM parametrów występują w kodzie tylko ok. 42 razy, a poziomy dostępu (klucz 1/2) nie wynikają z pola `access` parametru. Dlatego układ menu i poziomy ustalano ze zdjęć panelu i metodą różnicową.
+
+### Ustalone zachowania i pułapki
+- Zapis mieszaczy CO2–CO4 z ESP jest odrzucany przez kocioł (zmienia je tylko panel).
+- Parametry odświeżają się po PIN-ie, po zapisie i cyklicznie; poziom 0 jest czytany stale, klucz 1 i 2 na żądanie.
+- Moc palnika [kW] zgadza się z panelem przy sprawności 0,90, a spalanie [kg/h] przy współczynniku 0,85 (dopasowanie empiryczne).
+- W historii encji w HA skrót `1m` oznacza **miesiąc**, nie minutę; do analizy skanów używaj czasu w formacie ISO UTC.
+
+### Co jeszcze jest otwarte
+Wymiennik w teście wyjść (węzeł 86), źródło sygnału „podajnik palnika pracuje” (PDO `0x356` bajt 2 bit 0, do potwierdzenia testem), powiązanie wszystkich wierszy menu z ID z binarki, nazwy i przeznaczenie reszty z 197 rejestrów oraz testy zapisów na kotle. Aktualne listy: [rejestry/README.md](rejestry/README.md#5-stan-na-22102026) i [rejestry/TODO.md](rejestry/TODO.md).
+
 ## Przykłady użycia
 **1. Powiadomienie o alarmie kotła**
 ```yaml
@@ -376,7 +419,7 @@ Karta pobiera `version.json` z GitHuba (raz na 6 h) i porównuje z wersją firmw
 - **Zachęcamy do zakupu i instalacji wyłącznie oryginalnych modułów** dopuszczonych przez producenta kotła (Tekla) i producenta sterowników (Estyma).
 - **Gwarancja.** Odczyt i zapis parametrów za pomocą jakiegokolwiek urządzenia innego niż produkt dopuszczony przez producenta kotła (Tekla) i producenta sterowników (Estyma) może naruszać warunki gwarancji oraz prowadzić do uszkodzenia lub nieprawidłowej pracy kotła i sterownika. Autor za to nie odpowiada.
 - **Odpowiedzialność użytkownika.** Wszelkie zmiany sprzętowe (podłączenie do magistrali CAN, montaż modułów) oraz zapisy parametrów użytkownik wykonuje wyłącznie na własne ryzyko i własną odpowiedzialność. Oprogramowanie jest dostarczane „tak jak jest”, bez gwarancji.
-- **Skąd wiedza o protokole.** Projekt powstał na podstawie obserwacji komunikacji CAN (standard CANopen) własnej, legalnie zakupionej instalacji, w celu zapewnienia współpracy (interoperacyjności) z Home Assistant. Kod jest napisany samodzielnie przez autora. Repozytorium nie zawiera kodu, firmware'u, plików ani dokumentacji producentów i nie obchodzi żadnych zabezpieczeń technicznych.
+- **Skąd wiedza o protokole.** Projekt powstał na podstawie obserwacji komunikacji CAN (standard CANopen) własnej, legalnie zakupionej instalacji oraz analizy tablicy parametrów w obrazie firmware własnego panelu, w celu zapewnienia współpracy (interoperacyjności) z Home Assistant. Kod jest napisany samodzielnie przez autora. Repozytorium nie zawiera kodu, firmware'u ani dokumentacji producentów (publikowane są wyłącznie ustalenia o rejestrach) i nie obchodzi żadnych zabezpieczeń technicznych.
 - **Znaki towarowe.** Nazwy Tekla, Estyma, Igneo i Igneo Touch oraz ich znaki towarowe należą do ich właścicieli i są użyte wyłącznie informacyjnie, dla opisania zgodności. Wygląd karty jest odwzorowaniem układu panelu na potrzeby własnej instalacji.
 - Właściciel praw, który uważa, że jakaś treść narusza jego prawa, może zgłosić to przez [Issues](https://github.com/GieOeRZet/PelletCAN/issues) – sprawa zostanie rozpatrzona, a treść w razie potrzeby usunięta.
 
