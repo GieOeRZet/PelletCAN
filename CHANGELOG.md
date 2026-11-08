@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.42 – Obrazy kotła 11–14
+- `grafiki: pelne`: wszystkie obrazy kotła (11, 12, 13, 14) w skali 1:1 jak na panelu, wyśrodkowane i wyrównane do podstawy; wysokie typy nie zachodzą na zegar. Nowy typ 14 (szary) w edytorze. Typ odpowiada rejestrowi panela „Boiler image selector” `0x370A` (1…3 = obrazy 11…13; w Twoim kotle wartość 3).
+
 ## v1.41 – Palnik 1:1
 - Ekran Palnik przy `grafiki: pelne`: obraz palnika w skali 1:1 jak na panelu (149×99 px) i w tym samym miejscu; wcześniej był ok. 30 % mniejszy i przesunięty. Domyślne grafiki bez zmian.
 
