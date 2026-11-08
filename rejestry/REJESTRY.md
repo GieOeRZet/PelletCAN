@@ -1,17 +1,17 @@
 # Rejestry kotła i firmware panela – pełna dokumentacja
 
-Plik **generowany** (`tools/gen_rejestry_md.py`) z `katalog-rejestrow.csv`, `panel-fw-parametry-FW2213TK.csv` i `panel-fw-mapa-indeks-id.csv`. Nie edytuj ręcznie – popraw CSV i uruchom skrypty (sekcja 7). Stan: 2026-11-08, firmware PelletCAN 1.4.23.
+Plik **generowany** (`tools/gen_rejestry_md.py`) z `katalog-rejestrow.csv`, `panel-fw-parametry-FW2213TK.csv` i `panel-fw-mapa-indeks-id.csv`. Nie edytuj ręcznie – popraw CSV i uruchom skrypty (sekcja 7). Stan: 2026-11-09, firmware PelletCAN 1.4.23.
 
 ## 1. Liczby
 
 | Co | Ile |
 |---|---|
 | Parametry zarejestrowane w kodzie firmware panela FW2213TK (funkcja `0x0802143C`, ID parametru = indeks SDO) | **448** |
-| …z tego wykorzystane w naszym firmware ESPHome | 179 |
-| …z tego jeszcze niewykorzystane | 269 |
+| …z tego wykorzystane w naszym firmware ESPHome | 180 |
+| …z tego jeszcze niewykorzystane | 268 |
 | Pary (indeks CANopen, ID panela) w tablicy @0x37576 | 420 wierszy, 419 unikalnych indeksów (odpowiada na kotle: 299, nie: 120) |
 | Rejestry węzła 4 (kocioł) w katalogu | 669 (w tym 593 odpowiada na skan, reszta to parametry znane tylko z firmware panela) |
-| Rejestry węzła 4 wykorzystane w naszym firmware (łącznie z niepanelowymi, np. alarmy 0x4010+) | 243 |
+| Rejestry węzła 4 wykorzystane w naszym firmware (łącznie z niepanelowymi, np. alarmy 0x4010+) | 244 |
 | Wiersze węzła 86 (CAN IO BIG) | 18 |
 
 Rodzaje parametrów panela: u8: 234, u16: 112, s16: 45, u32: 56, s32: 1. Dostęp wg panela: 0 = odczyt na żywo, 1 = komenda, 2/3 = nastawa (3 – edytowalna z menu).
@@ -24,7 +24,7 @@ Rodzaje parametrów panela: u8: 234, u16: 112, s16: 45, u32: 56, s32: 1. Dostęp
 - **Poziom menu (PIN):** 0 = bez PIN-u, klucz 1 = PIN instalatora 0900, klucz 2 = PIN 0999 (wymagany m.in. do Testu wyjść).
 - **Status:** POTWIERDZONY = znaczenie sprawdzone na kotle; ODNALEZIONY – … = nazwa z firmware panela lub skan, nieprzetestowane; NIEZNANY = brak nazwy.
 
-## 3. Rejestry wykorzystywane w firmware / karcie (243)
+## 3. Rejestry wykorzystywane w firmware / karcie (244)
 
 Opis każdego: co to jest, kodowanie, dostęp i **gdzie w firmware** (akcja `set_param` N, encja, ekran karty). Kolumna „Nazwa panela” to oryginalna angielska nazwa z firmware panela.
 
@@ -250,6 +250,7 @@ Opis każdego: co to jest, kodowanie, dostęp i **gdzie w firmware** (akcja `set
 | `0x3706` | Current burner power [dkW] (FW panela) | Current burner power [dkW] | U16 | 0…-1 | bez zakresu (licznik / znacznik czasu / zmienna) | R (zapis nieprzetestowany) |  | odczyt | (auto) zero; zakres 0..-1 / FW panela: Current burner power [dkW]; typ u16, zakres 0…65535, domyslna 0, dostep: odczyt na zywo |
 | `0x3708` | Kociol – wybieg pompy [min] | Boiler pump overrun [min] | U16 | 256…376 | flaga+bajt: raw = 256 + min (0..120) | R/W (potwierdzone zmiana na panelu i zapisem z ESP) | klucz 1 | zapis: set_param 64, odczyt | Menu → Kocioł → NASTAWY Panel 0→13: skan 256→269 (22.10 23:49); set_param 64 |
 | `0x3709` | Nominal power [kW] (FW panela) | Nominal power [kW] | U16 | 4…200 |  | R (zapis nieprzetestowany) |  | zapis: set_param 76, odczyt | (auto) liczba 18; zakres 4..200; sąsiedztwo: przed: Podawanie ręczne – czas (0x370D) / FW panela: Nominal power [kW]; typ u16, zakres 4…200, domyslna 16, dostep: nastawa |
+| `0x370A` | Boiler image selector (FW panela) | Boiler image selector | U16 | 257…259 | flaga 0x01 + bajt: raw − 256 (zakres wartości 1…3; jeśli x10: 0.1…0.3) | R (zapis nieprzetestowany) |  | odczyt | (auto) flaga+bajt: wartość 3 (raw 259); zakres 257..259; sąsiedztwo: przed: Podawanie ręczne – czas (0x370D) / FW panela: Boiler image selector; typ u8, zakres 1…3, domyslna 1, dostep: nastawa |
 | `0x370B` | Pod. palnika [% pod. zasobnika] | Burner feeder % of stor. feeder | U16 | 50…300 | liczba % (50..300) | R (zapis nieprzetestowany) | klucz 2 | zapis: set_param 41, odczyt fw v2.20 (menu palnika) | (auto) liczba 150 (jeśli /10: 15.0); zakres 50..300; sąsiedztwo: przed: Podawanie ręczne – czas (0x370D) zmiana 150→151; poziom menu: klucz 2 (PIN 0999) |
 | `0x370D` | Podawanie ręczne – czas | Igniter preheat time [s] | U16 | 0…300 | sekundy (30) | R (zapis nieprzetestowany) |  | odczyt fw: feed_manual_run | Do weryfikacji |
 | `0x370E` | Pellet predose [g] (FW panela) | Pellet predose [g] | U16 | 0…500 |  | R (zapis nieprzetestowany) |  | zapis: set_param 77, odczyt | (auto) liczba 100 (jeśli /10: 10.0); zakres 0..500; sąsiedztwo: po: Podawanie ręczne – czas (0x370D) / FW panela: Pellet predose [g]; typ u16, zakres 0…500, domyslna 100, dostep: nastawa |
@@ -331,7 +332,7 @@ Opis każdego: co to jest, kodowanie, dostęp i **gdzie w firmware** (akcja `set
 | `0x404C` | Alarmy: następna pozycja bufora | Alarm next index | U16 | 256…275 | 256 + pozycja 0–19; najnowszy = pozycja − 1 | R |  | odczyt (historia alarmow) fw: alarm_pos | Odczyt |
 | `0x404D` | Alarmy: liczba alarmów | Number of alarms | U16 | 256…276 | 256 + liczba? | R (zapis nieprzetestowany) |  | odczyt fw: log | Tylko w logu |
 
-## 4. Parametry z binarki panela, jeszcze niewykorzystane (269)
+## 4. Parametry z binarki panela, jeszcze niewykorzystane (268)
 
 Pełna lista z firmware panela FW2213TK. „Na kotle” = czy rejestr odpowiedział w skanie 6.11.2026 (sub 1). Wartość surowa tylko dla 197 rejestrów ze snapa bazowego. To jest **materiał do dalszej pracy**: wybierz pozycję, sprawdź na panelu, podepnij w firmware (instrukcja w [README.md](README.md)).
 
@@ -539,7 +540,6 @@ Pełna lista z firmware panela FW2213TK. „Na kotle” = czy rejestr odpowiedzi
 | `0x3702` | 14082 | Nominal exhaust gas temp. [C] | u16 | 90 | 240 | 120 | nastawa | nie |  | NAZWA Z FW PANELA |
 | `0x3705` | 14085 | Blower power in hold/pause [%] | u8 | 10 | 100 | 20 | nastawa | tak | 276 | NAZWA Z FW PANELA |
 | `0x3707` | 14087 | EGT sensor type | u8 | 0 | 1 | 1 | nastawa | tak | 257 | NAZWA Z FW PANELA |
-| `0x370A` | 14090 | Boiler image selector | u8 | 1 | 3 | 1 | nastawa | tak | 259 | NAZWA Z FW PANELA |
 | `0x370C` | 14092 | Min fire up time [min] | u8 | 1 | 6 | 1 | nastawa | tak | 257 | NAZWA Z FW PANELA |
 | `0x370F` | 14095 | Burning off burner feeder work time [s] | u16 | 0 | 180 | 60 | nastawa | tak | 60 | NAZWA Z FW PANELA |
 | `0x3712` | 14098 | Blower type | u8 | 0 | 255 | 3 | nastawa | nie sprawdzono |  | NAZWA Z FW PANELA |

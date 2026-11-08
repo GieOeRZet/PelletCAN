@@ -987,6 +987,14 @@
       // domyslnie z pakietu tylko zbiornik paliwa (48, 49, 50, 54); reszta grafik dopiero z grafiki: pelne
       const FULL = t => !!(t && t._cfg && t._cfg.grafiki === 'pelne');
       const gate = (name, fn) => { const o = C.prototype[name]; C.prototype[name] = function (...a) { return FULL(this) ? fn.apply(this, a) : o.apply(this, a); }; };
+      // obraz kotla: jawne boiler_image w konfiguracji karty, inaczej z panela (rejestr 0x370A "Boiler image selector" 1..3 = obrazy 11..13, 19. wartosc encji Konfiguracja kotla), inaczej 13
+      const BSZ = { 11: [105, 126], 12: [108, 141], 13: [82, 145], 14: [54, 100] };
+      gate('_boilerMain', function () {
+        let n = +(this._cfg && this._cfg.boiler_image);
+        if (!BSZ[n]) { const cv = this._s('conf') ? String(this._t('conf', '')).trim().split(/\s+/) : [], a = /^\d+$/.test(cv[18] || '') ? 10 + +cv[18] : 13; n = BSZ[a] ? a : 13; }
+        const [w, h] = BSZ[n];
+        return `<img class="boil" alt="Tekla" src="${U(n)}" draggable="false" style="width:${(w * K).toFixed(2)}cqw;left:${(15 - w * K / 2).toFixed(2)}cqw;top:${Math.max(35.5 - h * K, 10).toFixed(2)}cqw;height:auto">`;
+      });
       gate('_fan', function (spin) { return seq([8, 9, 10], 34, 27, spin); });
       gate('_augSvg', function (anim = true) { return seq([36, 37, 38], 34, 27, anim); });
       gate('_auger', function (n, run) { return run ? `<span class="augw">${seq(n === 2 ? [40, 41, 42] : [36, 37, 38], 34, 27, true)}</span>` : ''; });
@@ -1311,7 +1319,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.42';
+    const CARD_VER = '1.43';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };

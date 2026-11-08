@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.43 – Obraz kotła z panela
+- `grafiki: pelne`: obraz kotła dobierany automatycznie z panela (rejestr `0x370A`, 1…3 → obrazy 11…13; wymaga firmware ≥ 1.4.24). Jawne `boiler_image` w konfiguracji karty ma pierwszeństwo; bez odczytu – obraz 13.
+
 ## v1.42 – Obrazy kotła 11–14
 - `grafiki: pelne`: wszystkie obrazy kotła (11, 12, 13, 14) w skali 1:1 jak na panelu, wyśrodkowane i wyrównane do podstawy; wysokie typy nie zachodzą na zegar. Nowy typ 14 (szary) w edytorze. Typ odpowiada rejestrowi panela „Boiler image selector” `0x370A` (1…3 = obrazy 11…13; w Twoim kotle wartość 3).
 

@@ -2,6 +2,9 @@
 
 Najnowsze na górze. Karta ma osobny plik: [CHANGELOG.md](CHANGELOG.md).
 
+## v1.4.24
+- Konfiguracja kotla: 19. odczyt – rejestr `0x370A` „Boiler image selector” (1…3 = obraz kotła na panelu). Karta ≥ 1.43 przy `grafiki: pelne` sama wybiera obraz kotła (11–13). Tylko odczyt.
+
 ## v1.4.23
 - Nowy odczyt Konfiguracji z panelu: encja tekstowa „Konfiguracja kotla” (18 rejestrów: 0x3501, 0x3500, 0x3505, 0x3720, 0x2106, 0x2108, 0x2107, 0x2123, 0x3602, 0x3603, 0x350A, 0x350B, 0x299E, 0x350C, 0x350D, 0x3525, 0x3629, 0x299D), odczyt przy starcie i co 60 s. Tylko odczyt. Wymaga karty ≥ 1.36.
 
