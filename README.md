@@ -410,7 +410,8 @@ Karta pobiera `version.json` z GitHuba (raz na 6 h) i porównuje z wersją firmw
 | `dist/pelletcan-lang.js` | tłumaczenia interfejsu (generowany z `docs/lang/pelletcan-lang.txt` przez `tools/gen_lang.py`) |
 | `dist/img/` | grafiki kotła, palnika i bojlera (można podmienić); `dist/img/panel/` – grafiki panela (opcja `grafiki: pelne`) |
 | `rejestry/` | katalog rejestrów CANopen (`katalog-rejestrow.csv`), kody alarmów, **instrukcja skanera rejestrów** (`README.md`) |
-| `tools/` | skrypty: `oznacz_uzycie.py` (które rejestry są użyte w firmware), `scal_nazwy_panela.py` (nazwy z firmware panela do katalogu), `check_versions.py` (kontrola wersji w CI), `gen_lang.py`, `gen_katalog_html.py`, `pakiet_grafik.py` |
+| `rejestry/REJESTRY.md` | pełna dokumentacja rejestrów (448 parametrów z binarki panela, użyte i nieużyte, instrukcja kontynuacji) |
+| `tools/` | skrypty: `gen_rejestry_md.py` (generuje REJESTRY.md), `oznacz_uzycie.py` (które rejestry są użyte w firmware), `scal_nazwy_panela.py` (nazwy z firmware panela do katalogu), `check_versions.py` (kontrola wersji w CI), `gen_lang.py`, `gen_katalog_html.py`, `pakiet_grafik.py` |
 | `docs/` | `DIAGNOSTYKA.md`, strona demo karty (`demo.html`), strona katalogu rejestrów (`katalog.html`), zrzuty ekranu (`img/`) |
 | `hacs.json`, `version.json`, `LICENSE` | metadane HACS, wersje i changelogi czytane przez kartę, licencja |
 | `docs/img/` | zrzuty ekranu do tego README |

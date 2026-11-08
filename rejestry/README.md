@@ -4,6 +4,7 @@ Ten folder zawiera **wszystko, co wiemy o rejestrach kotła**, oraz instrukcję,
 
 | Plik | Zawartość |
 |---|---|
+| [`REJESTRY.md`](REJESTRY.md) | **Pełna dokumentacja rejestrów** (generowana): liczby, kodowanie, rejestry wykorzystywane z opisem i miejscem użycia, wszystkie 448 parametrów z binarki panela, reszta rejestrów kotła, węzeł 86, instrukcja kontynuacji pracy. Zacznij tutaj. |
 | [`katalog-rejestrow.csv`](katalog-rejestrow.csv) | **Pełny katalog** (węzeł 4 – kocioł, węzeł 86 – CAN IO BIG; 693 wiersze). Nazwa, status, opis, typ, zakres min/max, kodowanie wartości, dostęp (R / R/W), poziom menu (PIN), przykładowa wartość, jak potwierdzono, **czy rejestr jest już wykorzystany w firmware/karcie i gdzie**. Otwiera się w Excelu/LibreOffice (UTF-8). |
 | [`alarmy-kody.csv`](alarmy-kody.csv) | Kody alarmów (opis z firmware i z karty). |
 | [`archiwum/`](archiwum) | Stary surowy katalog ze skanów (wartości ze skanu i migawki z 19–21.10) – dla historii. |
