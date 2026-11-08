@@ -1,6 +1,8 @@
 # PelletCAN
 
-Karta Home Assistant (`custom:pelletcan-card`) – wierna replika panelu **Estyma / Tekla Igneo Touch** – oraz konfiguracja **ESPHome** (XIAO ESP32-C6 + MCP2515), która czyta i zapisuje parametry kotła po magistrali CAN (CANopen SDO, węzeł 4, 125 kbit/s).
+Karta Home Assistant (`custom:pelletcan-card`) – wierna replika panelu **Estyma / Tekla Igneo Touch** – oraz firmware **ESPHome** (XIAO ESP32-C6 + MCP2515), który czyta i zapisuje parametry kotła pelletowego po magistrali CAN (CANopen SDO, węzeł 4, 125 kbit/s). To **wersja pełna**: odczyt i zapis nastaw, harmonogramy, poziomy dostępu z PIN-em, test wyjść, statystyki, skaner rejestrów i diagnostyka magistrali.
+
+Chcesz tylko **podglądu** (bez zapisu i bez narzędzi serwisowych)? Jest osobna, uproszczona wersja: **[PelletCAN lite](https://github.com/GieOeRZet/PelletCAN_lite)** – własna karta `custom:pelletcan-card-lite` i firmware tylko do odczytu.
 
 Projekt stworzony przez Romana Gorza (pomysł, kierunek, testy na własnej instalacji) z pomocą Claude – asystenta AI firmy Anthropic, który pomagał przy pisaniu kodu i dokumentacji.
 
@@ -21,19 +23,57 @@ Tryb demo (`demo: true`, bez ESP): [strona demo](docs/demo.html)
 | ![Demo główny](docs/img/demo-main.png) | ![Demo palnik](docs/img/demo-burn.png) | ![Demo paliwo](docs/img/demo-fuel.png) |
 
 ## Spis treści
-1. [Co jest w środku](#co-jest-w-środku)
-2. [Wymagania i połączenie](#wymagania-i-połączenie)
-3. [Instalacja – krok po kroku](#instalacja--krok-po-kroku)
-4. [Plik secrets.yaml – wymagane wpisy](#plik-secretsyaml--wymagane-wpisy)
-5. [Awaryjny punkt dostępu Wi-Fi](#awaryjny-punkt-dostępu-wi-fi)
-6. [Dodanie karty i konfiguracja](#dodanie-karty-i-konfiguracja)
-7. [Tryb lite](#tryb-lite)
-8. [Poziomy dostępu i PIN-y](#poziomy-dostępu-i-pin-y)
-9. [Przegląd ekranów](#przegląd-ekranów)
-10. [Grafiki](#grafiki)
-11. [Rozwiązywanie problemów](#rozwiązywanie-problemów)
-12. [Struktura repozytorium](#struktura-repozytorium)
-13. [Skaner rejestrów i szukanie nowych](#skaner-rejestrów-i-szukanie-nowych)
+1. [Pełna czy lite – co wybrać](#pełna-czy-lite--co-wybrać)
+2. [Jak to działa](#jak-to-działa)
+3. [Co jest w środku](#co-jest-w-środku)
+4. [Sprzęt i połączenie](#sprzęt-i-połączenie)
+5. [Szybki start – od zera do działającej karty](#szybki-start--od-zera-do-działającej-karty)
+6. [Plik secrets.yaml – wymagane wpisy](#plik-secretsyaml--wymagane-wpisy)
+7. [Ustawienia firmware (substitutions)](#ustawienia-firmware-substitutions)
+8. [Adres IP: stały albo DHCP](#adres-ip-stały-albo-dhcp)
+9. [Awaryjny punkt dostępu Wi-Fi](#awaryjny-punkt-dostępu-wi-fi)
+10. [Karta – instalacja i konfiguracja](#karta--instalacja-i-konfiguracja)
+11. [Poziomy dostępu i PIN-y](#poziomy-dostępu-i-pin-y)
+12. [Przegląd ekranów](#przegląd-ekranów)
+13. [Encje wystawiane przez ESPHome](#encje-wystawiane-przez-esphome)
+14. [Akcje (usługi) dla Home Assistant](#akcje-usługi-dla-home-assistant)
+15. [Diagnostyka i skanery rejestrów](#diagnostyka-i-skanery-rejestrów)
+16. [Przykłady użycia](#przykłady-użycia)
+17. [Aktualizacje](#aktualizacje)
+18. [Rozwiązywanie problemów](#rozwiązywanie-problemów)
+19. [Struktura repozytorium](#struktura-repozytorium)
+20. [Ważne zastrzeżenia, licencja, wsparcie](#ważne-zastrzeżenia)
+
+## Pełna czy lite – co wybrać
+| | **PelletCAN (ta wersja)** | [**PelletCAN lite**](https://github.com/GieOeRZet/PelletCAN_lite) |
+|---|---|---|
+| Karta | `custom:pelletcan-card` | `custom:pelletcan-card-lite` (osobny plik, bez kodu zapisu i ekranów serwisowych) |
+| Zapis do kotła | tak: nastawy, tryby, harmonogramy, włącz/wyłącz, podajnik, dmuchawa | **nie** – wyłącznie odczyt |
+| Poziomy dostępu i PIN | poziom 0, klucz 1 (PIN 0900), klucz 2 (PIN 0999) | tylko poziom podstawowy, bez „Poziom menu” |
+| Test wyjść, Statystyki, Sieć, Konfiguracja | tak | nie |
+| Skaner rejestrów, podsłuch SDO, Snap A/B, raport diagnostyczny | tak | **nie ma** |
+| Akcje (usługi) dla HA | 18 | 0 |
+| Encje ESPHome (wg definicji w YAML) | ok. 193: 120 sensorów, 13 binarnych, 44 tekstowe, 2 przełączniki, 3 wybory, 11 przycisków | ok. 86: 46 sensorów, 9 binarnych, 31 tekstowych; bez przycisków, przełączników i wyborów |
+| Dla kogo | chcesz sterować kotłem z HA i rozwijać projekt | chcesz bezpiecznie oglądać kocioł, np. dla domowników albo bez ryzyka zapisu |
+
+Obie wersje czytają ten sam kocioł, ale **nie wgrywaj ich razem na jedno ESP** – to dwa osobne firmware. Kartę lite i pełną można mieć w HA jednocześnie.
+
+## Jak to działa
+```
+ kocioł Tekla/Estyma           ESP (XIAO ESP32-C6 + MCP2515)                 Home Assistant
+┌───────────────────┐  CAN   ┌────────────────────────────────┐  Wi-Fi  ┌──────────────────────────┐
+│ sterownik (węzeł 4)│◄──────►│ węzeł 90: zapytania SDO,       │◄───────►│ integracja ESPHome:      │
+│ panel Igneo Touch  │ 125k   │ nasłuch PDO, kolejka odczytu,  │  API    │ encje + akcje            │
+│ moduł (węzeł 86)   │        │ zapis, poziomy dostępu, liczone│ (szyfr.)│ karta pelletcan-card     │
+└───────────────────┘        │ w ESP: moc kW, spalanie, prognoza└────────┴──────────────────────────┘
+```
+- **Magistrala:** kocioł, panel i moduły rozmawiają po CAN 125 kbit/s protokołem **CANopen**. Sterownik kotła to **węzeł 4**, dodatkowy moduł (wymiennik) to **węzeł 86**. ESP dołącza jako **węzeł 90** (numery 86 i 87 są zajęte).
+- **Odczyt (SDO):** ESP wysyła do sterownika zapytania „daj rejestr 0xINDEKS.sub” i dostaje odpowiedź. Każda nastawa, temperatura czy licznik to jeden rejestr. Katalog 593 rejestrów węzła 4 jest w [`rejestry/`](rejestry/README.md).
+- **Kolejka odczytu:** ESP odpytuje rejestry cyklicznie w kolejce (nastawy poziomu 0 stale, klucz 1 i 2 po PIN-ie, po zapisie lub na żądanie). Temperatury i stany przychodzą też w ramkach **PDO**, które kocioł wysyła sam.
+- **Zapis:** karta wywołuje akcję ESPHome (np. `set_param`), a ESP zapisuje rejestr kodując wartość tak jak panel (np. flaga+bajt `256 + wartość`). Kocioł odrzuca wartości spoza zakresu. Zapis zatrzymują: tryb **mirror**, wyłączniki `*_write` w YAML oraz zbyt niski poziom dostępu.
+- **Liczone w ESP:** moc palnika [kW] i spalanie [kg/h] (sprawność z `burner_eff_kw`, `burner_eff_fuel`), zużycie paliwa z 24 h i prognoza dni do końca paliwa, historia 20 alarmów.
+- **Karta:** czyta encje ESPHome (znajduje je sama po prefiksie nazwy), rysuje panel i wywołuje akcje. Nie wymaga szablonów ani helperów.
+- **Poziomy dostępu:** PIN wpisany w karcie trafia do ESP (akcja `unlock`), ESP trzyma poziom, a po 5 min bezczynności wraca do 0.
 
 ## Co jest w środku
 - **Firmware ESPHome** – plik użytkownika `esphome/PelletCAN.yaml` (ustawienia) + rdzeń `esphome/PelletCAN_packages.yaml` (logika, pobierany z GitHuba przy kompilacji) – odczyt temperatur, trybów, alarmów, harmonogramów i ustawień palnika, zapis nastaw, moc palnika w kW i spalanie liczone w ESP, poziomy dostępu z PIN-em, historia 20 alarmów z kotła.
@@ -41,30 +81,32 @@ Tryb demo (`demo: true`, bez ESP): [strona demo](docs/demo.html)
 - **Katalog rejestrów CANopen i skaner** ([`rejestry/`](rejestry/README.md)) – pełny katalog rejestrów węzła 4 i 86 (zakresy, kodowanie, R/W, co jest już wykorzystane) oraz instrukcja szukania nowych rejestrów.
 
 Karta nie wymaga szablonów (template sensors) ani helperów w HA. Elementy bez encji pokazują „-”.
-
-## Wymagania i połączenie
-- Home Assistant z integracją **ESPHome** (dodawanie urządzenia z kluczem API).
+## Sprzęt i połączenie
+- Home Assistant z integracją **ESPHome** (dodatek ESPHome do kompilacji).
 - Płytka **Seeed XIAO ESP32-C6** z **Seeed CAN Bus Breakout** (MCP2515, kwarc 16 MHz).
-- Połączenie CAN z kotłem (CAN-H, CAN-L, masa); zworka P1 na płytce = terminator 120 Ω (domyślnie rozłączona).
+- Połączenie CAN z kotłem: CAN-H, CAN-L, masa; zasilanie 5 V. Zworka P1 = terminator 120 Ω (domyślnie rozłączona; włączaj tylko gdy ESP jest na końcu magistrali).
 - Piny SPI: SCK = GPIO19 (D8), MISO = GPIO20 (D9), MOSI = GPIO18 (D10), CS = GPIO17 (D7).
-- Inny ESP lub moduł MCP2515: piny i prędkość SPI ustawiasz w `PelletCAN.yaml` w substitutions (`pin_spi_clk`, `pin_spi_mosi`, `pin_spi_miso`, `pin_can_cs`, `can_spi_rate`; dla XIAO ESP32-C6 z anteną zewnętrzną także `pin_rf_switch`, `pin_rf_antenna`) i sekcję `esp32: board:`. Bitrate i kwarc: `can_bitrate`, `can_clock`.
-- Prędkość magistrali `125KBPS`, kwarc `16MHZ` (substitutions `can_bitrate`, `can_clock` – zmień, jeśli CAN pokazuje błąd).
+- Inny ESP lub moduł MCP2515: piny i prędkość SPI w `PelletCAN.yaml` (`pin_spi_clk`, `pin_spi_mosi`, `pin_spi_miso`, `pin_can_cs`, `can_spi_rate`; dla XIAO z anteną zewnętrzną `pin_rf_switch`, `pin_rf_antenna`) i sekcja `esp32: board:`. Prędkość i kwarc: `can_bitrate` (`125KBPS`), `can_clock` (`16MHZ`).
 
-## Instalacja – krok po kroku
-1. **Przygotuj `secrets.yaml`** w katalogu ESPHome – [wymagane wpisy](#plik-secretsyaml--wymagane-wpisy).
-2. **Sieć:** w `secrets.yaml` wpisz `wifi_ssid_iot` i `wifi_pass`. Wpisz `device_ip/device_gateway/device_subnet` (albo usuń blok `wifi:` na dole pliku i użyj DHCP) – patrz sekcja „Adres IP” niżej.
-3. **Wgraj firmware**: skopiuj do ESPHome **tylko** plik `esphome/PelletCAN.yaml` (Twój plik: ustawienia `substitutions` + bloki `esphome`, `esp32`, `logger`, `web_server`, `captive_portal`, `api` i `packages`; cały kod, encje i usługi pobierze sam z GitHuba przez `packages`, niczego więcej nie edytujesz). **Aktualizując ze starszej wersji, wymień cały plik na nowy** (stare pliki użytkownika bez bloków `esp32`/`logger`/`api` z kluczem nie skompilują się z rdzeniem 1.2). Pierwszy raz wgraj po kablu USB. Kolejne aktualizacje: w ESPHome kliknij *Install* – pobierze najnowszy rdzeń z `main`.
-4. **Dodaj urządzenie w HA** (Ustawienia → Urządzenia → ESPHome; klucz API z `secrets.yaml`). Pojawią się encje o nazwach z prefiksem `tekla` (np. `sensor.tekla_kociol_temperatura`).
-5. **Zainstaluj kartę** – wybierz jedną z dwóch dróg:
-   - **HACS (zalecane):** HACS → ⋮ → *Niestandardowe repozytoria* → adres `https://github.com/GieOeRZet/PelletCAN`, kategoria **Dashboard** (Lovelace) → *Dodaj* → znajdź „PelletCAN” → *Pobierz*. Zasób dashboardu doda się sam (`/hacsfiles/PelletCAN/pelletcan-card.js`). Aktualizacje pojawią się w HACS.
-   - **Ręcznie:** skopiuj zawartość folderu `dist/` do `/config/www/community/pelletcan/` (powstanie `pelletcan-card.js`, `tekla-panel-card.js`, `pelletcan-lang.js` i folder `img/`; pliki muszą leżeć razem). W Ustawienia → Dashboardy → ⋮ → Zasoby dodaj *moduł JavaScript* o adresie `/local/community/pelletcan/pelletcan-card.js?v=1`; po każdej aktualizacji zmień `?v=` i odśwież stronę (Ctrl+F5).
-6. **Nie dodawaj obu naraz** – jeśli przechodzisz z instalacji ręcznej na HACS, usuń najpierw stary zasób `/local/community/pelletcan/...`.
-7. **Dodaj kartę** na dashboard – [opis poniżej](#dodanie-karty-i-konfiguracja).
+## Szybki start – od zera do działającej karty
+Czego potrzebujesz: Home Assistant z dodatkiem **ESPHome**, zainstalowany **HACS**, płytka z modułem CAN (sekcja powyżej) i kabel USB-C do pierwszego wgrania.
 
+1. **Podłącz sprzęt** do magistrali CAN kotła i do zasilania 5 V.
+2. **Uzupełnij `secrets.yaml`** – w ESPHome przycisk **Secrets** w prawym górnym rogu:
+   ```yaml
+   wifi_ssid_iot: "NAZWA_SIECI"                 # sieć 2,4 GHz (ESP32-C6 nie widzi 5 GHz)
+   wifi_pass: "HASLO_WIFI"
+   esp_api_key_tekla_CAN: "KLUCZ_API"           # 32 bajty w base64
+   ota_pass: "HASLO_OTA"                        # dowolne hasło do aktualizacji przez Wi-Fi
+   ```
+   Klucz API: `openssl rand -base64 32` albo przycisk generowania na <https://esphome.io/components/api.html>. Nazwy kluczy muszą być dokładnie takie. Wzór: [`esphome/secrets.example.yaml`](esphome/secrets.example.yaml).
+3. **Nowe urządzenie w ESPHome** → **Skip** → wklej zawartość [`esphome/PelletCAN.yaml`](esphome/PelletCAN.yaml). W `substitutions` ustaw swoje IP (albo przejdź na DHCP), liczbę obiegów CO (`dwa_obiegi_co`) i antenę. Cały kod pobierze się sam z GitHuba.
+4. **Install** → pierwsze wgranie po kablu USB (jeśli port się nie pojawia, przytrzymaj BOOT podczas podłączania). Kolejne aktualizacje idą przez Wi-Fi.
+5. **Dodaj urządzenie w HA**: Ustawienia → Urządzenia i usługi → ESPHome (klucz API z `secrets.yaml`). Pojawią się encje o nazwach z prefiksem `tekla`.
+6. **Zainstaluj kartę** przez HACS (repo `https://github.com/GieOeRZet/PelletCAN`, kategoria **Dashboard**), odśwież przeglądarkę (Ctrl+F5) i dodaj `custom:pelletcan-card` do dashboardu.
+7. **Sprawdź**: na ekranie głównym są temperatura kotła i stan pracy, a encja „CAN OK” = włączona. Przy „-” patrz [Rozwiązywanie problemów](#rozwiązywanie-problemów).
 
-## Dwie wersje firmware: `main` i `test`
-- **`main`** (domyślna) – podział na plik użytkownika (`PelletCAN.yaml`) i rdzeń (`PelletCAN_packages.yaml`) pobierany z GitHuba przy każdej kompilacji. Wymaga dostępu ESPHome do internetu przy buildzie.
-- **`test`** – jeden kompletny plik `esphome/tekla-estyma.yaml` ze wszystkim w środku (bez pobierania z GitHuba). Użyj, gdy chcesz mieć wszystko lokalnie albo gdy podział nie działa: `git clone -b test https://github.com/GieOeRZet/PelletCAN.git`.
+Wersje firmware: **`main`** (plik użytkownika + rdzeń pobierany z GitHuba przy kompilacji; wymaga internetu w ESPHome) i **`test`** (jeden kompletny plik `esphome/tekla-estyma.yaml`, wszystko lokalnie: `git clone -b test https://github.com/GieOeRZet/PelletCAN.git`).
 
 ## Plik secrets.yaml – wymagane wpisy
 Wzór: `esphome/secrets.example.yaml`. Plik `secrets.yaml` nie trafia do repozytorium (`.gitignore`).
@@ -79,6 +121,21 @@ Wzór: `esphome/secrets.example.yaml`. Plik `secrets.yaml` nie trafia do repozyt
 **Hasło awaryjnej sieci (`ap_pass`) NIE jest w `secrets.yaml`** – jest jawne w sekcji `substitutions` pliku `PelletCAN.yaml` (domyślnie `11223344`) i możesz je tam zmienić. Dotyczy tylko awaryjnej sieci `Tekla-Estyma Fallback`.
 
 PIN-y instalatora (0900 = klucz 1, 0999 = klucz 2) to domyślne PIN-y z oprogramowania panelu Tekla – są jawne w YAML (`pin_installer1`, `pin_installer2`) i nie wymagają wpisu w `secrets.yaml`.
+## Ustawienia firmware (substitutions)
+Zmieniasz tylko sekcję `substitutions` w `PelletCAN.yaml`, rdzenia nie edytujesz.
+
+| Grupa | Ustawienia | Opis |
+|---|---|---|
+| Wi-Fi i IP | `wifi_ssid`, `wifi_password`, `ap_pass`, `device_ip`, `device_gateway`, `device_subnet` | patrz niżej: stały adres lub DHCP |
+| Klucze | `api_key`, `ota_password` | z `secrets.yaml` |
+| Układ CO | `dwa_obiegi_co` | `false` = jeden obieg „CO”, `true` = CO1 i CO2 |
+| Nazwa | `name`, `friendly_name` | nazwa ESPHome i prefiks encji (domyślnie `tekla-estyma`, „Tekla”) |
+| CAN i piny | `can_bitrate`, `can_clock`, `pin_*`, `can_spi_rate`, `external_antenna` | wg sekcji Sprzęt |
+| Dostęp | `pin_installer1`, `pin_installer2`, `pin_autolock_min` | PIN-y klucza 1 i 2, blokada po bezczynności (0 = bez blokady) |
+| Zapis | `mirror`, `write_enabled`, `power_write`, `mode_write`, `schedule_write`, `setpoint_write`, `feeder_write`, `blower_write`, `alarm_confirm`, `output_test_write` | wyłączniki zapisu; `mirror: "true"` blokuje wszystkie zapisy (ESP tylko czyta) |
+| Czasy | `blower_on_seconds`, `feeder_on_seconds`, `test_revert_s` | czasowe włączenie dmuchawy/podajnika, powrót testu wyjść do automatu |
+| Obliczenia | `temp_div`, `burner_eff_kw`, `burner_eff_fuel` | skalowanie temperatur, sprawność do mocy i spalania |
+| Diagnostyka | `can_debug`, `sniff`, `diag_log`, `can_auto_restart`, `can_node_id`, `can_identity`, `can_heartbeat`, `can_product` | patrz [Diagnostyka](#diagnostyka-i-skanery-rejestrów) |
 
 ## Adres IP: stały albo DHCP
 Adresy wpisujesz w `substitutions` pliku `esphome/PelletCAN.yaml`:
@@ -88,29 +145,25 @@ Adresy wpisujesz w `substitutions` pliku `esphome/PelletCAN.yaml`:
   device_subnet: 255.255.254.0   # maska sieci
 ```
 Na dole pliku jest blok `wifi: manual_ip`, który tych wartości używa. **Chcesz DHCP?** Usuń albo zakomentuj cały blok `wifi:` – wtedy HA znajdzie urządzenie po nazwie `tekla-estyma`. Adresy to sieć lokalna, więc nie trafiają do `secrets.yaml`.
-
-## Diagnostyka magistrali
-Raport diagnostyczny jednym przyciskiem (do wklejenia w Issue), skan różnicowy Snap A/B i prognoza paliwa: [docs/DIAGNOSTYKA.md](docs/DIAGNOSTYKA.md). Katalog rejestrów: [strona katalogu](https://gieoerzet.github.io/PelletCAN/katalog.html).
-Szukanie brakujących rejestrów i ramek bez logów ESPHome (encje „CAN diag”, „CAN ID ramek”, skan węzła 86): [docs/DIAGNOSTYKA.md](docs/DIAGNOSTYKA.md).
-
 ## Awaryjny punkt dostępu Wi-Fi
 Jeśli ESP nie połączy się z siecią (zmiana routera, złe hasło, nowa sieć), po ok. minucie sam wystawia sieć **`Tekla-Estyma Fallback`** (hasło z `substitutions: ap_pass` w YAML, domyślnie `11223344`). Po połączeniu otwiera się strona logowania (portal captive; jeśli nie – wejdź na `192.168.4.1`), gdzie wybierasz sieć i wpisujesz hasło. Urządzenie zapisuje dane i łączy się z siecią. Ponieważ w firmware jest stały adres IP (`device_ip`), w nowej sieci musi on pasować do jej podsieci – w razie potrzeby wgraj firmware z poprawionym adresem. Po powrocie do sieci urządzenie pojawi się w ESPHome i w HA.
+## Karta – instalacja i konfiguracja
+**HACS (zalecane):** HACS → ⋮ → *Niestandardowe repozytoria* → `https://github.com/GieOeRZet/PelletCAN`, kategoria **Dashboard** → *Pobierz*. Zasób `/hacsfiles/PelletCAN/pelletcan-card.js` dodaje się sam. **Ręcznie:** zawartość `dist/` do `/config/www/community/pelletcan/` i zasób `/local/community/pelletcan/pelletcan-card.js?v=1` (po aktualizacji zmień `?v=`). Nie dodawaj obu naraz. Po instalacji Ctrl+F5.
 
-## Dodanie karty i konfiguracja
-Dodaj kartę **Tekla panel** z listy kart (edytor wizualny) albo wklej YAML. Najprostsza konfiguracja:
-
+Najprostsza karta:
 ```yaml
 type: custom:pelletcan-card
 ```
-
-Karta **sama znajduje encje** urządzenia po nazwie (domyślny prefiks `tekla`). Pozycje bez encji pokazują „-”, a brak encji nigdy nie powoduje błędu karty.
+Karta **sama znajduje encje** urządzenia po nazwie (prefiks `tekla`). Pozycje bez encji pokazują „-”, brak encji nie powoduje błędu.
 
 ### Opcje YAML
 | Opcja | Domyślnie | Opis |
 |---|---|---|
 | `screen` | `main` | ekran startowy (`main`, `heat`, `water`, `burn`, `menu`, `alarm`, `info` i inne – lista w edytorze) |
 | `language` | `pl` | język interfejsu: `pl`, `en`, `dk`, `de`, `se`, `lt`, `sk`, `cz`, `es`, `ro`, `est` (też kody `da sv cs et`) albo `auto` (język Home Assistant); wybór także w edytorze – pole „Język / Language” |
-| `lite` | `false` | tryb lite – patrz [niżej](#tryb-lite); tylko w YAML, nie ma go w edytorze |
+| `lite` | `false` | stary tryb „lite” tej karty (poziom 0 bez PIN-u). Nowa, osobna i bezpieczniejsza wersja: [PelletCAN lite](https://github.com/GieOeRZet/PelletCAN_lite) |
+| `grafiki` | `domyslne` | `pelne` = oryginalne grafiki panela (wentylator, podajniki, zawór, grzałka, kocioł, palnik) z `dist/img/panel`; wybór także w edytorze |
+| `boiler_image` | `13` | typ obrazu kotła przy grafikach pełnych: `11`, `12`, `13` |
 | `entity_prefix` | `tekla` | fragment nazwy urządzenia używany do wykrywania encji |
 | `esphome_node` | `tekla_estyma` | nazwa węzła ESPHome (usługi `esphome.<węzeł>_...`) |
 | `demo` | `false` | `true` = dane przykładowe bez ESP/HA (zrzuty, test wyglądu; [docs/demo.html](docs/demo.html)) |
@@ -132,24 +185,9 @@ Edytor jest podzielony tak jak karta – według ekranów i menu:
 3. **Menu →** Palnik → NASTAWY (użytkownik / klucz 1 / klucz 2), Ciepła woda → NASTAWY, Ogrzewanie obwód 1 → NASTAWY, Kocioł → NASTAWY, Historia alarmów, Statystyki i Test wyjść.
 4. **System** – łączność CAN, tryb mirror, poziom dostępu.
 
-W trybie lite sekcje klucza 1 i 2 są ukryte.
 
-## Tryb lite
-Jedna karta, dwa tryby. W YAML (wysoko w konfiguracji karty):
-
-```yaml
-type: custom:pelletcan-card
-lite: true
-```
-
-- `lite: false` (domyślnie) – pełna karta z poziomami dostępu i PIN-em.
-- `lite: true` – karta zawsze na **poziomie 0** (zwykły użytkownik). W menu nie ma pozycji **Poziom menu (PIN)**, klucz 1 i 2 są niedostępne, nie ma też ekranów serwisowych (Test wyjść, Statystyki, Sieć). Nawet jeśli w HA jest odblokowany wyższy poziom, karta lite go nie pokazuje.
-
-Dawne typy `custom:tekla-panel-card` i `custom:tekla-panel-card_lite` działają nadal (to ta sama karta; `_lite` = `lite: true`). Nowe karty dodawaj jako `custom:pelletcan-card`.
-
-| Pełna karta, poziom 0 | Pełna karta, klucz 1 | Lite |
-|---|---|---|
-| ![Pełna](docs/img/32-pelna-menu-poziom0.png) | ![Klucz 1](docs/img/20-klucz1-menu.png) | ![Lite](docs/img/30-lite-menu.png) |
+### Grafiki
+Karta używa `img/kociol.*`, `img/palnik.*`, `img/bojler.*` (png, webp, jpg, jpeg, svg – w tej kolejności). Wgraj własny plik do folderu `img/` obok karty (HACS: `/config/www/community/PelletCAN/img/`), aby podmienić domyślny, i odśwież stronę (Ctrl+F5). Folder `img/panel/` zawiera grafiki panela; opcja `grafiki: pelne` (też w edytorze karty) włącza wentylator, podajniki, zawór, grzałkę, kocioł (`boiler_image` 11/12/13) i palnik.
 
 ## Poziomy dostępu i PIN-y
 - **Poziom 0** – użytkownik: Kocioł, Palnik, Ogrzewanie obwód 1, Ciepła woda, Historia alarmów, Informacje.
@@ -183,8 +221,130 @@ Odczyt ustawień: po starcie ESP czyta wszystkie ustawienia (najpierw poziom 0),
 
 Historia alarmów jest czytana z bufora kotła (20 ostatnich wpisów, encje „Alarm wpis 1..20” – wymaga firmware ≥ 2.25).
 
-## Grafiki
-Karta używa `img/kociol.*`, `img/palnik.*`, `img/bojler.*` (png, webp, jpg, jpeg, svg – w tej kolejności). Wgraj własny plik do folderu `img/` obok karty (HACS: `/config/www/community/pelletcan/img/`, ręcznie: `/config/www/community/pelletcan/img/`), aby podmienić domyślny, i odśwież stronę (Ctrl+F5).
+## Encje wystawiane przez ESPHome
+Nazwy encji mają prefiks urządzenia (np. `sensor.kotlownia_tekla_kociol_temperatura`; prefiks zależy od nazwy urządzenia w HA). W sumie ok. 193 encji:
+
+| Grupa | Przykłady |
+|---|---|
+| Temperatury i zadane | Kociol temperatura, CO/CO1/CO2 temperatura, CWU temperatura, Temperatura zewnetrzna, Temperatura powrotu, Temperatura palnika; zadane ręczne / wynikowe / komfort / ekonomiczna |
+| Stan pracy | Palnik stan, Palnik kod stanu, Kociol tryb pracy, tryby CO/CWU, Poziom dostepu; binarne: CAN OK, Kociol wlaczony, Alarm aktywny, pompy CO/CWU, Dmuchawa pracuje, Podajnik pracuje, Zakaz rozpalenia, Regulator pokojowy zgoda |
+| Palnik | moc [kW] i [%], spalanie [kg/h], jasność płomienia, zapalarka, obroty i moc dmuchawy, krzywa modulacji dmuchawy 20–100 %, parametry rozpalania/rozżarzania/wygaszania, czyszczenie rusztu |
+| Nastawy kotła, CO, CWU | min. temp. pomp/powrotu, czas mieszacza, histerezy, krzywa pogodowa CO (−20/0/+10 °C), antylegionella, priorytet CWU, krzywa wentylatora spalin 1–5, alarm dźwiękowy i godziny ciszy |
+| Zbiornik i paliwo | Zbiornik pojemnosc / paliwo / zapelnienie, Paliwo zuzycie 24h, Paliwo prognoza [dni], Paliwo rezerwa |
+| Alarmy | Ostatni alarm, Alarm poczatek / koniec, Alarm wpis 1–20, Alarm rejestr |
+| Harmonogramy | CWU / CO / Kociol harmonogram (rejestry) – karta rysuje z nich paski 0–24 |
+| Konfiguracja i statystyki | Konfiguracja kotla (18 rejestrów, tylko odczyt), Statystyki kotla (średnie moce i tlen, energia całkowita), Test wyjsc stany |
+| Przyciski | Potwierdz alarm; Podajnik: Automat / Wylacz / Podaj paliwo (30 s); Dmuchawa: Automat / Wylacz / Wlacz (czasowo); Snap A / Snap B / Snap STOP; Raport diagnostyczny (utworz) |
+| Przełączniki i wybory | Kociol wlacz/wylacz, Restart; CO (CO1, CO2) tryb ustaw, CWU tryb ustaw |
+| Diagnostyka | SDO ostatni odczyt, CAN diag, CAN ID ramek, Zmiany rejestrow (Snap), Raport diagnostyczny, Wersja firmware, Sygnatura konfiguracji |
+
+## Akcje (usługi) dla Home Assistant
+Akcje mają postać `esphome.<nazwa_urządzenia>_<akcja>` (np. `esphome.tekla_estyma_set_param`; dokładną nazwę zobaczysz w Narzędzia deweloperskie → Akcje, wpisz „sdo”). Karta używa ich sama; możesz je wołać z automatyzacji i skryptów.
+
+| Akcja | Parametry | Działanie |
+|---|---|---|
+| `unlock` | `pin` | ustawia poziom dostępu (PIN klucza 1 lub 2; błędny = poziom 0) |
+| `set_setpoint` | `which` (0 CWU komfort, 1 CWU eco, 2 CO komfort, 3 CO eco, 4 kocioł ręczna), `value` [°C] | zapis temperatury zadanej w dozwolonym zakresie |
+| `set_boiler_mode` | `mode` (0 czasowy auto, 1 czasowy ręczny, 2 auto, 3 ręczny) | tryb zadawania temperatury kotła |
+| `set_param` | `key`, `value` | zapis nastawy menu (numer pozycji: palnik, kocioł, CO, CWU); wymaga właściwego poziomu dostępu |
+| `set_schedule` | `kind` (0 CWU, 1 CO, 2 kocioł), `day` (0 Pn … 6 Nd), `bits` (24 bity, bit i = godzina i, 1 = komfort) | zapis harmonogramu |
+| `set_output`, `set_output_pct` | `out`, `mode` (0 automat, 1 OFF, 2 ON); `value` [%] | **Test wyjść** (wymaga klucza 2); po `test_revert_s` wraca do automatu |
+| `test_refresh`, `test_reset` | – | odczyt stanu testu wyjść / powrót wszystkich do automatu |
+| `alarm_refresh`, `param_refresh`, `schedule_refresh` | – | wymuszenie odczytu alarmów, nastaw, harmonogramów |
+| `sdo_read` | `index`, `sub` | odczyt jednego rejestru (wynik w „SDO ostatni odczyt”) |
+| `sdo_scan`, `sdo_scan_stop` | `from_index`, `to_index` (dziesiętnie), `sub`, `node` | **skaner rejestrów** zakresu indeksów, przerwanie skanu |
+| `sdo_write` | `index`, `sub`, `value`, `size` (1/2/4) | surowy zapis rejestru (wymaga `write_enabled` i braku `mirror`) |
+| `sdo_poll_add`, `sdo_poll_clear` | `index` | dodaje / czyści dodatkowy rejestr w cyklicznym odczycie (do restartu) |
+
+## Diagnostyka i skanery rejestrów
+Domyślnie firmware jest „cichy”: log ESPHome pokazuje tylko to, co ważne. Narzędzia do szukania rejestrów włączasz w razie potrzeby.
+
+**Skaner rejestrów (`sdo_scan`)** czyta kolejne rejestry węzła (domyślnie 4, kocioł) i zapisuje wyniki w encji „SDO ostatni odczyt” (historia encji = log skanu). Skan jest jeden naraz, ok. 10–12 rejestrów/s; część odpowiedzi ginie na magistrali, więc blok skanuj 2–3 razy. Skan węzła 86 (wymiennik): `from_index: 25088`, `to_index: 25632`, `sub: 1`, `node: 86`.
+
+**Metoda różnicowa** – jak znaleźć rejestr pozycji menu, której jeszcze nie ma w firmware: zmień na panelu jedną nastawę na niecodzienną wartość, przeskanuj strefy rejestrów i szukaj tej wartości (dla typu flaga+bajt `256 + wartość`). Pełna instrukcja, strefy, kodowanie i dodawanie rejestru do firmware i karty: **[rejestry/README.md](rejestry/README.md)**; katalog online: [strona katalogu](https://gieoerzet.github.io/PelletCAN/katalog.html).
+
+**Snap A / Snap B** – ESP sam robi skan różnicowy: *Snap A* zapisuje punkt odniesienia (593 rejestry, ok. 72 s), zmieniasz JEDNĄ nastawę na panelu, *Snap B* publikuje listę zmian `XXXX:stara>nowa` w encji „Zmiany rejestrow (Snap)”. Nie rób tego w trakcie rozpalania.
+
+**Raport diagnostyczny** – przycisk „Raport diagnostyczny (utworz)” składa tekst (wersja, czas pracy, Wi-Fi, CAN, liczniki SDO) do wklejenia w [Issue](https://github.com/GieOeRZet/PelletCAN/issues/new/choose); bez haseł i adresów.
+
+**Przełączniki diagnostyczne w `PelletCAN.yaml`** (po diagnozie przywróć `"false"`):
+| Ustawienie | Działanie |
+|---|---|
+| `diag_log` | dodatkowe wpisy: NMT, IDENT, zmiany PDO, raport SKAN SIECI |
+| `sniff` | podsłuch SDO innych węzłów, m.in. **zapisy panelu** w logu ESPHome |
+| `can_debug` | log wszystkich ramek CAN |
+| `can_node_id`, `can_identity`, `can_heartbeat` | ESP jako węzeł 90 widoczny w zakładce Sieć panelu (nazwa PelletCAN, wersja) |
+
+Szczegóły i typowe zadania: [docs/DIAGNOSTYKA.md](docs/DIAGNOSTYKA.md). **Uwaga:** `sdo_write` i skany wykonuj ostrożnie – zapis złego rejestru może zmienić pracę kotła.
+
+## Przykłady użycia
+**1. Powiadomienie o alarmie kotła**
+```yaml
+alias: Kocioł – alarm
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.kotlownia_tekla_alarm_aktywny
+    to: "on"
+actions:
+  - action: notify.notify
+    data:
+      title: Kocioł – alarm
+      message: "{{ states('sensor.kotlownia_tekla_ostatni_alarm') }}"
+```
+
+**2. Powiadomienie o kończącym się paliwie**
+```yaml
+alias: Kocioł – paliwo
+triggers:
+  - trigger: state
+    entity_id: binary_sensor.kotlownia_tekla_paliwo_rezerwa
+    to: "on"
+  - trigger: numeric_state
+    entity_id: sensor.kotlownia_tekla_paliwo_prognoza
+    below: 2
+actions:
+  - action: notify.notify
+    data:
+      message: "Zostało ok. {{ states('sensor.kotlownia_tekla_paliwo_prognoza') }} dni paliwa."
+```
+
+**3. Obniż temperaturę CO, gdy nikogo nie ma** (zadana CO ekonomiczna 20 °C → zapis do kotła)
+```yaml
+alias: Kocioł – tryb ekonomiczny po wyjściu
+triggers:
+  - trigger: state
+    entity_id: group.domownicy
+    to: not_home
+actions:
+  - action: esphome.tekla_estyma_set_setpoint
+    data:
+      which: 3        # 3 = CO ekonomiczna
+      value: 20
+```
+
+**4. Podgrzej wodę (CWU komfort 55 °C) przed wieczorem**
+```yaml
+alias: CWU – komfort wieczorem
+triggers:
+  - trigger: time
+    at: "16:00:00"
+actions:
+  - action: esphome.tekla_estyma_set_setpoint
+    data:
+      which: 0        # 0 = CWU komfort
+      value: 55
+```
+
+**5. Odczyt dowolnego rejestru z Narzędzi deweloperskich** → Akcje → `esphome.tekla_estyma_sdo_read` z `index: 8448`, `sub: 1`; wynik w encji „SDO ostatni odczyt” (np. `0x2100.1 = 269 (signed 269, 4 B)`).
+
+**6. Karta tylko do podglądu dla domowników** – drugi dashboard z kartą `custom:pelletcan-card` i `mirror: true` albo kartą [PelletCAN lite](https://github.com/GieOeRZet/PelletCAN_lite) (bez żadnego kodu zapisu).
+
+**7. Demo bez ESP i bez kotła** – `type: custom:pelletcan-card`, `demo: true` (dane przykładowe), albo [strona demo](docs/demo.html).
+
+Nazwy encji i akcji w przykładach sprawdź u siebie (prefiks zależy od nazwy urządzenia).
+
+## Aktualizacje
+Karta pobiera `version.json` z GitHuba (raz na 6 h) i porównuje z wersją firmware (encja „Wersja firmware”) oraz własną. Przy nowszej wersji MENU pulsuje na zielono, a „Informacje o programie” pokazują zmiany; „Odrzuć aktualizację” ukrywa daną wersję. Firmware aktualizujesz przyciskiem **Install** w ESPHome (rdzeń pobiera się z GitHuba), kartę przez HACS (Ctrl+F5 po aktualizacji). Aktualizując ze starszej wersji firmware, wymień cały plik `PelletCAN.yaml` na nowy. Historia zmian: [CHANGELOG.md](CHANGELOG.md) (karta) i [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
 ## Rozwiązywanie problemów
 - **Wszędzie „-”** – karta nie widzi encji. Sprawdź, czy nazwy encji zawierają `tekla` (albo ustaw `entity_prefix`) i czy urządzenie jest dodane w HA.
@@ -192,6 +352,9 @@ Karta używa `img/kociol.*`, `img/palnik.*`, `img/bojler.*` (png, webp, jpg, jpe
 - **Edycja nie działa** – sprawdź tryb mirror (encja „Tryb mirror”, opcja `mirror`) i poziom dostępu (część nastaw wymaga klucza 1 lub 2).
 - **CAN pokazuje błąd** – sprawdź okablowanie, terminator, `can_bitrate` i `can_clock` w substitutions.
 - **Brak sieci Wi-Fi po zmianie routera** – skorzystaj z [awaryjnego punktu dostępu](#awaryjny-punkt-dostępu-wi-fi).
+- **Firmware się nie kompiluje po aktualizacji** – wymień cały plik użytkownika `PelletCAN.yaml` na aktualny z repozytorium (nowe ustawienia w `substitutions`).
+- **Zapisy z karty nie działają** – sprawdź `mirror`, wyłączniki `*_write`, poziom dostępu (klucz 1/2) i log ESPHome (ostrzeżenia „zapis wyłączony”).
+- **Harmonogramy i nastawy pojawiają się po ok. 30 s od startu ESP**, potem odświeżają się cyklicznie.
 
 ## Struktura repozytorium
 | Ścieżka | Co to |
@@ -201,22 +364,11 @@ Karta używa `img/kociol.*`, `img/palnik.*`, `img/bojler.*` (png, webp, jpg, jpe
 | `dist/pelletcan-card.js` | karta – jedyny plik dodawany jako zasób dashboardu |
 | `dist/tekla-panel-card.js` | rdzeń karty, pobierany przez `pelletcan-card.js` |
 | `dist/pelletcan-lang.js` | tłumaczenia interfejsu (generowany z `docs/lang/pelletcan-lang.txt` przez `tools/gen_lang.py`) |
-| `dist/img/` | grafiki kotła, palnika i bojlera (można podmienić) |
+| `dist/img/` | grafiki kotła, palnika i bojlera (można podmienić); `dist/img/panel/` – grafiki panela (opcja `grafiki: pelne`) |
 | `rejestry/` | katalog rejestrów CANopen (`katalog-rejestrow.csv`), kody alarmów, **instrukcja skanera rejestrów** (`README.md`) |
 | `tools/oznacz_uzycie.py` | przelicza w katalogu, które rejestry są wykorzystane w firmware |
 | `docs/img/` | zrzuty ekranu do tego README |
 | `CHANGELOG.md`, `CHANGELOG-firmware.md` | historia zmian karty i firmware |
-
-## Skaner rejestrów i szukanie nowych
-Firmware ma wbudowane akcje HA do czytania i zapisu dowolnego rejestru kotła: `sdo_scan` (zakres, wyniki w encji „SDO ostatni odczyt”), `sdo_scan_stop`, `sdo_read`, `sdo_write`. Reszta (migawki, encje diagnostyczne) jest wyłączona, więc log ESPHome pokazuje tylko to, co się dzieje na magistrali. Typowa procedura: zmieniasz jedną nastawę na panelu na niecodzienną wartość, skanujesz strefy rejestrów i szukasz tej wartości (flaga+bajt: `256 + wartość`). Pełna instrukcja – zakresy, kodowanie, pułapki, dodawanie rejestru do firmware i karty, lista otwartych pozycji – w **[rejestry/README.md](rejestry/README.md)**; katalog wszystkich znanych rejestrów (z oznaczeniem, które są już użyte): [rejestry/katalog-rejestrow.csv](rejestry/katalog-rejestrow.csv).
-
-Ustawienia diagnostyczne w `PelletCAN.yaml`: `diag_log` (dodatkowe wpisy NMT/IDENT/PDO), `sniff` (podsłuch zapisów panelu), `can_debug` (wszystkie ramki) – domyślnie `"false"`.
-
-## Ostatnie zmiany
-- **v1.0 (karta i firmware)** – pierwsze oficjalne wydanie PelletCAN. Wszystko, co powstało w wersjach roboczych, jest stanem v1.0 – szczegóły w [CHANGELOG.md](CHANGELOG.md) (karta) i [CHANGELOG-firmware.md](CHANGELOG-firmware.md) (firmware).
-
-### Jak działa informacja o aktualizacji
-Karta pobiera `version.json` z GitHuba (raz na 6 h) i porównuje z wersją firmware (encja „Wersja firmware”) oraz z własną wersją. Przy nowszej wersji pokazuje zieloną diodę; „Odrzuć aktualizację” ukrywa daną wersję (pamięć przeglądarki). Aktualizacja firmware: pobierz repo i kliknij „Install” w ESPHome; karty: podmień pliki w `dist/` i zrób Ctrl+F5. Przy wydaniu nowej wersji podbij numer i changelog w `version.json`.
 
 ## Ważne zastrzeżenia
 
