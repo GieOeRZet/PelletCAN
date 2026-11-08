@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.40 – Wydanie zbiorcze
+- Zbiorcze wydanie zmian 1.36–1.39 dla HACS. Równolegle powstała wersja lite (tylko podgląd, poziom podstawowy): repozytorium PelletCAN_lite.
+
 ## v1.39 – Obraz kotła 11/12
 - Obraz kotła typ 11 i 12 (grafiki pełne): skala 1:1 jak na panelu i wyrównanie do podstawy kotła domyślnego – wcześniej wyglądały na zbyt małe i nieskalowane.
 
