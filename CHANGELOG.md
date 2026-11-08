@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.41 – Palnik 1:1
+- Ekran Palnik przy `grafiki: pelne`: obraz palnika w skali 1:1 jak na panelu (149×99 px) i w tym samym miejscu; wcześniej był ok. 30 % mniejszy i przesunięty. Domyślne grafiki bez zmian.
+
 ## v1.40 – Wydanie zbiorcze
 - Zbiorcze wydanie zmian 1.36–1.39 dla HACS. Równolegle powstała wersja lite (tylko podgląd, poziom podstawowy): repozytorium PelletCAN_lite.
 

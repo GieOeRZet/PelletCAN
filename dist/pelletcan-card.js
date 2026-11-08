@@ -972,7 +972,8 @@
         const BS = { 11: [105, 126], 12: [108, 141] }, bt = this._cfg && FULL(this) ? BS[+this._cfg.boiler_image] : null;
         // obrazy kotla 11/12 maja inne proporcje niz domyslny: skala 1:1 jak w panelu, srodek i podstawa jak dla kociola domyslnego
         const boil = bt ? `.boil{width:${(bt[0] * K).toFixed(2)}cqw!important;left:${(15 - bt[0] * K / 2).toFixed(2)}cqw!important;top:${(35.5 - bt[1] * K).toFixed(2)}cqw!important;height:auto!important}` : '';
-        return oc.call(this) + boil + `.sp{position:relative;display:inline-block;line-height:0}.sp img,.mbs{mix-blend-mode:screen}.sp img{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0}.sp img:first-child{opacity:1}
+        const burn = FULL(this) ? `.burn{left:6.9cqw!important;top:19.1cqw!important;width:${(149 * K).toFixed(2)}cqw!important;height:auto!important}` : '';   // obraz palnika 17 (149x99 px) 1:1 jak w panelu
+        return oc.call(this) + boil + burn + `.sp{position:relative;display:inline-block;line-height:0}.sp img,.mbs{mix-blend-mode:screen}.sp img{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0}.sp img:first-child{opacity:1}
         .sp.on img{animation:spfr .45s linear infinite}.sp.on img:nth-child(2){animation-delay:.15s}.sp.on img:nth-child(3){animation-delay:.3s}
         @keyframes spfr{0%,33.3%{opacity:1}33.4%,100%{opacity:0}}.sp.on img:first-child{opacity:0}.sp.slow img{animation-duration:1.5s}.sp.slow img:nth-child(2){animation-delay:.5s}.sp.slow img:nth-child(3){animation-delay:1s}
         .ftk.pk{background:url(${U(54)}) 0 0/100% 100% no-repeat!important;border:0!important}.ftk.pk .fth,.ftk.pk .fhd{display:none}
@@ -1310,7 +1311,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.40';
+    const CARD_VER = '1.41';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };
