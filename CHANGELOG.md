@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.39 – Obraz kotła 11/12
+- Obraz kotła typ 11 i 12 (grafiki pełne): skala 1:1 jak na panelu i wyrównanie do podstawy kotła domyślnego – wcześniej wyglądały na zbyt małe i nieskalowane.
+
 ## v1.38 – Naprawa Konfiguracji
 - Naprawa: ekran Konfiguracja nie otwierał się na poziomie 2 (błąd w wierszu „Dmuchawa z HALL”).
 
