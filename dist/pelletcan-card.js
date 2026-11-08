@@ -1128,11 +1128,11 @@
             { name: 'screen', label: 'Ekran startowy karty', selector: { select: { mode: 'dropdown', options: D.SCREEN_OPTS.map(o => ({ value: o[0], label: o[1] })) } } },
             { name: 'language', label: 'Język / Language', selector: { select: { mode: 'dropdown', options: [{ value: 'auto', label: 'Auto (język Home Assistant)' }].concat(Object.keys((window.__pcLang || {}).names || {}).map(k => ({ value: k, label: window.__pcLang.names[k] }))) } } },
             { name: 'device', label: 'Urządzenie (prefiks encji)', selector: { select: { mode: 'dropdown', custom_value: true, options: [{ value: 'auto', label: 'Automatycznie' + (devs.length ? ' (' + pf + ')' : '') }].concat(devs.map(d => ({ value: d.p, label: d.p }))) } } },
+            { name: 'grafiki', label: 'Grafiki panela', selector: { select: { mode: 'dropdown', options: [{ value: 'domyslne', label: 'Domyślne (tylko zbiornik paliwa)' }, { value: 'pelne', label: 'Pełne (wentylator, podajniki, zawór, grzałka, kocioł, palnik)' }] } } },
+            { name: 'boiler_image', label: 'Obraz kotła (grafiki pełne)', selector: { select: { mode: 'dropdown', options: [{ value: '11', label: 'Typ 11' }, { value: '12', label: 'Typ 12' }, { value: '13', label: 'Typ 13 (domyślny)' }] } } },
           ],
         }, {
           type: 'expandable', title: 'Zaawansowane (zwykle zbędne)', flatten: true, schema: [
-            { name: 'grafiki', label: 'Grafiki panela', selector: { select: { mode: 'dropdown', options: [{ value: 'domyslne', label: 'Domyślne (tylko zbiornik paliwa)' }, { value: 'pelne', label: 'Pełne (wentylator, podajniki, zawór, grzałka, kocioł, palnik)' }] } } },
-            { name: 'boiler_image', label: 'Obraz kotła (grafiki pełne)', selector: { select: { mode: 'dropdown', options: [{ value: '11', label: 'Typ 11' }, { value: '12', label: 'Typ 12' }, { value: '13', label: 'Typ 13 (domyślny)' }] } } },
             { name: 'lite', label: 'Tryb lite (tylko poziom 0, bez PIN-u)', selector: { boolean: {} } },
             { name: 'demo', label: 'Tryb demo (dane przykładowe, bez ESP)', selector: { boolean: {} } },
             { name: 'esphome_node', label: 'Węzeł ESPHome – puste = wykryty automatycznie', selector: { text: {} } },
@@ -1307,7 +1307,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.36';
+    const CARD_VER = '1.37';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };

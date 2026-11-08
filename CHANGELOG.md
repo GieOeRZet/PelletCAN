@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.37 – Grafiki w edytorze
+- Edytor karty: „Grafiki panela” i „Obraz kotła” przeniesione z sekcji Zaawansowane do głównej – pełne grafiki włączysz bez YAML.
+
 ## v1.36 – Konfiguracja z panela
 - Ekran Konfiguracja odtwarza listę z panela (Autokonfiguracja … Kopiuj nastawy, od poziomu 2: Dmuchawa z HALL), wartości z kotła, tylko odczyt. Wymaga firmware ≥ 1.4.23.
 

@@ -32,8 +32,9 @@
     ]
   },
   "card": {
-    "version": "1.36",
+    "version": "1.37",
     "changelog": [
+      "Edytor karty: „Grafiki panela” i „Obraz kotła” przeniesione z sekcji Zaawansowane do głównej – pełne grafiki włączysz bez YAML.",
       "Ekran Konfiguracja odtwarza listę z panela (Autokonfiguracja … Kopiuj nastawy, od poziomu 2: Dmuchawa z HALL), wartości z kotła, tylko odczyt. Wymaga firmware ≥ 1.4.23.",
       "Menu główne w kolejności z panelu: Informacje o programie i Poziom menu (PIN) przed Językiem, Alarmem dźwiękowym, Konfiguracją, Testem wyjść, Statystykami i Siecią (od poziomu 1).",
       "Grafiki: pelne – punkty krzywej wentylatora (zwykły i edytowany) z oryginalnych bitmap panela (56, 57).",
