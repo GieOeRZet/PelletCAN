@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.38 – Naprawa Konfiguracji
+- Naprawa: ekran Konfiguracja nie otwierał się na poziomie 2 (błąd w wierszu „Dmuchawa z HALL”).
+
 ## v1.37 – Grafiki w edytorze
 - Edytor karty: „Grafiki panela” i „Obraz kotła” przeniesione z sekcji Zaawansowane do głównej – pełne grafiki włączysz bez YAML.
 

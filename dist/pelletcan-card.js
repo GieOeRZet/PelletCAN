@@ -1048,7 +1048,7 @@
       return r;
     };
     const ol2 = C.prototype._lvl;
-    C.prototype._lvl = function () { return this._cfg && this._cfg.demo ? 1 : ol2.call(this); };
+    C.prototype._lvl = function () { return this._cfg && this._cfg.demo ? (window.__demoLvl || 1) : ol2.call(this); };
     const osv = C.prototype._svc;
     C.prototype._svc = function (n, d) { if (this._cfg && this._cfg.demo) return; return osv.call(this, n, d); };
 
@@ -1307,7 +1307,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.37';
+    const CARD_VER = '1.38';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };
@@ -1358,7 +1358,7 @@
           row('Rezerwa zbiornika paliwa [kg]', num(9)), row('Czujnik powrotu do kotła', onoff(10)), row('Numer profilu', num(11)),
           row('Pompa kotłowa', lst(12, ['ładująca', 'ochrony powrotu'])), row('Kaskada master', onoff(13)), row('Czujnik ciśnienia', onoff(14)),
           row('Dodatkowy magazyn paliwa', onoff(15)), row('Pomiar energii', onoff(16)), row('Kopiuj nastawy z innego sterownika', '-')];
-        if (this._lvl() >= 2) r.push(KEYDIV(2), row('Dmuchawa z HALL', onoff(17)));
+        if (this._lvl() >= 2) r.push('<div class="svsep"><ha-icon icon="mdi:wrench" style="--mdc-icon-size:5cqw"></ha-icon><sup>2</sup></div>', row('Dmuchawa z HALL', onoff(17)));
         return this._page('KONFIGURACJA', 'menu', r.join('')) + (this._pr ? this._prDlg() : '');
       }
       if (s !== 'info') return ob.call(this, s);
