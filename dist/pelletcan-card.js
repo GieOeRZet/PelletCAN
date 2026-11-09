@@ -1112,7 +1112,7 @@
         const c = this._cfg, ids = this._ids(), pf = pfOf(c, ids), keys = keysAll(), ex = c.entities || {};
         const d = {
           screen: c.screen || 'main', language: ({ dk: 'da', se: 'sv', cz: 'cs', est: 'et' }[String(c.language || 'pl').toLowerCase()] || c.language || 'pl'), device: c.entity_prefix ? String(c.entity_prefix) : 'auto',
-          esphome_node: c.esphome_node || '', grafiki: c.grafiki === 'pelne' ? 'pelne' : 'domyslne', boiler_image: [11, 12, 13, 14].includes(+c.boiler_image) ? String(c.boiler_image) : '13', lite: !!c.lite, demo: !!c.demo, mirror_mode: typeof c.mirror === 'boolean' ? (c.mirror ? 'on' : 'off') : 'auto',
+          esphome_node: c.esphome_node || '', grafiki: c.grafiki === 'pelne' ? 'pelne' : 'domyslne', boiler_image: [11, 12, 13, 14].includes(+c.boiler_image) ? String(c.boiler_image) : 'auto', lite: !!c.lite, demo: !!c.demo, mirror_mode: typeof c.mirror === 'boolean' ? (c.mirror ? 'on' : 'off') : 'auto',
         };
         Object.keys(keys).forEach(r => { d['e_' + r] = ex[r] || (ids.length ? findRole(ids, r, keys[r], pf, this._hass.states) : ''); });   // pola od razu pokazuja wykryte encje
         return d;
@@ -1141,7 +1141,7 @@
             { name: 'language', label: 'Język / Language', selector: { select: { mode: 'dropdown', options: [{ value: 'auto', label: 'Auto (język Home Assistant)' }].concat(Object.keys((window.__pcLang || {}).names || {}).map(k => ({ value: k, label: window.__pcLang.names[k] }))) } } },
             { name: 'device', label: 'Urządzenie (prefiks encji)', selector: { select: { mode: 'dropdown', custom_value: true, options: [{ value: 'auto', label: 'Automatycznie' + (devs.length ? ' (' + pf + ')' : '') }].concat(devs.map(d => ({ value: d.p, label: d.p }))) } } },
             { name: 'grafiki', label: 'Grafiki panela', selector: { select: { mode: 'dropdown', options: [{ value: 'domyslne', label: 'Domyślne (tylko zbiornik paliwa)' }, { value: 'pelne', label: 'Pełne (wentylator, podajniki, zawór, grzałka, kocioł, palnik)' }] } } },
-            { name: 'boiler_image', label: 'Obraz kotła (grafiki pełne)', selector: { select: { mode: 'dropdown', options: [{ value: '11', label: 'Typ 11' }, { value: '12', label: 'Typ 12' }, { value: '13', label: 'Typ 13 (domyślny)' }, { value: '14', label: 'Typ 14 (szary)' }] } } },
+            { name: 'boiler_image', label: 'Obraz kotła (grafiki pełne) – nadpisanie', selector: { select: { mode: 'dropdown', options: [{ value: 'auto', label: 'Automatycznie (z panela, rejestr 0x370A)' }, { value: '11', label: 'Typ 11 (wymuś)' }, { value: '12', label: 'Typ 12 (wymuś)' }, { value: '13', label: 'Typ 13 (wymuś)' }, { value: '14', label: 'Typ 14 (wymuś, szary)' }] } } },
           ],
         }, {
           type: 'expandable', title: 'Zaawansowane (zwykle zbędne)', flatten: true, schema: [
@@ -1184,7 +1184,7 @@
         if (Object.keys(entities).length) cfg.entities = entities; else delete cfg.entities;
         const nd = (v.esphome_node || '').trim(); if (nd) cfg.esphome_node = nd; else delete cfg.esphome_node;
         if (v.grafiki === 'pelne') cfg.grafiki = 'pelne'; else delete cfg.grafiki;
-        if (v.boiler_image && v.boiler_image !== '13') cfg.boiler_image = +v.boiler_image; else delete cfg.boiler_image;
+        if (v.boiler_image && v.boiler_image !== 'auto') cfg.boiler_image = +v.boiler_image; else delete cfg.boiler_image;
         if (v.lite) cfg.lite = true; else delete cfg.lite;
         if (v.demo) cfg.demo = true; else delete cfg.demo;
         if (v.mirror_mode === 'on') cfg.mirror = true; else if (v.mirror_mode === 'off') cfg.mirror = false; else delete cfg.mirror;
@@ -1319,7 +1319,7 @@
     const C = customElements.get('tekla-panel-card');
     if (C.prototype.__v93) return;
     C.prototype.__v93 = true;
-    const CARD_VER = '1.43';
+    const CARD_VER = '1.44';
     const MAN = 'https://raw.githubusercontent.com/GieOeRZet/PelletCAN/main/version.json';
     const SK = 'igneo_upd_skip';
     const U = window.__igneoUpd = window.__igneoUpd || { m: null, t: 0 };

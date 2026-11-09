@@ -33,8 +33,9 @@
     ]
   },
   "card": {
-    "version": "1.43",
+    "version": "1.44",
     "changelog": [
+      "Obraz kotła: w edytorze „Automatycznie (z panela)” lub ręczne nadpisanie typem 11–14; domyślnie auto (wcześniej edytor zapisywał 13).",
       "Grafiki pełne: obraz kotła dobierany automatycznie z panela (rejestr 0x370A; wymaga firmware ≥ 1.4.24). Jawne boiler_image w konfiguracji ma pierwszeństwo.",
       "Grafiki pełne – obrazy kotła 11–14: wszystkie w skali 1:1 jak na panelu, wyśrodkowane i wyrównane do podstawy; wysokie (12, 13) są obniżone tak, by nie zachodziły na zegar; dodany typ 14 (szary) w edytorze.",
       "Ekran Palnik (grafiki: pelne): obraz palnika w skali 1:1 jak na panelu (149×99 px) i w tym samym miejscu – wcześniej był o ok. 30 % mniejszy i przesunięty.",

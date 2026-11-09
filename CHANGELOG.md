@@ -2,6 +2,9 @@
 
 Historia zmian firmware: [CHANGELOG-firmware.md](CHANGELOG-firmware.md).
 
+## v1.44 – Nadpisanie obrazu kotła
+- Edytor: „Automatycznie (z panela)” (domyślnie) albo ręczne wymuszenie typu 11–14 (`boiler_image` w YAML). Wcześniej edytor zapisywał typ 13.
+
 ## v1.43 – Obraz kotła z panela
 - `grafiki: pelne`: obraz kotła dobierany automatycznie z panela (rejestr `0x370A`, 1…3 → obrazy 11…13; wymaga firmware ≥ 1.4.24). Jawne `boiler_image` w konfiguracji karty ma pierwszeństwo; bez odczytu – obraz 13.
 

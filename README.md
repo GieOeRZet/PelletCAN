@@ -164,7 +164,7 @@ Karta **sama znajduje encje** urządzenia po nazwie (prefiks `tekla`). Pozycje b
 | `language` | `pl` | język interfejsu: `pl`, `en`, `dk`, `de`, `se`, `lt`, `sk`, `cz`, `es`, `ro`, `est` (też kody `da sv cs et`) albo `auto` (język Home Assistant); wybór także w edytorze – pole „Język / Language” |
 | `lite` | `false` | stary tryb „lite” tej karty (poziom 0 bez PIN-u). Nowa, osobna i bezpieczniejsza wersja: [PelletCAN lite](https://github.com/GieOeRZet/PelletCAN_lite) |
 | `grafiki` | `domyslne` | `pelne` = oryginalne grafiki panela (wentylator, podajniki, zawór, grzałka, kocioł, palnik) z `dist/img/panel`; wybór także w edytorze |
-| `boiler_image` | `13` | typ obrazu kotła przy grafikach pełnych: `11`, `12`, `13` |
+| `boiler_image` | auto | obraz kotła przy grafikach pełnych. Domyślnie dobierany z panela (rejestr `0x370A`, firmware ≥ 1.4.24; bez odczytu: 13). Ustaw `11`, `12`, `13` lub `14`, żeby **nadpisać** automat, np. gdy rejestr zwraca złą wartość |
 | `entity_prefix` | `tekla` | fragment nazwy urządzenia używany do wykrywania encji |
 | `esphome_node` | `tekla_estyma` | nazwa węzła ESPHome (usługi `esphome.<węzeł>_...`) |
 | `demo` | `false` | `true` = dane przykładowe bez ESP/HA (zrzuty, test wyglądu; [docs/demo.html](docs/demo.html)) |
